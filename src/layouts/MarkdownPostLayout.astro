@@ -2,41 +2,314 @@
 import BaseLayout from "./BaseLayout.astro";
 const { frontmatter } = Astro.props;
 ---
-
 <BaseLayout pageTitle={frontmatter.title}>
-  <p>{frontmatter.pubDate.toLocaleDateString()}</p>
-  <p><em>{frontmatter.description}</em></p>
-  <p>Written by: {frontmatter.author}</p>
-  <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
-
-  <div class="tags">
-    {
-      frontmatter.tags.map((tag: string) => (
-        <p class="tag">
-          <a href={`/tags/${tag}`}>{tag}</a>
-        </p>
-      ))
-    }
+<!-- Blog Post Component -->
+<article class="bg-white rounded-lg shadow-md overflow-hidden max-w-4xl mx-auto my-8">
+  <!-- Featured Image -->
+  <div class="relative">
+  <img src={frontmatter.image.url} alt={frontmatter.image.alt} class="w-full h-64 md:h-96 object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 p-6">
+      {frontmatter.tags.map((tag:any) => (
+        <a class="mr-2 inline-block bg-teal-500 text-white px-3 py-1 rounded-md text-sm font-medium mb-2" href={`/tags/${tag}`}>{tag}</a>
+      ))}
+      <h1 class="text-3xl md:text-4xl font-bold text-white">{frontmatter.title}</h1>
+    </div>
   </div>
 
-  <slot />
+  <!-- Post Meta -->
+  <div class="border-b border-gray-200">
+    <div class="px-6 py-4 flex items-center justify-between flex-wrap">
+      <div class="flex items-center">
+        <img src="/api/placeholder/100/100" alt="Author" class="h-10 w-10 rounded-full mr-3">
+        <div>
+          <p class="text-sm font-medium text-gray-900">{frontmatter.author}</p>
+          <p class="text-xs text-gray-500">DDS, Preventive Dentistry Specialist</p>
+        </div>
+      </div>
+      <div class="flex items-center mt-2 sm:mt-0">
+        <div class="flex items-center text-sm text-gray-500 mr-6">
+          <i class="far fa-calendar-alt mr-1"></i>
+          <!--TODO: change format  -->
+          <time datetime="2025-03-15">{frontmatter.pubDate.toLocaleDateString()}</time>
+        </div>
+        <div class="flex items-center text-sm text-gray-500">
+          <i class="far fa-clock mr-1"></i>
+          <span>8 min read</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post Content -->
+  <div class="prose lg:prose-lg max-w-none px-6 py-8">
+    <p class="text-lg font-medium text-gray-900 mb-4">
+      Regular dental check-ups are essential not just for maintaining your oral health, but also for your overall well-being. Despite this, many people still avoid visiting their dentist regularly.
+    </p>
+
+    <p>
+      Most dental professionals recommend visiting your dentist every six months for a routine check-up and cleaning. These regular visits allow your dentist to monitor your oral health, identify potential issues early, and provide necessary preventive care.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Why Regular Dental Check-ups Matter</h2>
+
+    <p>
+      Regular dental check-ups are crucial for several reasons:
+    </p>
+
+    <ul class="list-disc pl-6 mb-6">
+      <li class="mb-2">
+        <strong>Early Detection of Dental Problems:</strong> Issues like cavities, gum disease, and even oral cancer can be identified in their early stages when they're easier and less expensive to treat.
+      </li>
+      <li class="mb-2">
+        <strong>Professional Cleaning:</strong> Even with diligent brushing and flossing, plaque and tartar can build up in hard-to-reach areas. Professional cleaning removes these deposits, helping to prevent decay and gum disease.
+      </li>
+      <li class="mb-2">
+        <strong>Personalized Oral Health Advice:</strong> Your dentist can provide tailored recommendations for your specific oral health needs, including proper brushing and flossing techniques.
+      </li>
+      <li class="mb-2">
+        <strong>Connection to Overall Health:</strong> Many systemic health conditions, such as diabetes and heart disease, can have oral manifestations. Regular dental check-ups can help detect these signs early.
+      </li>
+    </ul>
+
+    <figure class="my-8">
+      <img src="/api/placeholder/800/400" alt="Dental Check-up" class="w-full rounded-lg">
+      <figcaption class="text-sm text-gray-500 mt-2 text-center">A routine dental check-up includes an examination and professional cleaning.</figcaption>
+    </figure>
+
+    <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">What to Expect During a Dental Check-up</h2>
+
+    <p>
+      A typical dental check-up consists of several components:
+    </p>
+
+    <h3 class="text-xl font-semibold text-gray-900 mt-6 mb-3">1. Dental Examination</h3>
+    <p>
+      Your dentist will examine your teeth, gums, and mouth for signs of problems. This may include:
+    </p>
+    <ul class="list-disc pl-6 mb-4">
+      <li>Checking for cavities and decay</li>
+      <li>Evaluating your gum health</li>
+      <li>Examining your tongue, throat, face, and neck</li>
+      <li>Looking for signs of oral cancer</li>
+    </ul>
+
+    <h3 class="text-xl font-semibold text-gray-900 mt-6 mb-3">2. Professional Cleaning</h3>
+    <p>
+      A dental hygienist will clean your teeth, which typically involves:
+    </p>
+    <ul class="list-disc pl-6 mb-4">
+      <li>Removing plaque and tartar build-up</li>
+      <li>Polishing your teeth</li>
+      <li>Flossing between your teeth</li>
+      <li>Reviewing proper brushing and flossing techniques</li>
+    </ul>
+
+    <h3 class="text-xl font-semibold text-gray-900 mt-6 mb-3">3. X-rays (if necessary)</h3>
+    <p>
+      Dental X-rays are not typically taken at every check-up but may be recommended periodically to detect issues not visible during a regular examination.
+    </p>
+
+    <blockquote class="border-l-4 border-teal-500 pl-4 italic my-8">
+      "Prevention is better than cure. Regular dental check-ups are an investment in your future health and can save you from painful and expensive dental procedures down the line."
+    </blockquote>
+
+    <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">How to Prepare for Your Dental Check-up</h2>
+
+    <p>
+      To get the most out of your dental check-up, here are a few tips:
+    </p>
+
+    <ul class="list-disc pl-6 mb-6">
+      <li class="mb-2">
+        <strong>Brush and floss beforehand:</strong> While the hygienist will clean your teeth, it's still good practice to brush and floss before your appointment.
+      </li>
+      <li class="mb-2">
+        <strong>Make a list of questions or concerns:</strong> If you've been experiencing any dental issues or have questions about oral health practices, write them down to discuss with your dentist.
+      </li>
+      <li class="mb-2">
+        <strong>Update your medical history:</strong> Inform your dentist about any new medications, health conditions, or allergies.
+      </li>
+      <li class="mb-2">
+        <strong>Arrive early:</strong> Give yourself enough time to complete any necessary paperwork, especially if it's your first visit.
+      </li>
+    </ul>
+
+    <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Conclusion</h2>
+
+    <p>
+      Regular dental check-ups are a crucial part of maintaining good oral health and preventing serious dental problems. By visiting your dentist every six months, you can ensure that any potential issues are caught early, saving you time, money, and discomfort in the long run.
+    </p>
+
+    <p>
+      Remember, your oral health is an important component of your overall well-being. Don't wait until you're experiencing pain or discomfort to schedule that dental appointment. Make regular check-ups a priority in your healthcare routine.
+    </p>
+  </div>
+
+  <!-- Author Bio -->
+  <div class="bg-gray-50 p-6 border-t border-gray-200">
+    <h3 class="text-lg font-semibold text-gray-900 mb-3">About the Author</h3>
+    <div class="flex items-start">
+      <img src="/api/placeholder/100/100" alt="Dr. Sarah Johnson" class="h-16 w-16 rounded-full mr-4">
+      <div>
+        <p class="text-base font-medium text-gray-900">Dr. Sarah Johnson, DDS</p>
+        <p class="text-sm text-gray-600 mb-3">Dr. Johnson is a preventive dentistry specialist with over 15 years of experience. She is passionate about patient education and helping people maintain optimal oral health.</p>
+        <div class="flex space-x-3">
+          <a href="#" class="text-teal-600 hover:text-teal-800">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="text-teal-600 hover:text-teal-800">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="#" class="text-teal-600 hover:text-teal-800">
+            <i class="fas fa-globe"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Social Sharing -->
+  <div class="px-6 py-4 border-t border-gray-200">
+    <div class="flex items-center justify-between flex-wrap">
+      <div class="text-sm font-medium text-gray-900">Share this article:</div>
+      <div class="flex space-x-4 mt-2 sm:mt-0">
+        <a href="#" class="text-gray-600 hover:text-teal-600">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="text-gray-600 hover:text-teal-600">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" class="text-gray-600 hover:text-teal-600">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="#" class="text-gray-600 hover:text-teal-600">
+          <i class="fab fa-pinterest"></i>
+        </a>
+        <a href="#" class="text-gray-600 hover:text-teal-600">
+          <i class="far fa-envelope"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Posts -->
+  <div class="px-6 py-8 border-t border-gray-200">
+    <h3 class="text-xl font-bold text-gray-900 mb-6">Related Articles</h3>
+    <div class="grid gap-6 md:grid-cols-2">
+      <!-- Related Post 1 -->
+      <a href="#" class="group">
+        <div class="flex items-center">
+          <div class="h-16 w-16 bg-gray-100 rounded overflow-hidden flex-shrink-0">
+            <img src="/api/placeholder/100/100" alt="Related Post" class="h-full w-full object-cover">
+          </div>
+          <div class="ml-4">
+            <p class="text-sm font-medium text-gray-900 group-hover:text-teal-600">How to Choose the Right Toothbrush for Your Needs</p>
+            <p class="text-xs text-gray-500 mt-1">March 10, 2025</p>
+          </div>
+        </div>
+      </a>
+      
+      <!-- Related Post 2 -->
+      <a href="#" class="group">
+        <div class="flex items-center">
+          <div class="h-16 w-16 bg-gray-100 rounded overflow-hidden flex-shrink-0">
+            <img src="/api/placeholder/100/100" alt="Related Post" class="h-full w-full object-cover">
+          </div>
+          <div class="ml-4">
+            <p class="text-sm font-medium text-gray-900 group-hover:text-teal-600">The Link Between Gum Disease and Heart Health</p>
+            <p class="text-xs text-gray-500 mt-1">March 5, 2025</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Comments Section -->
+  <div class="px-6 py-8 border-t border-gray-200">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-xl font-bold text-gray-900">Comments (8)</h3>
+      <button class="text-sm font-medium text-teal-600 hover:text-teal-800">View All</button>
+    </div>
+    
+    <!-- Comment 1 -->
+    <div class="mb-6 pb-6 border-b border-gray-200">
+      <div class="flex items-start">
+        <img src="/api/placeholder/100/100" alt="Commenter" class="h-10 w-10 rounded-full mr-3">
+        <div class="flex-1">
+          <div class="flex items-center justify-between mb-1">
+            <h4 class="text-sm font-medium text-gray-900">Jessica Moore</h4>
+            <span class="text-xs text-gray-500">2 days ago</span>
+          </div>
+          <p class="text-sm text-gray-600">
+            This article was really helpful! I've been putting off my dental check-up for months, but now I understand how important it is. Just scheduled my appointment for next week.
+          </p>
+          <div class="flex items-center mt-2">
+            <button class="text-xs text-gray-500 hover:text-teal-600 flex items-center mr-4">
+              <i class="far fa-thumbs-up mr-1"></i> 12
+            </button>
+            <button class="text-xs text-gray-500 hover:text-teal-600">Reply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Comment 2 -->
+    <div class="mb-6">
+      <div class="flex items-start">
+        <img src="/api/placeholder/100/100" alt="Commenter" class="h-10 w-10 rounded-full mr-3">
+        <div class="flex-1">
+          <div class="flex items-center justify-between mb-1">
+            <h4 class="text-sm font-medium text-gray-900">Michael Chen</h4>
+            <span class="text-xs text-gray-500">3 days ago</span>
+          </div>
+          <p class="text-sm text-gray-600">
+            I appreciate the detailed breakdown of what happens during a dental check-up. It helps reduce anxiety when you know what to expect!
+          </p>
+          <div class="flex items-center mt-2">
+            <button class="text-xs text-gray-500 hover:text-teal-600 flex items-center mr-4">
+              <i class="far fa-thumbs-up mr-1"></i> 8
+            </button>
+            <button class="text-xs text-gray-500 hover:text-teal-600">Reply</button>
+          </div>
+        </div>
+      </div>
 </BaseLayout>
-<style>
-  a {
-    color: #00539f;
-  }
 
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    margin: 0.25em;
-    border: dotted 1px #a1a1a1;
-    border-radius: 0.5em;
-    padding: 0.5em 1em;
-    font-size: 1.15em;
-    background-color: #f8fcfd;
-  }
-</style>
+// <BaseLayout pageTitle={frontmatter.title}>
+//   <p>{frontmatter.pubDate.toLocaleDateString()}</p>
+//   <p><em>{frontmatter.description}</em></p>
+//   <p>Written by: {frontmatter.author}</p>
+//   <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
+// 
+//   <div class="tags">
+//     {
+//       frontmatter.tags.map((tag: string) => (
+//         <p class="tag">
+//           <a href={`/tags/${tag}`}>{tag}</a>
+//         </p>
+//       ))
+//     }
+//   </div>
+// 
+//   <slot />
+// </BaseLayout>
+// <style>
+//   a {
+//     color: #00539f;
+//   }
+// 
+//   .tags {
+//     display: flex;
+//     flex-wrap: wrap;
+//   }
+// 
+//   .tag {
+//     margin: 0.25em;
+//     border: dotted 1px #a1a1a1;
+//     border-radius: 0.5em;
+//     padding: 0.5em 1em;
+//     font-size: 1.15em;
+//     background-color: #f8fcfd;
+//   }
+// </style>
