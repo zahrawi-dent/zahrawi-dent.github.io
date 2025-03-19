@@ -2,14 +2,15 @@
 import { Fragment } from 'astro/jsx-runtime';
 const navItems = [
   { label: 'Home', url: '/' },
-  { label: 'About', url: '/about' },
-  { label: 'Blog', url: '/blog' },
-  { label: 'Research', url: '/research' },
-  { label: 'Resources', url: '/resources' },
-  { label: 'Contact', url: '/contact' }
+  { label: 'About', url: 'about' },
+  { label: 'Blog', url: 'blog' },
+  { label: 'Research', url: 'research' },
+  { label: 'Resources', url: 'resources' },
+  { label: 'Contact', url: 'contact' }
 ];
 
 const currentPath = Astro.url.pathname;
+console.log(currentPath)
 
 ---
 <!-- Navigation Bar with working JavaScript for responsiveness -->
