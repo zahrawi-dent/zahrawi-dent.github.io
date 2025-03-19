@@ -1,0 +1,174 @@
+---
+// index.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+// import FeaturedArticle from '../components/FeaturedArticle.astro';
+
+// Get 3 featured articles
+// const featuredArticles = await Astro.glob('../content/blog/*.md');
+
+// const sortedArticles = featuredArticles
+//   .sort((a, b) => new Date(b.frontmatter.publishDate).getTime() - new Date(a.frontmatter.publishDate).getTime())
+//   .slice(0, 3);
+
+const pageTitle = "Zahrawi | Exploring the Universe of Oral Health";
+const pageDescription = "Discover the fascinating intersection of astronomy and dentistry at Zahrawi, where cosmic principles meet oral health science.";
+
+
+
+
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+
+
+
+
+
+  <!-- Hero Section -->
+  <section class="relative h-screen max-h-[700px] overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/90 via-purple-900/90 to-indigo-900/90 z-10"></div>
+    <div class="absolute inset-0 z-0">
+      <Image 
+        src="/images/hero-cosmos-dental.jpg" 
+        alt="Cosmic dental imagery" 
+        width={1920} 
+        height={1080}
+        class="object-cover w-full h-full"
+      />
+    </div>
+    <div class="container mx-auto px-4 h-full flex items-center relative z-20">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">Exploring the Universe of Oral Health</h1>
+        <p class="text-xl text-purple-100 mb-8">
+          Where cosmic principles and dental science converge to revolutionize our understanding of oral health
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="/blog" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300 text-center">
+            Begin Your Cosmic Dental Journey
+          </a>
+          <a href="/about" class="bg-transparent hover:bg-white/10 text-white border border-white font-medium py-3 px-6 rounded-lg transition duration-300 text-center">
+            Learn More About Zahrawi
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent z-10"></div>
+  </section>
+
+  <!-- Featured Articles -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-indigo-900 mb-2">Featured Insights</h2>
+      <p class="text-lg text-gray-600 mb-8">Explore our latest discoveries at the intersection of astronomy and dentistry</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- {sortedArticles.map((article) => ( -->
+        <!--   <FeaturedArticle -->
+        <!--     title={article.frontmatter.title} -->
+        <!--     excerpt={article.frontmatter.excerpt} -->
+        <!--     image={article.frontmatter.image} -->
+        <!--     category={article.frontmatter.category} -->
+        <!--     date={article.frontmatter.publishDate} -->
+        <!--     slug={article.frontmatter.slug} -->
+        <!--   /> -->
+        <!-- ))} -->
+      </div>
+      
+      <div class="mt-12 text-center">
+        <a href="/blog" class="inline-block bg-indigo-100 hover:bg-indigo-200 text-indigo-800 font-medium py-3 px-6 rounded-lg transition duration-300">
+          View All Articles
+        </a>
+      </div>
+    </section>
+
+  <!-- Newsletter Section -->
+  <section class="py-16 bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 text-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-4">Subscribe to Cosmic Dental Insights</h2>
+        <p class="text-lg text-purple-100 mb-8">
+          Join our community and receive the latest research, insights, and discoveries in astro dentistry.
+        </p>
+        <form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+          <input 
+            type="email" 
+            placeholder="Your email address" 
+            class="flex-grow px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+          <button 
+            type="submit" 
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300"
+          >
+            Subscribe
+          </button>
+        </form>
+        <p class="text-sm text-purple-200 mt-4">
+          We respect your privacy. Unsubscribe at any time.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Astro Dentistry Section -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row gap-8 items-center">
+        <div class="md:w-1/2">
+          <h2 class="text-3xl font-bold text-indigo-900 mb-4">Why Astro Dentistry?</h2>
+          <p class="text-lg text-gray-700 mb-4">
+            Just as the gravitational forces of the moon influence Earth's tides, we explore how celestial rhythms 
+            might affect human biological cycles, including those relevant to oral health.
+          </p>
+          <p class="text-lg text-gray-700 mb-6">
+            From the impact of solar radiation on vitamin D synthesis (crucial for dental health) to investigating 
+            potential correlations between lunar cycles and dental pain reported by patients, we're dedicated to 
+            understanding these fascinating connections.
+          </p>
+          <a href="/research" class="inline-block text-indigo-600 hover:text-indigo-800 font-medium underline">
+            Explore Our Research
+          </a>
+        </div>
+        <div class="md:w-1/2">
+          <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-xl">
+            <Image 
+              src="/images/cosmic-dental-connection.jpg" 
+              alt="Cosmic dental connections" 
+              width={800} 
+              height={450}
+              class="object-cover rounded-lg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Events -->
+  <section class="py-16 bg-indigo-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-indigo-900 mb-8 text-center">Upcoming Cosmic Events</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <div class="text-indigo-600 font-bold mb-2">April 8, 2025</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Lunar Eclipse & Dental Sensitivity</h3>
+          <p class="text-gray-700 mb-4">Join our live webinar exploring the relationship between lunar cycles and reported dental sensitivity.</p>
+          <a href="/events" class="text-indigo-600 hover:text-indigo-800 font-medium underline">Learn More</a>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <div class="text-indigo-600 font-bold mb-2">May 15, 2025</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Solar Flares & Oral Health</h3>
+          <p class="text-gray-700 mb-4">Discover how solar activity might influence biochemical processes relevant to dental wellness.</p>
+          <a href="/events" class="text-indigo-600 hover:text-indigo-800 font-medium underline">Learn More</a>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <div class="text-indigo-600 font-bold mb-2">June 22, 2025</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Cosmic Radiation & Dental Materials</h3>
+          <p class="text-gray-700 mb-4">Explore our latest research on how cosmic radiation affects the longevity of dental restorations.</p>
+          <a href="/events" class="text-indigo-600 hover:text-indigo-800 font-medium underline">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

@@ -1,0 +1,147 @@
+  <div class="sm:hidden hidden" id="mobile-menu">
+    <div class="pt-2 pb-3 space-y-1">
+      <a href="#" class="bg-teal-50 border-teal-500 text-teal-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        Home
+      </a>
+      <a href="#" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        Articles
+      </a>
+      <a href="#" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        Dental Tips
+      </a>
+      <a href="#" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        Categories
+      </a>
+      <a href="#" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        About
+      </a>
+      <a href="#" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        Contact
+      </a>
+    </div>
+    <div class="pt-4 pb-3 border-t border-gray-200">
+      <div class="flex items-center px-4 space-x-3">
+        <button class="flex-1 bg-teal-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-teal-600 focus:outline-none">
+          Subscribe
+        </button>
+        <button class="p-1 rounded-full text-gray-400 hover:text-teal-500 focus:outline-none">
+          <span class="sr-only">Search</span>
+          <i class="fas fa-search text-xl"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+      <a href="#" class="bg-teal-50 border-teal-500 text-teal-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        Home
+      </a>
+      <a href="#" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        Articles
+      </a>
+      <a href="#" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        Dental Tips
+      </a>
+      <a href="#" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        Categories
+      </a>
+      <a href="#" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        About
+      </a>
+      <a href="#" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        Contact
+      </a>
+    </div>
+
+
+
+          <!-- <a href="#" class="border-teal-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"> -->
+          <!--   Home -->
+          <!-- </a> -->
+          <!-- <a href="/blog" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-300"> -->
+          <!--   Articles -->
+          <!-- </a> -->
+          <!-- <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-300"> -->
+          <!--   Dental Tips -->
+          <!-- </a> -->
+          <!-- <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-300"> -->
+          <!--   Categories -->
+          <!-- </a> -->
+          <!-- <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-300"> -->
+          <!--   About -->
+          <!-- </a> -->
+          <!-- <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-300"> -->
+          <!--   Contact -->
+          <!-- </a> -->
+
+                class={`font-medium transition duration-300 ${currentPath === item.url ? 'text-indigo-600' : 'text-gray-700 hover:text-indigo-600'}`}
+
+          <a 
+            href={item.url} 
+            <!-- class={`font-medium transition duration-300 ${currentPath === item.url ? 'text-indigo-600' : 'text-gray-700 hover:text-indigo-600'}`} -->
+            class="{`border-teal-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
+            <!-- ${currentPath === item.url ? 'border-teal-500' : 'border-transparent hover:border-gray-300 hover:text-gray-700'}`} " -->
+          >
+            {item.label}
+          </a>
+
+<!-- <header class="bg-white shadow-md sticky top-0 z-50"> -->
+<!--   <div class="container mx-auto px-4"> -->
+<!--     <div class="flex justify-between items-center py-4"> -->
+<!--       <a href="/" class="flex items-center space-x-3"> -->
+<!--         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center"> -->
+<!--           <span class="text-white font-bold text-xl">Z</span> -->
+<!--         </div> -->
+<!--         <span class="text-2xl font-bold text-indigo-900">Zahrawi</span> -->
+<!--       </a> -->
+<!--        -->
+<!--       <!-- Desktop Navigation --> -->
+<!--       <nav class="hidden md:flex space-x-6"> -->
+<!--         {navItems.map(item => ( -->
+<!--           <a  -->
+<!--             href={item.url}  -->
+<!--             class={`font-medium transition duration-300 ${currentPath === item.url ? 'text-indigo-600' : 'text-gray-700 hover:text-indigo-600'}`} -->
+<!--           > -->
+<!--             {item.label} -->
+<!--           </a> -->
+<!--         ))} -->
+<!--       </nav> -->
+<!--        -->
+<!--       <!-- Mobile Navigation Button --> -->
+<!--       <button id="mobile-menu-button" class="md:hidden flex items-center text-gray-700"> -->
+<!--         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> -->
+<!--           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /> -->
+<!--         </svg> -->
+<!--       </button> -->
+<!--     </div> -->
+<!--      -->
+<!--     <!-- Mobile Navigation Menu --> -->
+<!--     <div id="mobile-menu" class="md:hidden hidden pb-4"> -->
+<!--       <nav class="flex flex-col space-y-4"> -->
+<!--         {navItems.map(item => ( -->
+<!--           <a  -->
+<!--             href={item.url}  -->
+<!--             class={`font-medium transition duration-300 ${currentPath === item.url ? 'text-indigo-600' : 'text-gray-700 hover:text-indigo-600'}`} -->
+<!--           > -->
+<!--             {item.label} -->
+<!--           </a> -->
+<!--         ))} -->
+<!--       </nav> -->
+<!--     </div> -->
+<!--   </div> -->
+<!-- </header> -->
+<!---->
+<!-- <script> -->
+<!--   // Mobile menu toggle -->
+<!--   const mobileMenuButton = document.getElementById('mobile-menu-button'); -->
+<!--   const mobileMenu = document.getElementById('mobile-menu'); -->
+<!--    -->
+<!--   if (mobileMenuButton && mobileMenu) { -->
+<!--     mobileMenuButton.addEventListener('click', () => { -->
+<!--       mobileMenu.classList.toggle('hidden'); -->
+<!--     }); -->
+<!--   } -->
+<!-- </script> -->
+
