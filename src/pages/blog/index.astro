@@ -1,11 +1,21 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection,type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 
 const title = "Zahrawi | Modern Dentistry Blog";
 const description = "Modern Dentistry Blog";
-const allPosts = await getCollection("blog");
+
+// const allPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+
+export async function getAllPosts() {
+  const posts = await getCollection("blog");
+  return posts.sort(
+    (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+}
+
+const allPosts: CollectionEntry<"blog">[] = await getAllPosts();
 
 ---
 

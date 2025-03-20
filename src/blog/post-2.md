@@ -6,8 +6,20 @@ category: 'endodontics'
 image:
   url: "https://docs.astro.build/assets/arc.webp"
   alt: "The Astro logo on a dark background with a purple gradient arc."
-pubDate: 2022-07-08
+pubDate: 2022-07-09
 tags: ["astro", "blogging", "learning in public", "successes"]
 ---
 
-After a successful first week learning Astro, I decided to try some more. I wrote and imported a small component from memory!
+# Caring for Your Dental Implants
+
+Dental implants are a significant investment in your oral health...
+
+## Daily Cleaning Routine
+
+Maintaining proper oral hygiene is essential...
+
+### Recommended Products
+
+- Soft-bristled toothbrush
+- Non-abrasive toothpaste
+- Dental floss or water flosser
