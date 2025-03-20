@@ -11,6 +11,7 @@ const navItems = [
 
 const currentPath = Astro.url.pathname;
 ---
+
 <nav class="bg-white shadow-md sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
@@ -29,47 +30,52 @@ const currentPath = Astro.url.pathname;
         </div>
         <a href="/" class="text-2xl font-bold text-teal-600">Zahrawi</a>
       </div>
-      <div class="flex items-center">  <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-          {navItems.map((item) => {
-            const isActive = currentPath === item.url;
-            const activeClass = isActive
-              ? "border-teal-600 text-teal-700 bg-teal-50"
-              : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"; // Change colors as needed.
+      <div class="flex items-center">
+        <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+          {
+            navItems.map((item) => {
+              const isActive = currentPath === item.url;
+              const activeClass = isActive
+                ? "border-teal-600 text-teal-700 bg-teal-50"
+                : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"; // Change colors as needed.
 
-            return (
-              <a
-                href={item.url}
-                class={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-300 ${activeClass}`}
-              >
-                {item.label}
-              </a>
-            );
-          })}
-        </div>
-        <div class="ml-3 relative">
-          <button
-            class="bg-teal-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-300"
-          >
-            Subscribe
-          </button>
-        </div>
-        <div class="ml-3 relative">
-          <button
-            class="p-1 rounded-full text-gray-400 hover:text-teal-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-300"
-          >
-            <span class="sr-only">Search</span>
-            <i class="fas fa-search text-xl"></i>
-            <svg
-              class="h-8 mr-2 text-xl"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#00897B"
-              viewBox="0 0 512 512"
+              return (
+                <a
+                  href={item.url}
+                  class={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-300 ${activeClass}`}
+                >
+                  {item.label}
+                </a>
+              );
+            })
+          }
+
+          <div class="ml-3 relative">
+            <button
+              class="bg-teal-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-300"
             >
-              <path
-                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
-              ></path>
-            </svg>
-          </button>
+              Subscribe
+            </button>
+          </div>
+
+          <div class="ml-3 relative">
+            <button
+              class="p-1 rounded-full text-gray-400 hover:text-teal-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-300"
+            >
+              <span class="sr-only">Search</span>
+              <i class="fas fa-search text-xl"></i>
+              <svg
+                class="h-8 mr-2 text-xl"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="#00897B"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
+                ></path>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
