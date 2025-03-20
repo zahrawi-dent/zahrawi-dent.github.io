@@ -1,4 +1,8 @@
 ---
+interface Props {
+  title: string;
+  url: string;
+}
 const { title, url } = Astro.props
 ---
 <a class="bg-white rounded-lg border p-4" href={url}>

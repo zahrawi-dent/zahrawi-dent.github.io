@@ -1,0 +1,31 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro";
+
+type EndoCollection = CollectionEntry<"endo">;
+interface PostProps {
+  post: EndoCollection;
+}
+
+export async function getStaticPaths() {
+  const posts = await getCollection("endo", (entry: EndoCollection) => {
+    // Type-guard for category check
+    if (!entry.data.category) return false;
+    return entry.data.category.toLowerCase() === "endodontics";
+  });
+
+  return posts.map((post: EndoCollection) => ({
+    params: { slug: post.id }, // Prefer slug over id for URLs
+    props: { post } satisfies { post: EndoCollection },
+  }));
+}
+// Type-safe component props
+const { post } = Astro.props as PostProps;
+
+// Type-safe content rendering
+const { Content } = await render(post);
+---
+
+<MarkdownPostLayout frontmatter={post.data}>
+  <Content />
+</MarkdownPostLayout>

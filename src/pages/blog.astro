@@ -4,11 +4,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import BlogPost from "../components/BlogPost.astro";
 
-const pageTitle = "My Astro Learning Blog";
+const title = "Zahrawi | Modern Dentistry Blog";
+const description = "Modern Dentistry Blog";
 const allPosts = await getCollection("blog");
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout title={title} description={description}>
   <p>This is where I will post about my journey learning Astro.</p>
   <div class="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
     <!-- {allPosts.map((post) =>  <ArticleCard url={`/posts/${post.id}/`} title={post.data.title} description={post.data.description} image={post.data.image} date={post.data} author={post.data.author} tags={post.data.tags}/>)} -->

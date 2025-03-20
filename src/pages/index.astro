@@ -1,8 +1,11 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection} from "astro:content";
+
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
-const pageTitle = "Zahrawi | Modern Dentistry Blog";
+
+const title = "Zahrawi | Modern Dentistry Blog";
+const description = "Discover the art and science of modern dentistry. Stay informed with our evidence-based dental articles, tips, and the latest advancements in oral healthcare.";
 
 export async function getAllPosts() {
   const posts = await getCollection('blog');
@@ -11,9 +14,8 @@ export async function getAllPosts() {
 
 
 const  posts  = await getAllPosts();
-
 ---
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout title={title} description={description}>
  <div class="relative bg-teal-600">
     <div class="absolute inset-0">
       <img class="w-full h-full object-cover" src="/api/placeholder/1200/400" alt="Dental Care">
@@ -47,7 +49,7 @@ const  posts  = await getAllPosts();
       </div>
       <div class="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
         {posts.map((post) => (
-          <ArticleCard post={post.data} url={`/posts/${post.id}/`}></ArticleCard>
+        <ArticleCard postObj={post}/>
         ))}
       </div>
       

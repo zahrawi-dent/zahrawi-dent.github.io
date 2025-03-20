@@ -1,5 +1,11 @@
 ---
-const { post } = Astro.props
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  postObj: CollectionEntry<'blog'>;
+}
+const { postObj } = Astro.props
+const post = postObj.data
 ---
 <div class="flex flex-col rounded-lg shadow-lg overflow-hidden" >
   <div class="flex-shrink-0">
@@ -13,7 +19,7 @@ const { post } = Astro.props
             <a class="mr-2 inline-block bg-teal-500 text-white px-3 py-1 rounded-md text-sm font-medium mb-2" href={`/tags/${tag}`}>{tag}</a>
           ))}
       </p>
-      <a href=`${post.url}` class="block mt-2">
+      <a href=`/blog/${postObj.id}` class="block mt-2">
         <p class="text-xl font-semibold text-gray-900">
           {post.title}
         </p>
