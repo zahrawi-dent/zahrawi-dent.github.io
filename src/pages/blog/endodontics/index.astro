@@ -4,15 +4,16 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ArticleCard from "../../../components/ArticleCard.astro";
 
-type EndoEntry = CollectionEntry<"endo">;
+type EndoEntry = CollectionEntry<"blog">;
 
 const title = "Zahrawi | Endodontics Blog";
 const description = "Endodontics Blog";
 
 // Type-safe collection query
-const endoPosts = await getCollection("endo", (entry: EndoEntry) => {
+const endoPosts = await getCollection("blog", (entry: EndoEntry) => {
   return (
-    entry.data.category?.toLowerCase() === "endodontics" && !entry.data.draft
+  entry.data.category?.toLowerCase() === "endodontics" 
+  // && !entry.data.draft
   );
 });
 
@@ -37,7 +38,7 @@ const sortedEndoPosts = endoPosts.sort(
     {
       sortedEndoPosts.length > 0 ? (
         <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {sortedEndoPosts.map((post) => (
+          {sortedEndoPosts.map((post: EndoEntry) => (
           <ArticleCard postObj={post}/>
           ))}
         </div>

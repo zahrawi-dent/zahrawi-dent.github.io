@@ -9,21 +9,6 @@ const blog = defineCollection({
     title: z.string(),
     pubDate: z.date(),
     description: z.string(),
-    author: z.string(),
-    image: z.object({
-      url: z.string(),
-      alt: z.string(),
-    }),
-    tags: z.array(z.string()),
-  }),
-});
-
-const endo = defineCollection({
-  loader: glob({ pattern: "*.md", base: "./src/endo" }),
-  schema: z.object({
-    title: z.string(),
-    pubDate: z.date(),
-    description: z.string(),
     category: z.enum(["endodontics", "orthodontics", "restorative", "oral-surgery", "periodontics", "oral-health"]),
     author: z.string(),
     image: z.object({
@@ -35,4 +20,4 @@ const endo = defineCollection({
 });
 
 // Export a single `collections` object to register your collection(s)
-export const collections = { blog, endo };
+export const collections = { blog };
