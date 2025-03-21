@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import pagefind from "astro-pagefind";
-import { remarkReadingTime } from "./src/remark-reading-time.mjs";
 
 import preact from "@astrojs/preact";
 
@@ -14,9 +13,7 @@ export default defineConfig({
   site: "https://zhahrawi-dent.github.io",
   integrations: [preact(), pagefind(), icon()],
 
-  markdown: {
-    remarkPlugins: [remarkReadingTime],
-  },
+  markdown: {},
 
   vite: {
     plugins: [tailwindcss()],
