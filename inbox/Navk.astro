@@ -1,7 +1,7 @@
 ---
 // ArticleCard.astro
 import type { CollectionEntry } from "astro:content";
-import { formatDate, calculateReadingTime } from '../utils';
+import { formatDate, getReadingTime } from '../utils';
 
 interface Props {
   post: CollectionEntry<"blog">;
@@ -9,8 +9,8 @@ interface Props {
 }
 
 const { post, featured = false } = Astro.props;
-const { data } = post;
-const readingTime = calculateReadingTime(post.body);
+const data  = post.data;
+const readingTime = post.body ? getReadingTime(post.body) : 0;
 
 // Category color mapping
 const categoryColors = {
