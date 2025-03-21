@@ -1,219 +1,257 @@
 ---
-import { Fragment } from "astro/jsx-runtime";
-const navItems = [
-  { label: "Home", url: "/" },
-  { label: "About", url: "/about/" },
-  { label: "Blog", url: "/blog/" },
-  { label: "Research", url: "/research/" },
-  { label: "Resources", url: "/resources/" },
-  { label: "Contact", url: "/contact/" },
+// NavBar.astro
+import { Icon } from 'astro-icon/components';
+
+interface NavItem {
+  title: string;
+  url: string;
+}
+
+const navItems: NavItem[] = [
+  { title: 'Home', url: '/' },
+  { title: 'About', url: '/about' },
+  { title: 'Blog', url: '/blog' },
+  { title: 'Research', url: '/research' },
+  { title: 'Resources', url: '/resources' },
+  { title: 'Contact', url: '/contact' },
 ];
 
 const currentPath = Astro.url.pathname;
 ---
 
-<nav class="bg-white shadow-md sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
+<nav class="sticky top-0 z-50 w-full bg-white shadow-md">
+  <div class="container mx-auto px-4">
+    <div class="flex h-16 items-center justify-between">
+      <!-- Logo -->
       <div class="flex items-center">
-        <div class="flex-shrink-0 flex items-center">
-          <svg
-            class="hidden h-8 w-auto sm:block mr-2 text-2xl"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
-          >
-            <path
-              fill="#00897B"
-              d="M186.1 52.1C169.3 39.1 148.7 32 127.5 32C74.7 32 32 74.7 32 127.5l0 6.2c0 15.8 3.7 31.3 10.7 45.5l23.5 47.1c4.5 8.9 7.6 18.4 9.4 28.2l36.7 205.8c2 11.2 11.6 19.4 22.9 19.8s21.4-7.4 24-18.4l28.9-121.3C192.2 323.7 207 312 224 312s31.8 11.7 35.8 28.3l28.9 121.3c2.6 11.1 12.7 18.8 24 18.4s20.9-8.6 22.9-19.8l36.7-205.8c1.8-9.8 4.9-19.3 9.4-28.2l23.5-47.1c7.1-14.1 10.7-29.7 10.7-45.5l0-2.1c0-55-44.6-99.6-99.6-99.6c-24.1 0-47.4 8.8-65.6 24.6l-3.2 2.8 19.5 15.2c7 5.4 8.2 15.5 2.8 22.5s-15.5 8.2-22.5 2.8l-24.4-19-37-28.8z"
-            ></path>
+        <a href="/" class="flex items-center text-xl font-bold text-teal-600">
+          <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
           </svg>
-        </div>
-        <a href="/" class="text-2xl font-bold text-teal-600">Zahrawi</a>
-      </div>
-      <div class="flex items-center">
-        <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-          {
-            navItems.map((item) => {
-              const isActive = currentPath === item.url;
-              const activeClass = isActive
-                ? "border-teal-600 text-teal-700 bg-teal-50"
-                : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"; // Change colors as needed.
-
-              return (
-                <a
-                  href={item.url}
-                  class={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-300 ${activeClass}`}
-                >
-                  {item.label}
-                </a>
-              );
-            })
-          }
-
-          <div class="ml-3 relative">
-            <button
-              class="bg-teal-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-300"
-            >
-              Subscribe
-            </button>
-          </div>
-
-          <div class="ml-3 relative">
-            <button
-              class="p-1 rounded-full text-gray-400 hover:text-teal-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-300"
-            >
-              <span class="sr-only">Search</span>
-              <i class="fas fa-search text-xl"></i>
-              <svg
-                class="h-8 mr-2 text-xl"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="#00897B"
-                viewBox="0 0 512 512"
-              >
-                <path
-                  d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
+          Zahrawi
+        </a>
       </div>
 
-      <div class="-mr-2 flex items-center sm:hidden">
+      <!-- Mobile menu button -->
+      <div class="flex md:hidden">
         <button
-          id="mobile-menu-button"
           type="button"
-          class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500"
+          id="mobile-menu-toggle"
+          class="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 hover:text-teal-600 focus:outline-none"
+          aria-controls="mobile-menu"
           aria-expanded="false"
         >
           <span class="sr-only">Open main menu</span>
-          <svg
-            class="block h-6 w-6"
-            id="menu-closed-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="#00897B"
-            viewBox="0 0 448 512"
-          >
-            <path
-              d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"
-            ></path>
-          </svg>
-          <svg
-            class="hidden h-6 w-6"
-            id="menu-open-icon"
-            fill="#00897B"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-          >
-            <path
-              d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"
-            ></path>
-          </svg>
+          <div id="hamburger" class="relative h-6 w-6">
+            <span id="hamburger-top" class="absolute top-2 left-0 block h-0.5 w-6 rounded-sm bg-gray-700 transition-all duration-300"></span>
+            <span id="hamburger-middle" class="absolute top-3 left-0 block h-0.5 w-6 rounded-sm bg-gray-700 transition-all duration-300"></span>
+            <span id="hamburger-bottom" class="absolute top-4 left-0 block h-0.5 w-6 rounded-sm bg-gray-700 transition-all duration-300"></span>
+          </div>
         </button>
       </div>
+
+      <!-- Desktop menu - Centralized menu and right aligned actions -->
+      <div class="hidden md:flex md:flex-1 md:items-center md:justify-between">
+        <div class="mx-auto hidden md:flex md:space-x-4 lg:space-x-6">
+          {navItems.map((item) => (
+            <a 
+              href={item.url} 
+              class={`inline-flex items-center px-1 py-1 text-sm font-medium transition-colors duration-200
+                ${currentPath === item.url 
+                  ? 'text-teal-600 border-b-2 border-teal-600' 
+                  : 'text-gray-700 hover:text-teal-600 hover:border-b-2 hover:border-teal-600'
+                }`}
+            >
+              {item.title}
+            </a>
+          ))}
+        </div>
+        
+        <div class="flex items-center space-x-2">
+          <!-- Subscribe button -->
+          <a 
+            href="/subscribe" 
+            class="hidden sm:inline-flex items-center justify-center rounded-md bg-teal-500 px-3 py-2 text-sm font-medium text-white hover:bg-teal-600 focus:outline-none"
+          >
+            Subscribe
+          </a>
+          
+          <!-- Search button -->
+          <div id="search-container" class="relative ml-1">
+            <button 
+              id="search-toggle"
+              class="flex items-center justify-center rounded-full p-1.5 text-teal-600 hover:bg-gray-100 focus:outline-none"
+              aria-label="Search"
+            >
+              <Icon name="mdi:magnify" class="h-5 w-5" />
+            </button>
+            <div id="search-form" class="absolute right-0 top-full mt-2 w-0 overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg transition-all duration-300 ease-in-out opacity-0 invisible">
+              <form action="/search" method="get" class="flex w-full overflow-hidden">
+                <input 
+                  type="text" 
+                  name="q" 
+                  placeholder="Search..." 
+                  class="w-full p-2 outline-none"
+                />
+                <button 
+                  type="submit" 
+                  class="bg-teal-500 px-3 text-white"
+                  aria-label="Submit search"
+                >
+                  <Icon name="mdi:arrow-right" class="h-5 w-5" />
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden">
+    <div class="space-y-1 px-4 pb-3 pt-2">
+      {navItems.map((item) => (
+        <a
+          href={item.url}
+          class={`block rounded-md px-3 py-2 text-base font-medium ${
+            currentPath === item.url
+              ? 'bg-teal-50 text-teal-600'
+              : 'text-gray-700 hover:bg-gray-50 hover:text-teal-600'
+          }`}
+        >
+          {item.title}
+        </a>
+      ))}
+      <a 
+        href="/subscribe" 
+        class="mt-2 block rounded-md bg-teal-500 px-3 py-2 text-center text-base font-medium text-white hover:bg-teal-600"
+      >
+        Subscribe
+      </a>
+    </div>
+    <div class="px-4 py-3">
+      <form action="/search" method="get" class="flex overflow-hidden rounded-md border border-gray-200">
+        <input 
+          type="text" 
+          name="q" 
+          placeholder="Search..." 
+          class="w-full p-2 outline-none"
+        />
+        <button 
+          type="submit" 
+          class="bg-teal-500 px-3 text-white"
+          aria-label="Submit search"
+        >
+          <Icon name="mdi:arrow-right" class="h-5 w-5" />
+        </button>
+      </form>
     </div>
   </div>
 </nav>
 
-<!-- Navigation Bar with working JavaScript for responsiveness -->
 
-<!-- Mobile menu, show/hide based on menu state. -->
-<div class="sm:hidden hidden" id="mobile-menu">
-  <div class="pt-2 pb-3 space-y-1">
-    {
-      navItems.map((item) => {
-        const isActive = currentPath === item.url;
-        const activeClass = isActive
-          ? "border-teal-600 text-teal-700 bg-teal-50"
-          : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"; // Change colors as needed.
-
-        return (
-          <a
-            href={item.url}
-            class={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition-colors duration-300 ${activeClass}`}
-          >
-            {item.label}
-          </a>
-        );
-      })
-    }
-  </div>
-
-  <div class="pt-4 pb-3 border-t border-gray-200">
-    <div class="flex items-center px-4 space-x-3">
-      <button
-        class="flex-1 bg-teal-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-teal-600 focus:outline-none"
-      >
-        Subscribe
-      </button>
-      <button
-        class="p-1 rounded-full text-gray-400 hover:text-teal-500 focus:outline-none"
-      >
-        <span class="sr-only">Search</span>
-        <svg
-          class="h-8 mr-2 text-xl"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="#00897B"
-          viewBox="0 0 512 512"
-          ><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-          <path
-            d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
-          ></path></svg
-        >
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- JavaScript for the mobile menu toggle -->
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Get the mobile menu button and mobile menu elements
-    const mobileMenuButton = document.getElementById("mobile-menu-button");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const menuClosedIcon = document.getElementById("menu-closed-icon");
-    const menuOpenIcon = document.getElementById("menu-open-icon");
-
-    // Add click event listener to the mobile menu button
-    mobileMenuButton.addEventListener("click", function () {
-      // Toggle the mobile menu visibility
-      mobileMenu.classList.toggle("hidden");
-
-      // Toggle the menu icons
-      menuClosedIcon.classList.toggle("hidden");
-      menuOpenIcon.classList.toggle("hidden");
-
-      // Update the aria-expanded attribute
-      const expanded =
-        mobileMenuButton.getAttribute("aria-expanded") === "true" || false;
-      mobileMenuButton.setAttribute("aria-expanded", !expanded);
-    });
-
-    // Close mobile menu when clicking on navigation links
-    const mobileNavLinks = mobileMenu.querySelectorAll("a");
-    mobileNavLinks.forEach((link) => {
-      link.addEventListener("click", function () {
-        // Hide the mobile menu
-        mobileMenu.classList.add("hidden");
-
-        // Reset the menu button icon
-        menuClosedIcon.classList.remove("hidden");
-        menuOpenIcon.classList.add("hidden");
-
-        // Update aria-expanded attribute
-        mobileMenuButton.setAttribute("aria-expanded", "false");
+  // Ensuring the script runs both on initial page load and on subsequent navigation
+  function setupNavInteractivity() {
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const hamburgerTop = document.getElementById('hamburger-top');
+    const hamburgerMiddle = document.getElementById('hamburger-middle');
+    const hamburgerBottom = document.getElementById('hamburger-bottom');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuToggle && mobileMenu) {
+      mobileMenuToggle.addEventListener('click', () => {
+        const expanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
+        mobileMenuToggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        
+        // Toggle mobile menu visibility
+        mobileMenu.classList.toggle('hidden');
+        
+        // Transform hamburger to X
+        if (!expanded) {
+          if (hamburgerTop) {
+            hamburgerTop.style.transform = 'translateY(4px) rotate(45deg)';
+          }
+          if (hamburgerMiddle) {
+            hamburgerMiddle.style.opacity = '0';
+          }
+          if (hamburgerBottom) {
+            hamburgerBottom.style.transform = 'translateY(-4px) rotate(-45deg)';
+          }
+        } else {
+          if (hamburgerTop) {
+            hamburgerTop.style.transform = '';
+          }
+          if (hamburgerMiddle) {
+            hamburgerMiddle.style.opacity = '1';
+          }
+          if (hamburgerBottom) {
+            hamburgerBottom.style.transform = '';
+          }
+        }
       });
-    });
+    }
 
-    // Close mobile menu when screen resizes to larger than mobile breakpoint
-    window.addEventListener("resize", function () {
-      if (window.innerWidth >= 640) {
-        // sm breakpoint in Tailwind
-        mobileMenu.classList.add("hidden");
-        menuClosedIcon.classList.remove("hidden");
-        menuOpenIcon.classList.add("hidden");
-        mobileMenuButton.setAttribute("aria-expanded", "false");
-      }
-    });
-  });
+    // Desktop search animation
+    const searchToggle = document.getElementById('search-toggle');
+    const searchForm = document.getElementById('search-form');
+    const searchContainer = document.getElementById('search-container');
+    
+    if (searchToggle && searchForm) {
+      searchToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        if (searchForm.classList.contains('invisible')) {
+          // Expand search form
+          searchForm.classList.remove('invisible', 'opacity-0', 'w-0');
+          searchForm.classList.add('visible', 'opacity-100');
+          searchForm.style.width = '16rem';
+          
+          // Adjust width on smaller screens
+          if (window.innerWidth < 640) {
+            searchForm.style.width = '12rem';
+          }
+          
+          // Focus on input after animation completes
+          setTimeout(() => {
+            const input = searchForm.querySelector('input');
+            if (input) input.focus();
+          }, 300);
+        } else {
+          // Collapse search form
+          searchForm.classList.remove('visible', 'opacity-100');
+          searchForm.classList.add('invisible', 'opacity-0');
+          searchForm.style.width = '0';
+        }
+      });
+      
+      // Close search when clicking outside
+      document.addEventListener('click', (event) => {
+        if (searchForm.classList.contains('visible') && !searchContainer.contains(event.target)) {
+          searchForm.classList.remove('visible', 'opacity-100');
+          searchForm.classList.add('invisible', 'opacity-0');
+          searchForm.style.width = '0';
+        }
+      });
+      
+      // Adjust search width on window resize
+      window.addEventListener('resize', () => {
+        if (searchForm.classList.contains('visible')) {
+          if (window.innerWidth < 640) {
+            searchForm.style.width = '12rem';
+          } else {
+            searchForm.style.width = '16rem';
+          }
+        }
+      });
+    }
+  }
+
+  // Run on initial page load
+  document.addEventListener('DOMContentLoaded', setupNavInteractivity);
+  
+  // Run on Astro page transitions
+  document.addEventListener('astro:page-load', setupNavInteractivity);
 </script>

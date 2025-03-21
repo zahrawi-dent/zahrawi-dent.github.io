@@ -124,7 +124,7 @@ const categories: string[] = [...new Set(allPosts.map((post) => post.data.catego
           {categories.map(category => (
             <li>
               <a
-                href={`/blog/${category}`}
+                href={`/${category}`}
                 class="text-base text-indigo-100 hover:text-white transition-colors duration-300"
               >
                 {category.charAt(0).toUpperCase() + category.slice(1)}

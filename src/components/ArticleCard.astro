@@ -1,12 +1,14 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import {formatDate} from '../utils';
+import {formatDate, getReadingTime} from '../utils';
 
 interface Props {
   postObj: CollectionEntry<"blog">;
+
 }
-const { postObj } = Astro.props;
+const { postObj} = Astro.props;
 const post = postObj.data;
+const readingTime = postObj.body ? getReadingTime(postObj.body) : 0;
 ---
 
 <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
@@ -81,7 +83,7 @@ const post = postObj.data;
             >
             <span aria-hidden="true">&middot;</span>
             <!-- TODO: dynamic time read -->
-            <span>6 min read</span>
+            <span>{readingTime} min read</span>
           </div>
         </div>
       </div>

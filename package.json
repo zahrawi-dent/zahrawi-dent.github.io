@@ -14,11 +14,19 @@
     "@astrojs/rss": "^4.0.11",
     "@tailwindcss/vite": "^4.0.14",
     "astro": "^5.5.3",
+    "astro-icon": "^1.1.5",
+    "astro-pagefind": "^1.8.3",
+    "mdast-util-to-string": "^4.0.0",
+    "pagefind": "^1.3.0",
     "preact": "^10.26.4",
+    "reading-time": "^1.5.0",
     "tailwindcss": "^4.0.14"
   },
   "devDependencies": {
+    "@iconify-json/mdi": "^1.2.3",
     "@tailwindcss/typography": "^0.5.16",
+    "i": "^0.3.7",
+    "mdast-util-from-markdown": "^2.0.2",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.11"

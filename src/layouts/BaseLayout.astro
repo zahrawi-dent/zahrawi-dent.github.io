@@ -1,5 +1,5 @@
 ---
-import Header from "../components/Header.astro";
+import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 
@@ -22,8 +22,8 @@ const { title = "Zahrawi Dental Blog", description } = Astro.props;
     <title>{title}</title>
   </head>
   <body class="min-h-screen flex flex-col">
-    <Header />
-    <main class="flew-grow">
+    <Navigation />
+    <main class="flew-grow min-h-[50vh]">
       <slot />
     </main>
     <Footer />

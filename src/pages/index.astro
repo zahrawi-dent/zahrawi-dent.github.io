@@ -4,6 +4,8 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 
+import Navk from './Navk.astro'
+
 const title = "Zahrawi | Modern Dentistry Blog";
 const description =
   "Discover the art and science of modern dentistry. Stay informed with our evidence-based dental articles, tips, and the latest advancements in oral healthcare.";
@@ -28,6 +30,8 @@ const mostRecent: CollectionEntry<"blog">[] =
 ---
 
 <BaseLayout title={title} description={description}>
+
+
   <div class="relative bg-teal-600">
     <div class="absolute inset-0">
       <img
