@@ -1,4 +1,7 @@
 ---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+
 const footerLinks = [
   {
     title: "About",
@@ -32,6 +35,9 @@ const socialLinks = [
   { label: "LinkedIn", url: "https://linkedin.com", icon: "linkedin" },
   { label: "Youtube", url: "https://youtube.com", icon: "youtube" },
 ];
+
+const allPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+const categories: string[] = [...new Set(allPosts.map((post) => post.data.category))];
 ---
 
 <footer class="bg-gray-800" aria-labelledby="footer-heading">
@@ -105,8 +111,32 @@ const socialLinks = [
           }
         </div>
       </div>
+
       <div class="mt-12 grid grid-cols-2 lg:grid-cols-3 gap-8 xl:mt-0 xl:col-span-2">
-  {footerLinks.map(section => (
+
+        <!-- TODO: make footer section it's own component  -->
+    <div class="md:grid md:grid-cols-2 md:gap-8"> {/* Modified to one column on medium screens */}
+      <div>
+        <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+          Categories
+        </h3>
+        <ul role="list" class="mt-4 space-y-4">
+          {categories.map(category => (
+            <li>
+              <a
+                href={`/blog/${category}`}
+                class="text-base text-indigo-100 hover:text-white transition-colors duration-300"
+              >
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+
+        {footerLinks.map(section => (
     <div class="md:grid md:grid-cols-2 md:gap-8"> {/* Modified to one column on medium screens */}
       <div>
         <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">
@@ -127,6 +157,9 @@ const socialLinks = [
       </div>
     </div>
   ))}
+
+
+
 </div>
 
     </div>

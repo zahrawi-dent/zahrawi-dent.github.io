@@ -1,0 +1,50 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+
+type Post = CollectionEntry<'blog'>;
+
+export async function getStaticPaths() {
+const categories: string[] = ['endodontics', 'operative', 'orthodontics','restorative']; // Your categories
+  return categories.map((category) => ({ params: { category } }));
+}
+
+const { category } = Astro.params;
+
+const posts: Post[] = await getCollection('blog', ({ data }) => {
+  return data.category === category;
+});
+const title = `${category} Blog`;
+const description = `Posts in the ${category} category`;
+
+const sortedPosts = posts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+)
+---
+
+
+<BaseLayout title={title} description={description}>
+  <div class="container mx-auto py-8 px-4">
+    <header class="mb-10 text-center">
+      <h1 class="text-4xl font-bold mb-3">{title}</h1>
+      <p class="text-gray-600 max-w-2xl mx-auto">{description}</p>
+    </header>
+
+    {
+      sortedPosts.length > 0 ? (
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {sortedPosts.map((post: Post) => (
+          <ArticleCard postObj={post}/>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12">
+          <p class="text-xl text-gray-600">
+            No endodontics posts available at the moment.
+          </p>
+        </div>
+      )
+    }
+  </div>-
+</BaseLayout>

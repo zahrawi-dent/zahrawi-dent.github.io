@@ -6,3 +6,7 @@ tags: ['shaping',]
 - in the tags index, collect the tags for each category
 - rename pubDate to firstCreated?, add lastUpdated
 - typography
+- put categories in footer
+- add ReadMore to ArticleCard
+- make posts grid a component
+- a page to show all categories?

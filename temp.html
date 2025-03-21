@@ -2,15 +2,31 @@
 category: "Endodontics". Zod type enum
 tags: ['shaping',]
 - has special css for category, tags
+
+
 ---
-<div class="prose dark:prose-invert
-  prose-h1:font-bold prose-h1:text-xl
-  prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl
-  prose-headings:underline">
-  <slot />
-</div>
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const tags = new Set(posts.flatMap(post => post.data.tags || []));
+  return Array.from(tags).map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+const posts = await getCollection('blog', ({ data }) => {
+  return data.tags?.includes(tag);
+});
 ---
 
+<html>
+  <body>
+    <h1>Posts tagged: {tag}</h1>
+    <!-- Render posts list -->
+  </body>
+</html>
+
+---
 <!-- Post Content -->
 <div class="prose lg:prose-lg max-w-none px-6 py-8">
   <p class="text-lg font-medium text-gray-900 mb-4">
