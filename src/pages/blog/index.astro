@@ -22,6 +22,6 @@ const allPosts: CollectionEntry<"blog">[] = await getAllPosts();
 <BaseLayout title={title} description={description}>
   <p>This is where I will post about my journey learning Astro.</p>
   <div class="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
-    {allPosts.map((post) =>  <ArticleCard postObj={post} />)}
+    {allPosts.map((post) =>  <ArticleCard post={post} />)}
   </div>
 </BaseLayout>

@@ -10,7 +10,7 @@ interface Props {
 const { currentPage, totalPages, prevUrl, nextUrl } = Astro.props;
 
 // Generate page numbers array with ellipsis
-const generatePagination = (current, total) => {
+const generatePagination = (current: number, total:number) => {
   if (total <= 5) {
     return Array.from({ length: total }, (_, i) => i + 1);
   }

@@ -2,6 +2,7 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 
 import BaseLayout from "../layouts/BaseLayout.astro";
+
 import ArticleCard from "../components/ArticleCard.astro";
 
 
@@ -86,7 +87,7 @@ const mostRecent: CollectionEntry<"blog">[] =
       <div
         class="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3"
       >
-        {mostRecent.map((post) => <ArticleCard postObj={post} />)}
+        {mostRecent.map((post) => <ArticleCard post={post} />)}
       </div>
 
       <!-- Newsletter Section -->

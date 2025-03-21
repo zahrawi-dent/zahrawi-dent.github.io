@@ -10,3 +10,6 @@ tags: ['shaping',]
 - add ReadMore to ArticleCard
 - make posts grid a component
 - a page to show all categories?
+- better search
+- save bookmarked to cookies?
+- fix pagination
