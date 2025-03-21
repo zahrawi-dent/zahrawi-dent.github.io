@@ -14,12 +14,27 @@ const description = "Search for blog posts";
 <BaseLayout title={title} description={description}>
   <h1>Search</h1>
 
+
+
   <SearchCom
     id="search"
     className="pagefind-ui"
     uiOptions={{ showImages: false }}
-    query={q}
   />
+
+  <script>
+    const searchInput = document.querySelector("#search .pagefind-ui__search-input");
+    const urlParams = new URLSearchParams(window.location.search);
+    const q = urlParams.get("q");
+
+    if (q && searchInput) {
+      searchInput.value = q;
+      // You may need to trigger the search manually depending on Pagefind's API
+      // For example, if pagefind uses an event, you would dispatch that event here.
+      searchInput.dispatchEvent(new Event('input')); // Example trigger.
+    }
+  </script>
+
 </BaseLayout>
 
 <style>
