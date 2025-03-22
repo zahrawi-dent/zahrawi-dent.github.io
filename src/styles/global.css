@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+
+@custom-variant dark (&:is(.dark *));
 @plugin '@tailwindcss/typography';
 
 /* html { */
@@ -93,3 +98,4 @@ html.dark {
 .dark .nav-links a {
   color: #fff;
 }
+

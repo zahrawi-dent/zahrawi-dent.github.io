@@ -8,10 +8,12 @@ import tailwindcss from "@tailwindcss/vite";
 
 import icon from "astro-icon";
 
+import react from "@astrojs/react";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://zhahrawi-dent.github.io",
-  integrations: [preact(), pagefind(), icon()],
+  integrations: [preact(), pagefind(), icon(), react()],
 
   markdown: {},
 

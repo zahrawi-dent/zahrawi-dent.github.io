@@ -8,9 +8,15 @@
     "dist"
   ],
   "compilerOptions": {
+   "baseUrl": ".",
+      "paths": {
+        "@/*": [
+          "./src/*"
+        ]
+      },
     "jsx": "react-jsx",
-    "jsxImportSource": "preact",
+    "jsxImportSource": "react",
     "strictNullChecks": true,
-    "allowJs": true 
+    "allowJs": true
   }
 }

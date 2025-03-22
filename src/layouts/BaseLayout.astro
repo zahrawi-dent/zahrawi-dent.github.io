@@ -1,8 +1,7 @@
 ---
-import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
-import SideBar from "../components/SideBar.astro";
 import "../styles/global.css";
+import SideBarFlow from "@/components/SideBarFlow.astro";
 
 interface Props {
   title: string;
@@ -22,12 +21,28 @@ const { title = "Zahrawi Dental Blog", description } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
   </head>
-  <body class="min-h-screen flex flex-col">
-    <SideBar>
+  <body class="flex min-h-screen flex-col ml-64 ">
+    <SideBarFlow />
     <main class="flew-grow min-h-[50vh]">
       <slot />
-    </main>
     <Footer />
-    </SideBar>
+    </main>
+
   </body>
 </html>
+
+<script>
+  import { Modal } from 'flowbite'
+
+  // select the two elements that we'll work with
+  const $buttonElement: HTMLElement | null = document.querySelector('#button');
+  const $modalElement: HTMLElement | null = document.querySelector('#defaultModal');
+
+  // create a new modal component
+  const modal = new Modal($modalElement);
+
+  // toggle the visibility of the modal when clicking on the button
+  if ($buttonElement) {
+    $buttonElement.addEventListener('click', () => modal.toggle());
+  }
+</script>

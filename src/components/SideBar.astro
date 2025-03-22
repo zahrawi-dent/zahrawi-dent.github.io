@@ -5,7 +5,10 @@ import DropDownMenu from "./DropDownMenu.astro";
 
 // src/components/Sidebar.astro
 
-// list all avaiable categories
+// Get current URL path for highlighting active items
+const currentPath = Astro.url.pathname;
+
+// list all available categories
 const allPosts: CollectionEntry<"blog">[] = await getCollection("blog");
 const categories: string[] = [
   ...new Set(allPosts.map((post) => post.data.category)),
@@ -25,7 +28,7 @@ type DropDownItem = {
 
 const CategoriesDropItems: DropDownItem = {
   title: "Categories",
-  url: "/endodontics",
+  url: "/categories",
   items: categories.map((category) => ({
     title: category.charAt(0).toUpperCase() + category.slice(1),
     url: `/${category}`,
@@ -39,11 +42,22 @@ const menuItems: { title: string; url: string }[] = [
   { title: "Contact", url: "/contact" },
 ];
 
+// Helper function to check if an item is active
+const isActive = (itemUrl: string) => {
+  // For exact matches (like homepage)
+  if (itemUrl === "/" && currentPath === "/") return true;
+  
+  // For other pages, check if currentPath starts with itemUrl
+  // But only if itemUrl is not just "/"
+  if (itemUrl !== "/" && currentPath.startsWith(itemUrl)) return true;
+  
+  return false;
+};
 ---
 
 <div
   id="sidebar"
-  class="fixed top-0 left-0 z-10 h-screen w-64 overflow-y-auto bg-slate-800 text-white shadow-lg transition-all duration-300"
+  class="fixed top-0 left-0 z-40 h-screen w-64 overflow-y-auto bg-slate-800 text-white shadow-lg transition-all duration-300 lg:translate-x-0"
 >
   <div class="flex items-center justify-between p-4">
       <!-- Logo -->
@@ -112,7 +126,7 @@ const menuItems: { title: string; url: string }[] = [
       <li class="menu-item">
         <a
           href="/"
-          class="flex items-center justify-between rounded-md px-4 py-2 hover:bg-slate-700"
+          class={`flex items-center justify-between rounded-md px-4 py-2 hover:bg-slate-700 ${isActive('/') ? 'bg-slate-700 text-teal-400 font-medium' : ''}`}
         >
           <div class="flex items-center">
             <span class="mr-2 transform transition-transform duration-200"
@@ -122,13 +136,13 @@ const menuItems: { title: string; url: string }[] = [
         </a>
       </li>
 
-      <DropDownMenu dropDownItem={CategoriesDropItems} />
+      <DropDownMenu dropDownItem={CategoriesDropItems} currentPath={currentPath} />
 
       {menuItems.map((item) => (
       <li class="menu-item">
         <a
-          href="/${item.url}"
-          class="flex items-center justify-between rounded-md px-4 py-2 hover:bg-slate-700"
+          href={item.url}
+          class={`flex items-center justify-between rounded-md px-4 py-2 hover:bg-slate-700 ${isActive(item.url) ? 'bg-slate-700 text-teal-400 font-medium' : ''}`}
         >
           <div class="flex items-center">
             <span class="mr-2 transform transition-transform duration-200"
@@ -146,7 +160,7 @@ const menuItems: { title: string; url: string }[] = [
 
 <div
   id="mobile-nav"
-  class="fixed top-0 left-0 z-20 flex w-full -translate-y-full transform items-center justify-between bg-slate-800 p-4 shadow-md transition-transform duration-300 lg:hidden"
+  class="fixed top-0 left-0 z-30 flex w-full transform items-center justify-between bg-slate-800 p-4 shadow-md transition-transform duration-300 lg:hidden"
 >
       <!-- Logo -->
       <div class="flex items-center">
@@ -176,7 +190,7 @@ const menuItems: { title: string; url: string }[] = [
 
 <div
   id="sidebar-overlay"
-  class="bg-opacity-50 fixed inset-0 z-0 hidden bg-black lg:hidden"
+  class="fixed inset-0 z-20 hidden bg-black bg-opacity-50 lg:hidden"
 >
 </div>
 
@@ -187,8 +201,12 @@ const menuItems: { title: string; url: string }[] = [
   <slot />
 </main>
 
-<script define:vars={{searchList}}>
+<script define:vars={{searchList, currentPath}}>
   const searchData = searchList;
+  const currentPathJS = currentPath;
+  
+  // Store sidebar state in localStorage
+  const SIDEBAR_STATE_KEY = "zahrawiSidebarOpen";
 
   // DOM elements
   const sidebar = document.getElementById("sidebar");
@@ -203,25 +221,46 @@ const menuItems: { title: string; url: string }[] = [
 
   // Initialize mobile navigation
   function initMobileNav() {
-    if (window.innerWidth < 1024) {
-      // lg breakpoint in Tailwind
-      sidebar.classList.add("-translate-x-full");
+    if (window.innerWidth < 1024) { // lg breakpoint in Tailwind
+      // Get sidebar state from localStorage
+      const sidebarOpen = localStorage.getItem(SIDEBAR_STATE_KEY) === "true";
+      
+      // Set mobile nav visibility
       mobileNav.classList.remove("-translate-y-full");
       content.classList.remove("lg:ml-64");
       content.classList.add("ml-0");
+      
+      // Only close sidebar if it should be closed, don't force it closed on every page load
+      if (!sidebarOpen) {
+        sidebar.classList.add("-translate-x-full");
+        sidebarOverlay.classList.add("hidden");
+      } else {
+        sidebar.classList.remove("-translate-x-full");
+        sidebarOverlay.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+      }
     } else {
+      // Desktop behavior
       sidebar.classList.remove("-translate-x-full");
       mobileNav.classList.add("-translate-y-full");
       content.classList.add("lg:ml-64");
       content.classList.remove("ml-0");
+      sidebarOverlay.classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
     }
   }
 
   // Toggle sidebar for mobile
   function toggleSidebar() {
+    const isOpen = !sidebar.classList.contains("-translate-x-full");
+    
+    // Toggle classes
     sidebar.classList.toggle("-translate-x-full");
     sidebarOverlay.classList.toggle("hidden");
     document.body.classList.toggle("overflow-hidden");
+    
+    // Save state to localStorage
+    localStorage.setItem(SIDEBAR_STATE_KEY, (!isOpen).toString());
   }
 
   // Search functionality
@@ -268,21 +307,37 @@ const menuItems: { title: string; url: string }[] = [
     const submenu = item.querySelector(".submenu");
     const arrow = item.querySelector(".submenu-arrow");
 
-    // Close other submenus (excluding the current one and the active one)
+    // If this submenu contains the active path, keep it open
+    const hasActivePath = Array.from(submenu.querySelectorAll('a')).some(link => {
+      return currentPathJS.startsWith(link.getAttribute('href'));
+    });
+
+    // Close other submenus (excluding the current one)
     dropdownItems.forEach((dropdownItem) => {
-      if (dropdownItem !== item && !dropdownItem.classList.contains("active")) {
-        dropdownItem.querySelector(".submenu").classList.add("hidden");
+      if (dropdownItem !== item) {
+        const otherSubmenu = dropdownItem.querySelector(".submenu");
         const otherArrow = dropdownItem.querySelector(".submenu-arrow");
-        if (otherArrow) {
-          //check to see if the arrow exists
-          otherArrow.classList.remove("rotate-90");
+        
+        // Check if this submenu contains the active path
+        const hasActiveSubPath = Array.from(otherSubmenu.querySelectorAll('a')).some(link => {
+          return currentPathJS.startsWith(link.getAttribute('href'));
+        });
+        
+        // Only close if it doesn't contain the active path
+        if (!hasActiveSubPath) {
+          otherSubmenu.classList.add("hidden");
+          if (otherArrow) {
+            otherArrow.classList.remove("rotate-90");
+          }
         }
       }
     });
 
-    // Toggle current submenu and rotate arrow
-    submenu.classList.toggle("hidden");
-    arrow.classList.toggle("rotate-90");
+    // Toggle current submenu and rotate arrow (unless it contains active path)
+    if (!hasActivePath || submenu.classList.contains("hidden")) {
+      submenu.classList.toggle("hidden");
+      arrow.classList.toggle("rotate-90");
+    }
   }
 
   // Event listeners
@@ -305,14 +360,41 @@ const menuItems: { title: string; url: string }[] = [
     }
   });
 
-  // Attach event listeners to the *div* containing the menu item text and arrow, *not* the li itself
+  // Attach event listeners to dropdown items
   dropdownItems.forEach((item) => {
-    const trigger = item.querySelector("div"); // Select the div inside the li
+    const trigger = item.querySelector(".dropdown-trigger"); // Use a specific class
     if (trigger) {
       trigger.addEventListener("click", toggleSubmenu);
     }
   });
-  // Initialize on page load
-  initMobileNav();
-</script>
 
+  // Auto-expand dropdowns that contain active items
+  function expandActiveDropdowns() {
+    dropdownItems.forEach((item) => {
+      const submenu = item.querySelector(".submenu");
+      const arrow = item.querySelector(".submenu-arrow");
+      
+      // Check if any links in this submenu match the current path
+      const hasActivePath = Array.from(submenu.querySelectorAll('a')).some(link => {
+        return currentPathJS.startsWith(link.getAttribute('href'));
+      });
+      
+      if (hasActivePath) {
+        submenu.classList.remove("hidden");
+        if (arrow) {
+          arrow.classList.add("rotate-90");
+        }
+      }
+    });
+  }
+
+  // Initialize on page load
+  document.addEventListener("DOMContentLoaded", function() {
+    initMobileNav();
+    expandActiveDropdowns();
+  });
+  
+  // Run immediately as well (for Astro)
+  initMobileNav();
+  expandActiveDropdowns();
+</script>
