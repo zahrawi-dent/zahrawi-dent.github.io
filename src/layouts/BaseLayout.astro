@@ -1,7 +1,11 @@
 ---
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
-import SideBarFlow from "@/components/SideBarFlow.astro";
+import SideBar from "@/components/SideBar.astro";
+
+import SidebarReact from "../components/SideBarReact.tsx";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 
 interface Props {
   title: string;
@@ -9,8 +13,22 @@ interface Props {
 }
 
 const { title = "Zahrawi Dental Blog", description } = Astro.props;
----
 
+// list all available categories
+const allPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+const categories: string[] = [
+  ...new Set(allPosts.map((post) => post.data.category.charAt(0).toUpperCase() + post.data.category.slice(1))),
+];
+
+const searchList = allPosts.map((post) => ({
+  title: post.data.title,
+  href: `/${post.data.category}/${post.id}`,
+}));
+
+// sort categories alphabetically then capitalize first letter
+categories.sort();
+
+---
 <!doctype html>
 <html lang="en">
   <head>
@@ -21,28 +39,15 @@ const { title = "Zahrawi Dental Blog", description } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
   </head>
-  <body class="flex min-h-screen flex-col ml-64 ">
-    <SideBarFlow />
-    <main class="flew-grow min-h-[50vh]">
-      <slot />
-    <Footer />
-    </main>
-
+  <body class="flex min-h-screen flex-col bg-gray-900 text-white">
+    <!-- This div takes up all available space *except* the footer -->
+    <div class="flex flex-grow flex-col lg:flex-row">
+      <SidebarReact client:load categories={categories} searchList={searchList}/>
+      <main class="overflow-auto px-4 py-6 pt-16 lg:flex-1 lg:px-8">
+        <h1 class="mb-6 text-3xl font-bold text-white">Getting Started</h1>
+        <slot />
+      </main>
+    </div>
+    <Footer />  {/* Footer is now a direct child of body */}
   </body>
 </html>
-
-<script>
-  import { Modal } from 'flowbite'
-
-  // select the two elements that we'll work with
-  const $buttonElement: HTMLElement | null = document.querySelector('#button');
-  const $modalElement: HTMLElement | null = document.querySelector('#defaultModal');
-
-  // create a new modal component
-  const modal = new Modal($modalElement);
-
-  // toggle the visibility of the modal when clicking on the button
-  if ($buttonElement) {
-    $buttonElement.addEventListener('click', () => modal.toggle());
-  }
-</script>
