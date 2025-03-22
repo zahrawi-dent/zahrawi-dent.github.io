@@ -3,8 +3,8 @@
 interface Props {
   currentPage: number;
   totalPages: number;
-  prevUrl: string | null;
-  nextUrl: string | null;
+  prevUrl: string | undefined;
+  nextUrl: string | undefined;
 }
 
 const { currentPage, totalPages, prevUrl, nextUrl } = Astro.props;
@@ -27,6 +27,8 @@ const generatePagination = (current: number, total:number) => {
 };
 
 const pages = generatePagination(currentPage, totalPages);
+console.log(pages)
+console.log(totalPages)
 ---
 
 <nav aria-label="Blog pagination" class="mt-16">
@@ -64,7 +66,7 @@ const pages = generatePagination(currentPage, totalPages);
           <span class="px-3 py-2 text-gray-500 dark:text-gray-400">...</span>
         ) : page === currentPage ? (
           <span 
-            class="flex items-center justify-center w-10 h-10 text-white bg-primary-600 rounded-md"
+            class="flex items-center justify-center w-10 h-10 text-black bg-teal-300 rounded-md"
             aria-current="page"
           >{page}</span>
         ) : (

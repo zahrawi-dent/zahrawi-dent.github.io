@@ -1,0 +1,43 @@
+      <!-- Active dropdown menu item -->
+      <li class="menu-item has-submenu active">
+        <div
+          class="flex cursor-pointer items-center justify-between rounded-md bg-slate-700 px-4 py-2"
+        >
+          <div class="flex items-center">
+            <span
+              class="submenu-arrow mr-2 rotate-90 transform text-orange-500 transition-transform duration-200"
+              >›</span
+            >
+            <a href={CategoriesDropItems.url} class="text-orange-500"
+              >{CategoriesDropItems.title}</a
+            >
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 text-orange-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <ul class="submenu pb-2 pl-6">
+          {
+            CategoriesDropItems.items.map((item) => (
+              <li>
+                <a
+                  href={item.url}
+                  class="block rounded-md px-4 py-2 hover:bg-slate-700"
+                >
+                  {item.title}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </li>

@@ -13,3 +13,8 @@ tags: ['shaping',]
 - better search
 - save bookmarked to cookies?
 - fix pagination
+-  a component for the previousLabel and nextLabel, frontmatter in each blog? like related posts to see the previous and next lessons?
+- change dropdown menu style if active
+---
+
+npm install --package-lock-only

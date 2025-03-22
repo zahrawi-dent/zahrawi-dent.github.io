@@ -1,0 +1,318 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import DropDownMenu from "./DropDownMenu.astro";
+
+// src/components/Sidebar.astro
+
+// list all avaiable categories
+const allPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+const categories: string[] = [
+  ...new Set(allPosts.map((post) => post.data.category)),
+];
+
+const searchList = allPosts.map((post) => ({
+  title: post.data.title,
+  url: `/${post.data.category}/${post.id}`,
+}));
+
+
+type DropDownItem = {
+  title: string;
+  url: string;
+  items: { title: string; url: string }[];
+};
+
+const CategoriesDropItems: DropDownItem = {
+  title: "Categories",
+  url: "/endodontics",
+  items: categories.map((category) => ({
+    title: category.charAt(0).toUpperCase() + category.slice(1),
+    url: `/${category}`,
+  })),
+};
+
+
+const menuItems: { title: string; url: string }[] = [
+  { title: "Blog", url: "/blog" },
+  { title: "Resources", url: "/resources" },
+  { title: "Contact", url: "/contact" },
+];
+
+---
+
+<div
+  id="sidebar"
+  class="fixed top-0 left-0 z-10 h-screen w-64 overflow-y-auto bg-slate-800 text-white shadow-lg transition-all duration-300"
+>
+  <div class="flex items-center justify-between p-4">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <a href="/" class="flex items-center text-xl font-bold text-teal-600">
+          <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+          </svg>
+          Zahrawi
+        </a>
+      </div>
+
+    <button id="close-sidebar" class="text-gray-400 hover:text-white lg:hidden">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+  </div>
+
+  <div class="px-4 py-2">
+    <div class="relative">
+      <input
+        id="search-input"
+        type="text"
+        placeholder="Search..."
+        class="w-full rounded border border-slate-700 bg-slate-900 px-4 py-2 pl-10 text-white focus:border-blue-500 focus:outline-none"
+      />
+      <div class="absolute top-2.5 left-3 text-gray-400">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div
+    id="search-results"
+    class="mx-4 hidden max-h-64 overflow-y-auto rounded-md bg-slate-900 shadow-md"
+  >
+  </div>
+
+  <nav class="mt-2">
+    <ul>
+
+      <li class="menu-item">
+        <a
+          href="/"
+          class="flex items-center justify-between rounded-md px-4 py-2 hover:bg-slate-700"
+        >
+          <div class="flex items-center">
+            <span class="mr-2 transform transition-transform duration-200"
+              >›</span
+            > Home Page
+          </div>
+        </a>
+      </li>
+
+      <DropDownMenu dropDownItem={CategoriesDropItems} />
+
+      {menuItems.map((item) => (
+      <li class="menu-item">
+        <a
+          href="/${item.url}"
+          class="flex items-center justify-between rounded-md px-4 py-2 hover:bg-slate-700"
+        >
+          <div class="flex items-center">
+            <span class="mr-2 transform transition-transform duration-200"
+              >›</span
+            > {item.title}
+          </div>
+        </a>
+      </li>
+      ))}
+
+    </ul>
+
+  </nav>
+</div>
+
+<div
+  id="mobile-nav"
+  class="fixed top-0 left-0 z-20 flex w-full -translate-y-full transform items-center justify-between bg-slate-800 p-4 shadow-md transition-transform duration-300 lg:hidden"
+>
+      <!-- Logo -->
+      <div class="flex items-center">
+        <a href="/" class="flex items-center text-xl font-bold text-teal-600">
+          <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+          </svg>
+          Zahrawi
+        </a>
+      </div>
+  <button id="open-sidebar" class="text-gray-400 hover:text-white">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+  </button>
+</div>
+
+<div
+  id="sidebar-overlay"
+  class="bg-opacity-50 fixed inset-0 z-0 hidden bg-black lg:hidden"
+>
+</div>
+
+<main
+  id="content"
+  class="min-h-screen bg-white transition-all duration-300 lg:ml-64"
+>
+  <slot />
+</main>
+
+<script define:vars={{searchList}}>
+  const searchData = searchList;
+
+  // DOM elements
+  const sidebar = document.getElementById("sidebar");
+  const mobileNav = document.getElementById("mobile-nav");
+  const openSidebarBtn = document.getElementById("open-sidebar");
+  const closeSidebarBtn = document.getElementById("close-sidebar");
+  const sidebarOverlay = document.getElementById("sidebar-overlay");
+  const searchInput = document.getElementById("search-input");
+  const searchResults = document.getElementById("search-results");
+  const content = document.getElementById("content");
+  const dropdownItems = document.querySelectorAll(".has-submenu");
+
+  // Initialize mobile navigation
+  function initMobileNav() {
+    if (window.innerWidth < 1024) {
+      // lg breakpoint in Tailwind
+      sidebar.classList.add("-translate-x-full");
+      mobileNav.classList.remove("-translate-y-full");
+      content.classList.remove("lg:ml-64");
+      content.classList.add("ml-0");
+    } else {
+      sidebar.classList.remove("-translate-x-full");
+      mobileNav.classList.add("-translate-y-full");
+      content.classList.add("lg:ml-64");
+      content.classList.remove("ml-0");
+    }
+  }
+
+  // Toggle sidebar for mobile
+  function toggleSidebar() {
+    sidebar.classList.toggle("-translate-x-full");
+    sidebarOverlay.classList.toggle("hidden");
+    document.body.classList.toggle("overflow-hidden");
+  }
+
+  // Search functionality
+  function performSearch(query) {
+    if (!query) {
+      searchResults.classList.add("hidden");
+      return;
+    }
+
+    const results = searchData.filter((item) =>
+      item.title.toLowerCase().includes(query.toLowerCase()),
+    );
+
+    if (results.length > 0) {
+      searchResults.innerHTML = results
+        .map(
+          (result) => `
+        <a href="${result.url}" class="block p-3 hover:bg-slate-800 border-b border-slate-700 last:border-0">
+          <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            ${result.title}
+          </div>
+        </a>
+      `,
+        )
+        .join("");
+      searchResults.classList.remove("hidden");
+    } else {
+      searchResults.innerHTML = `
+        <div class="p-3 text-gray-400">No results found</div>
+      `;
+      searchResults.classList.remove("hidden");
+    }
+  }
+
+  // Toggle dropdown submenu
+  function toggleSubmenu(event) {
+    // Prevent event from bubbling up to parent list items
+    event.stopPropagation();
+
+    const item = event.currentTarget.closest(".has-submenu"); // Find the closest parent with class 'has-submenu'
+    const submenu = item.querySelector(".submenu");
+    const arrow = item.querySelector(".submenu-arrow");
+
+    // Close other submenus (excluding the current one and the active one)
+    dropdownItems.forEach((dropdownItem) => {
+      if (dropdownItem !== item && !dropdownItem.classList.contains("active")) {
+        dropdownItem.querySelector(".submenu").classList.add("hidden");
+        const otherArrow = dropdownItem.querySelector(".submenu-arrow");
+        if (otherArrow) {
+          //check to see if the arrow exists
+          otherArrow.classList.remove("rotate-90");
+        }
+      }
+    });
+
+    // Toggle current submenu and rotate arrow
+    submenu.classList.toggle("hidden");
+    arrow.classList.toggle("rotate-90");
+  }
+
+  // Event listeners
+  window.addEventListener("resize", initMobileNav);
+  openSidebarBtn.addEventListener("click", toggleSidebar);
+  closeSidebarBtn.addEventListener("click", toggleSidebar);
+  sidebarOverlay.addEventListener("click", toggleSidebar);
+
+  searchInput.addEventListener("focus", () => {
+    performSearch(searchInput.value);
+  });
+
+  searchInput.addEventListener("input", (e) => {
+    performSearch(e.target.value);
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!searchResults.contains(e.target) && e.target !== searchInput) {
+      searchResults.classList.add("hidden");
+    }
+  });
+
+  // Attach event listeners to the *div* containing the menu item text and arrow, *not* the li itself
+  dropdownItems.forEach((item) => {
+    const trigger = item.querySelector("div"); // Select the div inside the li
+    if (trigger) {
+      trigger.addEventListener("click", toggleSubmenu);
+    }
+  });
+  // Initialize on page load
+  initMobileNav();
+</script>
+
