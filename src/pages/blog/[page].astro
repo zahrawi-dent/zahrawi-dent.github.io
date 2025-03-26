@@ -1,0 +1,40 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import Pagination from "../../components/Pagination.astro";
+import { type Page as PageType } from "astro";
+
+const title = "Zahrawi | Modern Dentistry Blog";
+const description = "Modern Dentistry Blog";
+type Post = CollectionEntry<"blog">;
+
+export async function getStaticPaths({ paginate }) {
+const posts: Post[] = await getCollection("blog");
+  return paginate(posts, {
+    pageSize: 6,
+    params: { page: { start: 2 } } // Start from page 2
+  });
+}
+
+// All paginated data is passed on the "page" prop
+const { page } = Astro.props as { page: PageType<Post> };
+const currentPage = parseInt(Astro.params.page as string);
+
+// Redirect page 1 to /blog
+if (currentPage === 1) {
+  return Astro.redirect('/blog');
+}
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
+    {page.data.map((post) => <ArticleCard post={post} />)}
+  </div>
+  <Pagination
+    currentPage={page.currentPage}
+    totalPages={page.lastPage}
+    prevUrl={page.url.prev ? page.url.prev : "/blog"}
+    nextUrl={page.url.next}
+  />
+</BaseLayout>

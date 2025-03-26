@@ -1,0 +1,158 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BreadCrumbs from "../../components/BreadCrumbs.astro";
+import { categoryData } from "../../constants";
+import SubcategoryCard from "../../components/SubcategoryCard.astro";
+
+type Article = CollectionEntry<"blog">;
+
+export async function getStaticPaths() {
+  // get all unique categories from blog posts
+  const allArticles = await getCollection("blog");
+
+  const categories = [
+    ...new Set(allArticles.map((article) => article.data.category)),
+  ];
+
+  // create a path for each category
+  return categories.map((category) => ({
+    params: { category },
+    props: {
+      articles: allArticles.filter(
+        (article) => article.data.category === category,
+      ),
+    },
+  }));
+}
+
+const { category } = Astro.params;
+
+const articles: Article[] = Astro.props.articles;
+
+function groupArticlesBySubcategory(
+  articles: Article[],
+): Record<string, Article[]> {
+  return articles.reduce((acc: Record<string, Article[]>, article: Article) => {
+    const subcategory = article.data.subcategory;
+    if (!acc[subcategory]) {
+      acc[subcategory] = [];
+    }
+    acc[subcategory].push(article);
+    return acc;
+  }, {});
+}
+
+const subcategories = groupArticlesBySubcategory(articles);
+
+// Get category information or provide defaults
+const categoryInfo = categoryData[category as keyof typeof categoryData] || {
+  displayName: category,
+  description: `Articles about ${category}`,
+  subcategoryOrder: Object.keys(subcategories),
+  subcategoryInfo: {},
+};
+
+interface SubcategoryInfo {
+  displayName?: string;
+  icon?: string;
+}
+
+interface CategoryInfo {
+  subcategoryOrder: string[];
+  subcategoryInfo: Record<string, SubcategoryInfo>;
+}
+
+interface SortedSubcategory {
+  name: string;
+  articles: Article[];
+  displayName: string;
+  icon: string;
+}
+
+function sortSubcategories(
+  subcategories: Record<string, Article[]>,
+  categoryInfo: CategoryInfo
+): SortedSubcategory[] {
+  return categoryInfo.subcategoryOrder
+    .filter((key) => subcategories[key])
+    .map((key) => ({
+      name: key,
+      articles: subcategories[key] || [],
+      displayName: categoryInfo.subcategoryInfo[key]?.displayName || key,
+      icon: categoryInfo.subcategoryInfo[key]?.icon || "default",
+    }));
+}
+
+function addRemainingSubcategories(
+  subcategories: Record<string, Article[]>,
+  categoryInfo: CategoryInfo,
+  sortedSubcategories: SortedSubcategory[]
+): void {
+  Object.keys(subcategories)
+    .filter((key) => !categoryInfo.subcategoryOrder.includes(key))
+    .forEach((key) => {
+      sortedSubcategories.push({
+        name: key,
+        articles: subcategories[key],
+        displayName: key,
+        icon: "default",
+      });
+    });
+}
+
+
+const sortedSubcategories = sortSubcategories(subcategories, categoryInfo);
+addRemainingSubcategories(subcategories, categoryInfo, sortedSubcategories);
+
+
+const title = `${categoryInfo.displayName}`;
+const description = categoryInfo.description;
+
+const breadcrumbData = [
+  { label: "Home", href: "/" },
+  {
+    label: categoryInfo.displayName,
+    href: `/${category}`,
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="container mx-auto px-4 py-8">
+    <header class="mb-10 text-center">
+      <BreadCrumbs crumbs={breadcrumbData} />
+      <h1 class="mb-3 text-4xl font-bold">{title}</h1>
+      <p class="mx-auto max-w-2xl text-gray-600">{description}</p>
+    </header>
+  </div>
+
+  <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+    {
+      sortedSubcategories.map((subcategory) => {
+        return (
+          <SubcategoryCard
+            iconName={subcategory.icon}
+            title={subcategory.displayName}
+            articleCount={subcategory.articles.length}
+            href={`/${category}/${subcategory.name}`}
+          />
+        );
+      })
+    }
+  </div>
+
+  {
+    sortedSubcategories.length === 0 && (
+      <div class="rounded-lg bg-gray-50 p-8 text-center">
+        <h3 class="mb-2 text-lg font-medium text-gray-900">
+          No subcategories yet
+        </h3>
+        <p class="text-gray-600">
+          We're currently working on content for this category. Check back soon
+          for updates!
+        </p>
+      </div>
+    )
+  }
+</BaseLayout>

@@ -1,0 +1,36 @@
+---
+
+
+import { getCollection, type CollectionEntry } from "astro:content";
+import { type Page as PageType } from 'astro';
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+
+const title = "Zahrawi | Modern Dentistry Blog";
+const description = "Modern Dentistry Blog";
+
+// const allPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+
+export async function getAllPosts() {
+  const posts = await getCollection("blog");
+  return posts.sort(
+    (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
+      b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+}
+// redirect to /blog/1
+
+type Post = CollectionEntry<'blog'>;
+
+
+const allPosts: CollectionEntry<"blog">[] = await getAllPosts();
+---
+
+<BaseLayout title={title} description={description}>
+  <p>This is where I will post about my journey learning Astro.</p>
+  <div class="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
+    {allPosts.map((post) => <ArticleCard post={post} />)}
+  </div>
+
+</BaseLayout>

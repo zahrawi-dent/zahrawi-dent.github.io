@@ -1,0 +1,152 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const title = "Page Not Found | Zahrawi";
+const description = "404 page not found";
+---
+
+<BaseLayout title={title} description={description}>
+  <main
+    class="flex min-h-[70vh] flex-col items-center justify-center px-4 py-12 text-center"
+  >
+    <div class="mb-8 h-64 w-64">
+      <!-- SVG of a sad tooth -->
+      <svg
+        viewBox="0 0 200 200"
+        class="h-full w-full"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M100 25C85 25 75 35 65 35C55 35 45 30 40 45C35 60 35 75 35 95C35 115 40 145 55 165C70 185 85 185 100 185C115 185 130 185 145 165C160 145 165 115 165 95C165 75 165 60 160 45C155 30 145 35 135 35C125 35 115 25 100 25Z"
+          fill="#F5F5F5"
+          stroke="#6B7280"
+          stroke-width="4"></path>
+        <!-- Sad face -->
+        <circle cx="75" cy="90" r="7" fill="#6B7280"></circle>
+        <circle cx="125" cy="90" r="7" fill="#6B7280"></circle>
+        <path
+          d="M70 130C80 120 120 120 130 130"
+          stroke="#6B7280"
+          stroke-width="4"
+          fill="none"></path>
+      </svg>
+    </div>
+
+    <h1 class="mb-4 text-5xl font-bold text-teal-600">404</h1>
+    <h2 class="mb-6 text-3xl font-semibold text-teal-900">
+      Oops! This page is missing
+    </h2>
+    <p class="mb-8 max-w-lg text-xl text-gray-600">
+      Looks like this page has been extracted! Don't worry, our dental team is
+      on the case.
+    </p>
+
+    <div class="mb-12 space-y-6">
+      <p class="text-lg text-gray-700">You might want to check for:</p>
+      <ul class="mx-auto inline-block text-left text-gray-600">
+        <li class="mb-3 flex items-center">
+          <svg
+            class="mr-2 h-5 w-5 text-teal-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Typos in the URL
+        </li>
+        <li class="mb-3 flex items-center">
+          <svg
+            class="mr-2 h-5 w-5 text-teal-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          An outdated link
+        </li>
+        <li class="flex items-center">
+          <svg
+            class="mr-2 h-5 w-5 text-teal-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          A page that was moved
+        </li>
+      </ul>
+    </div>
+
+    <div class="flex flex-col gap-4 sm:flex-row">
+      <a
+        href="/"
+        class="rounded-lg bg-teal-500 px-6 py-3 font-medium text-black transition-colors hover:bg-teal-700"
+      >
+        Return Home
+      </a>
+      <a
+        href="/blog"
+        class="rounded-lg bg-gray-200 px-6 py-3 font-medium text-gray-800 transition-colors hover:bg-gray-300"
+      >
+        Browse Articles
+      </a>
+    </div>
+
+    <!-- Astro Island for search functionality -->
+    <div class="mt-16 w-full max-w-md" transition:animate="slide">
+      <div class="rounded-lg bg-indigo-50 p-6 shadow-sm">
+        <h3 class="mb-4 text-xl font-semibold text-gray-800">
+          Looking for something?
+        </h3>
+        <form id="search-form" class="flex gap-2" action="/search">
+          <input
+            type="text"
+            id="search-input"
+            name="q"
+            placeholder="Search our blog..."
+            class="flex-grow rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+          />
+          <button
+            type="submit"
+            class="rounded-lg bg-teal-600 px-4 py-2 text-white transition-colors hover:bg-teal-700"
+          >
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Client-side JavaScript for handling the search form
+    document.addEventListener("DOMContentLoaded", () => {
+      const searchForm = document.getElementById("search-form");
+      const searchInput = document.getElementById("search-input");
+
+      searchForm?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const searchTerm = searchInput?.value.trim();
+        if (searchTerm) {
+          window.location.href = `/search?q=${encodeURIComponent(searchTerm)}`;
+        }
+      });
+    });
+  </script>
+</BaseLayout>

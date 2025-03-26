@@ -1,0 +1,383 @@
+---
+category: "Endodontics". Zod type enum
+tags: ['shaping',]
+- has special css for category, tags
+
+
+---
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const tags = new Set(posts.flatMap(post => post.data.tags || []));
+  return Array.from(tags).map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+const posts = await getCollection('blog', ({ data }) => {
+  return data.tags?.includes(tag);
+});
+---
+
+<html>
+  <body>
+    <h1>Posts tagged: {tag}</h1>
+    <!-- Render posts list -->
+  </body>
+</html>
+
+---
+<!-- Post Content -->
+<div class="prose lg:prose-lg max-w-none px-6 py-8">
+  <p class="text-lg font-medium text-gray-900 mb-4">
+    Regular dental check-ups are essential not just for maintaining your oral health, but also for your overall
+    well-being. Despite this, many people still avoid visiting their dentist regularly.
+  </p>
+
+  <p>
+    Most dental professionals recommend visiting your dentist every six months for a routine check-up and cleaning.
+    These regular visits allow your dentist to monitor your oral health, identify potential issues early, and provide
+    necessary preventive care.
+  </p>
+
+  <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Why Regular Dental Check-ups Matter</h2>
+
+  <p>
+    Regular dental check-ups are crucial for several reasons:
+  </p>
+
+  <ul class="list-disc pl-6 mb-6">
+    <li class="mb-2">
+      <strong>Early Detection of Dental Problems:</strong> Issues like cavities, gum disease, and even oral cancer can
+      be identified in their early stages when they're easier and less expensive to treat.
+    </li>
+    <li class="mb-2">
+      <strong>Professional Cleaning:</strong> Even with diligent brushing and flossing, plaque and tartar can build up
+      in hard-to-reach areas. Professional cleaning removes these deposits, helping to prevent decay and gum disease.
+    </li>
+    <li class="mb-2">
+      <strong>Personalized Oral Health Advice:</strong> Your dentist can provide tailored recommendations for your
+      specific oral health needs, including proper brushing and flossing techniques.
+    </li>
+    <li class="mb-2">
+      <strong>Connection to Overall Health:</strong> Many systemic health conditions, such as diabetes and heart
+      disease, can have oral manifestations. Regular dental check-ups can help detect these signs early.
+    </li>
+  </ul>
+
+  <figure class="my-8">
+    <img src="/api/placeholder/800/400" alt="Dental Check-up" class="w-full rounded-lg">
+    <figcaption class="text-sm text-gray-500 mt-2 text-center">A routine dental check-up includes an examination and
+      professional cleaning.</figcaption>
+  </figure>
+
+  <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">What to Expect During a Dental Check-up</h2>
+
+  <p>
+    A typical dental check-up consists of several components:
+  </p>
+
+  <h3 class="text-xl font-semibold text-gray-900 mt-6 mb-3">1. Dental Examination</h3>
+  <p>
+    Your dentist will examine your teeth, gums, and mouth for signs of problems. This may include:
+  </p>
+  <ul class="list-disc pl-6 mb-4">
+    <li>Checking for cavities and decay</li>
+    <li>Evaluating your gum health</li>
+    <li>Examining your tongue, throat, face, and neck</li>
+    <li>Looking for signs of oral cancer</li>
+  </ul>
+
+  <h3 class="text-xl font-semibold text-gray-900 mt-6 mb-3">2. Professional Cleaning</h3>
+  <p>
+    A dental hygienist will clean your teeth, which typically involves:
+  </p>
+  <ul class="list-disc pl-6 mb-4">
+    <li>Removing plaque and tartar build-up</li>
+    <li>Polishing your teeth</li>
+    <li>Flossing between your teeth</li>
+    <li>Reviewing proper brushing and flossing techniques</li>
+  </ul>
+
+  <h3 class="text-xl font-semibold text-gray-900 mt-6 mb-3">3. X-rays (if necessary)</h3>
+  <p>
+    Dental X-rays are not typically taken at every check-up but may be recommended periodically to detect issues not
+    visible during a regular examination.
+  </p>
+
+  <blockquote class="border-l-4 border-teal-500 pl-4 italic my-8">
+    "Prevention is better than cure. Regular dental check-ups are an investment in your future health and can save you
+    from painful and expensive dental procedures down the line."
+  </blockquote>
+
+  <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">How to Prepare for Your Dental Check-up</h2>
+
+  <p>
+    To get the most out of your dental check-up, here are a few tips:
+  </p>
+
+  <ul class="list-disc pl-6 mb-6">
+    <li class="mb-2">
+      <strong>Brush and floss beforehand:</strong> While the hygienist will clean your teeth, it's still good practice
+      to brush and floss before your appointment.
+    </li>
+    <li class="mb-2">
+      <strong>Make a list of questions or concerns:</strong> If you've been experiencing any dental issues or have
+      questions about oral health practices, write them down to discuss with your dentist.
+    </li>
+    <li class="mb-2">
+      <strong>Update your medical history:</strong> Inform your dentist about any new medications, health conditions, or
+      allergies.
+    </li>
+    <li class="mb-2">
+      <strong>Arrive early:</strong> Give yourself enough time to complete any necessary paperwork, especially if it's
+      your first visit.
+    </li>
+  </ul>
+
+  <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Conclusion</h2>
+
+  <p>
+    Regular dental check-ups are a crucial part of maintaining good oral health and preventing serious dental problems.
+    By visiting your dentist every six months, you can ensure that any potential issues are caught early, saving you
+    time, money, and discomfort in the long run.
+  </p>
+
+  <p>
+    Remember, your oral health is an important component of your overall well-being. Don't wait until you're
+    experiencing pain or discomfort to schedule that dental appointment. Make regular check-ups a priority in your
+    healthcare routine.
+  </p>
+</div>
+---
+## Author and image
+<div class="mt-6 flex items-center">
+  <div class="flex-shrink-0">
+    <img class="h-10 w-10 rounded-full" src="/api/placeholder/100/100" alt="Author" />
+  </div>
+  <div class="ml-3">
+    <p class="text-sm font-medium text-gray-900">
+      {post.author}
+    </p>
+    <div class="flex space-x-1 text-sm text-gray-500">
+      <time datetime="2025-03-10">Mar 10, 2025</time>
+      <span aria-hidden="true">&middot;</span>
+      <span>6 min read</span>
+    </div>
+  </div>
+</div>
+---
+
+<article class="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+  {post.data.image && (
+  <div class="aspect-video overflow-hidden">
+    <img src={post.data.image} alt={`Cover image for ${post.data.title}`} class="w-full h-full object-cover" />
+  </div>
+  )}
+  <div class="p-5">
+    <div class="text-sm text-gray-500 mb-2">
+      {post.data.pubDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      })}
+      {post.data.author && ` • ${post.data.author}`}
+    </div>
+    <h2 class="text-xl font-semibold mb-3">{post.data.title}</h2>
+    {post.data.excerpt && (
+    <p class="text-gray-600 mb-4">{post.data.excerpt}</p>
+    )}
+    <a href={`/blog/endo/${post.slug}`} class="inline-block text-blue-600 font-medium hover:underline">
+      Read more →
+    </a>
+  </div>
+</article>
+---
+// <BaseLayout title={frontmatter.title} description={frontmatter.description}>
+  // <p>{frontmatter.pubDate.toLocaleDateString()}</p>
+  // <p><em>{frontmatter.description}</em></p>
+  // <p>Written by: {frontmatter.author}</p>
+  // <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
+  //
+  // <div class="tags">
+    // {
+    // frontmatter.tags.map((tag: string) => (
+    // <p class="tag">
+      // <a href={`/tags/${tag}`}>{tag}</a>
+      // </p>
+    // ))
+    // }
+    // </div>
+  //
+  //
+  <slot />
+  //
+</BaseLayout>
+// <style>
+  //   a {
+  //     color: #00539f;
+  //   }
+  // 
+  //   .tags {
+  //     display: flex;
+  //     flex-wrap: wrap;
+  //   }
+  // 
+  //   .tag {
+  //     margin: 0.25em;
+  //     border: dotted 1px #a1a1a1;
+  //     border-radius: 0.5em;
+  //     padding: 0.5em 1em;
+  //     font-size: 1.15em;
+  //     background-color: #f8fcfd;
+  //   }
+  // 
+</style>
+---
+<!-- <header class="bg-white shadow-md sticky top-0 z-50"> -->
+<!--   <div class="container mx-auto px-4"> -->
+<!--     <div class="flex justify-between items-center py-4"> -->
+<!--       <a href="/" class="flex items-center space-x-3"> -->
+<!--         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center"> -->
+<!--           <span class="text-white font-bold text-xl">Z</span> -->
+<!--         </div> -->
+<!--         <span class="text-2xl font-bold text-indigo-900">Zahrawi</span> -->
+<!--       </a> -->
+<!--        -->
+<!--       <!-- Desktop Navigation --> -->
+<!--       <nav class="hidden md:flex space-x-6"> -->
+<!--         {navItems.map(item => ( -->
+<!--           <a  -->
+<!--             href={item.url}  -->
+<!--             class={`font-medium transition duration-300 ${currentPath === item.url ? 'text-indigo-600' : 'text-gray-700 hover:text-indigo-600'}`} -->
+<!--           > -->
+<!--             {item.label} -->
+<!--           </a> -->
+<!--         ))} -->
+<!--       </nav> -->
+<!--        -->
+<!--       <!-- Mobile Navigation Button --> -->
+<!--       <button id="mobile-menu-button" class="md:hidden flex items-center text-gray-700"> -->
+<!--         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> -->
+<!--           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /> -->
+<!--         </svg> -->
+<!--       </button> -->
+<!--     </div> -->
+<!--      -->
+<!--     <!-- Mobile Navigation Menu --> -->
+<!--     <div id="mobile-menu" class="md:hidden hidden pb-4"> -->
+<!--       <nav class="flex flex-col space-y-4"> -->
+<!--         {navItems.map(item => ( -->
+<!--           <a  -->
+<!--             href={item.url}  -->
+<!--             class={`font-medium transition duration-300 ${currentPath === item.url ? 'text-indigo-600' : 'text-gray-700 hover:text-indigo-600'}`} -->
+<!--           > -->
+<!--             {item.label} -->
+<!--           </a> -->
+<!--         ))} -->
+<!--       </nav> -->
+<!--     </div> -->
+<!--   </div> -->
+<!-- </header> -->
+<!---->
+<!-- <script> -->
+<!--   // Mobile menu toggle -->
+<!--   const mobileMenuButton = document.getElementById('mobile-menu-button'); -->
+<!--   const mobileMenu = document.getElementById('mobile-menu'); -->
+<!--    -->
+<!--   if (mobileMenuButton && mobileMenu) { -->
+<!--     mobileMenuButton.addEventListener('click', () => { -->
+<!--       mobileMenu.classList.toggle('hidden'); -->
+<!--     }); -->
+<!--   } -->
+<!-- </script> -->
+
+
+
+
+<!-- JavaScript for the mobile menu toggle -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Get the mobile menu button and mobile menu elements
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuClosedIcon = document.getElementById('menu-closed-icon');
+    const menuOpenIcon = document.getElementById('menu-open-icon');
+
+    // Add click event listener to the mobile menu button
+    mobileMenuButton.addEventListener('click', function () {
+      // Toggle the mobile menu visibility
+      mobileMenu.classList.toggle('hidden');
+
+      // Toggle the menu icons
+      menuClosedIcon.classList.toggle('hidden');
+      menuOpenIcon.classList.toggle('hidden');
+
+      // Update the aria-expanded attribute
+      const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
+      mobileMenuButton.setAttribute('aria-expanded', !expanded);
+    });
+
+    // Close mobile menu when clicking on navigation links
+    const mobileNavLinks = mobileMenu.querySelectorAll('a');
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', function () {
+        // Hide the mobile menu
+        mobileMenu.classList.add('hidden');
+
+        // Reset the menu button icon
+        menuClosedIcon.classList.remove('hidden');
+        menuOpenIcon.classList.add('hidden');
+
+        // Update aria-expanded attribute
+        mobileMenuButton.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Close mobile menu when screen resizes to larger than mobile breakpoint
+    window.addEventListener('resize', function () {
+      if (window.innerWidth >= 640) { // sm breakpoint in Tailwind
+        mobileMenu.classList.add('hidden');
+        menuClosedIcon.classList.remove('hidden');
+        menuOpenIcon.classList.add('hidden');
+        mobileMenuButton.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+</script>
+
+
+
+<div>
+  <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+    Content
+  </h3>
+  <ul role="list" class="mt-4 space-y-4">
+    <li>
+      <a href="#" class="text-base text-gray-300 hover:text-white transition-colors duration-300">
+        Latest Articles
+      </a>
+    </li>
+    <li>
+      <a href="#" class="text-base text-gray-300 hover:text-white transition-colors duration-300">
+        Popular Topics
+      </a>
+    </li>
+    <li>
+      <a href="#" class="text-base text-gray-300 hover:text-white transition-colors duration-300">
+        Featured Stories
+      </a>
+    </li>
+    <li>
+      <a href="#" class="text-base text-gray-300 hover:text-white transition-colors duration-300">
+        Dental Tips
+      </a>
+    </li>
+    <li>
+      <a href="#" class="text-base text-gray-300 hover:text-white transition-colors duration-300">
+        Video Library
+      </a>
+    </li>
+  </ul>
+</div>
+---

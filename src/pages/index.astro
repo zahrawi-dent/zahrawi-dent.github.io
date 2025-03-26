@@ -1,0 +1,102 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CategoryCard from "../components/CategoryCard.astro";
+import { categoryData, iconMap } from "@/constants";
+import { getCollection } from "astro:content";
+import SearchComponent from '../components/SearchComponent.tsx'
+
+// get all unique categories from blog posts
+const allArticles = await getCollection("blog");
+const categories = [
+  ...new Set(allArticles.map((article) => article.data.category)),
+];
+
+// const categoriesInfo = [
+//   {
+//     title: "Endodontics",
+//     description: "Comprehensive guides to maintaining optimal dental wellness",
+//     icon: "tooth",
+//     color: "text-blue-400",
+//   },
+//   {
+//     title: "Anatomy",
+//     description:
+//       "Explore latest trends in smile transformation and aesthetic procedures",
+//     icon: "sparkle",
+//     color: "text-purple-400",
+//   },
+//   {
+//     title: "Restorative",
+//     description: "Cutting-edge innovations reshaping modern dental care",
+//     icon: "microscope",
+//     color: "text-green-400",
+//   },
+//   {
+//     title: "Patient Care",
+//     description:
+//       "Compassionate insights into dental anxiety and patient experience",
+//     icon: "heart",
+//     color: "text-red-400",
+//   },
+//   {
+//     title: "Professional Insights",
+//     description: "Expert perspectives from leading dental professionals",
+//     icon: "stethoscope",
+//     color: "text-yellow-400",
+//   },
+// ];
+
+const title = "Zahrawi Dental Blog";
+const description =
+  "Empowering patients and professionals with cutting-edge dental knowledge and insights";
+
+
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="min-h-screen bg-gray-900 text-white">
+    <div class="container mx-auto px-4 py-16">
+      <header class="mb-16 text-center">
+        <h1
+          class="mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-5xl font-bold text-transparent"
+        >
+          Zahrawi Dental Blog
+        </h1>
+        <p class="mx-auto max-w-2xl text-xl text-gray-300">
+          {description}
+        </p>
+      </header>
+
+      <section class="grid gap-8 md:grid-cols-3">
+        {
+          categories.map((category) => {
+            const categoryInfo =
+              categoryData[category as keyof typeof categoryData];
+            return (
+              <CategoryCard
+                title={categoryInfo.displayName}
+                description={categoryInfo.description}
+                icon={iconMap[categoryInfo.icon]},
+                color="text-blue-400"
+                href={`/${category}`}
+              />
+            );
+          })
+        }
+      </section>
+
+      <div class="mt-16 text-center">
+        <a
+          href="/subscribe"
+          class="rounded-full bg-gradient-to-r from-blue-500 to-purple-600 px-8 py-3 text-lg font-bold transition-all hover:from-blue-600 hover:to-purple-700"
+        >
+          Subscribe for Latest Insights
+        </a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Additional custom styles if needed */
+</style>

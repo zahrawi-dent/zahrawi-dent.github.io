@@ -1,0 +1,72 @@
+---
+import { Icon } from 'astro-icon/components';
+import {formatDate,getReadingTime} from '../utils'
+
+import {type ArticleType} from '../types.ts'
+import BookmarkButton  from './BookmarkButton.tsx';
+
+
+interface Props {
+  articles: ArticleType[];
+}
+
+const { articles } = Astro.props;
+---
+<div class=" mx-auto px-4 py-6 space-y-6">
+  {articles.map((article, index) => (
+    <article class="group flex flex-col md:flex-row bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 ease-in-out">
+
+      {/* Index  */}
+      <div class="w-12 md:w-16 flex-shrink-0 flex items-center justify-center bg-gray-100 text-gray-600 font-bold text-lg rounded-l-lg ">
+         <span class="md:rounded-none rounded-t-lg ">{index + 1}</span>
+      </div>
+
+
+      {/* Content */}
+      <div class="flex-grow p-6 relative flex flex-col"> 
+
+
+        <div class="absolute top-4 right-4">
+          <BookmarkButton article={article} client:load />
+        </div>
+
+        {/* Title and Excerpt */}
+        <h2 class="text-lg md:text-2xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">
+          <a href=`/${article.id}`>{article.data.title}</a>
+        </h2>
+        <p class="text-gray-600 mb-4 line-clamp-2">{article.data.description}</p>
+
+        {/* Meta Information */}
+        <div class="flex flex-col md:flex-row md:items-center text-sm text-gray-500 space-y-2 md:space-y-0 md:space-x-4">
+          <span>
+            <Icon name="mdi:calendar" class="inline-block w-4 h-4 mr-1 -mt-1" />
+            {formatDate(article.data.pubDate)}
+          </span>
+
+          {article.data.lastUpdated && (
+            <span>
+              <Icon name="mdi:update" class="inline-block w-4 h-4 mr-1 -mt-1" />
+              Updated: {formatDate(article.data.lastUpdated)}
+            </span>
+          )}
+
+          <span>
+            <Icon name="mdi:clock" class="inline-block w-4 h-4 mr-1 -mt-1" />
+            {getReadingTime(article.body!)} min read
+          </span>
+
+          {/* Optional Tags */}
+          {article.data.tags && (
+            <div class="flex flex-wrap gap-2 mt-2 md:mt-0 md:ml-auto">
+              {article.data.tags.map(tag => (
+                <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </article>
+  ))}
+</div>

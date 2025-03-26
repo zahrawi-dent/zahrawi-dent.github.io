@@ -1,0 +1,30 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import Pagination from "../../components/Pagination.astro";
+
+const title = "Zahrawi | Modern Dentistry Blog";
+const description = "Modern Dentistry Blog";
+type Post = CollectionEntry<"blog">;
+
+// Get all posts
+const posts: Post[] = await getCollection("blog");
+// Get first page of posts
+const firstPagePosts = posts.slice(0, 6);
+// Calculate total pages
+const totalPages = Math.ceil(posts.length / 6);
+---
+
+<BaseLayout title={title} description={description}>
+  <h1 class="mb-3 text-4xl font-bold text-teal-900 text-center">Blog</h1>
+  <div class="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
+    {firstPagePosts.map((post) => <ArticleCard post={post} />)}
+  </div>
+  <Pagination
+    currentPage={1}
+    totalPages={totalPages}
+    prevUrl={null}
+    nextUrl={totalPages > 1 ? "/blog/2" : null}
+  />
+</BaseLayout>

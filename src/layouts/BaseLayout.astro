@@ -1,0 +1,63 @@
+---
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+import SideBar from "@/components/SideBar.tsx";
+
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title = "Zahrawi Dental Blog", description } = Astro.props;
+
+// list all available categories
+const allPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+const categories: string[] = [
+  ...new Set(
+    allPosts.map(
+      (post) =>
+        post.data.category.charAt(0).toUpperCase() +
+        post.data.category.slice(1),
+    ),
+  ),
+];
+
+const searchList = allPosts.map((post) => ({
+  title: post.data.title,
+  description: post.data.description,
+  href: `/${post.id}`,
+}));
+
+
+// sort categories alphabetically then capitalize first letter
+categories.sort();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body class="flex min-h-screen flex-col bg-gray-900 text-white">
+    <!-- This div takes up all available space *except* the footer -->
+    <div class="flex flex-grow flex-col lg:flex-row">
+      <SideBar client:load categories={categories} searchList={searchList} />
+
+      <main class="px-4 py-6 pt-16 lg:flex-1 lg:px-8">
+        <slot />
+      </main>
+    </div>
+    <Footer />
+    {/* Footer is now a direct child of body */}
+  </body>
+</html>
+

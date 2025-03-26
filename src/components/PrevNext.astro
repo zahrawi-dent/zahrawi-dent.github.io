@@ -1,0 +1,80 @@
+---
+// src/components/PrevNext.astro
+
+interface Props {
+  prevPost?: {
+    slug: string;
+    title: string;
+    category: string;
+    subcategory: string;
+  };
+  nextPost?: {
+    slug: string;
+    title: string;
+    category: string;
+    subcategory: string;
+  };
+}
+
+const { prevPost, nextPost } = Astro.props;
+---
+
+<nav
+  class="mt-12 flex items-center justify-between border-t border-gray-800 pt-8"
+>
+  {
+    prevPost && (
+      <a
+        href={`/${prevPost.slug}`}
+        class="group flex items-center text-gray-300 transition-colors hover:text-white"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="mr-2 h-5 w-5 transform transition-transform group-hover:-translate-x-1"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+        <div class="flex flex-col">
+          <span class="text-sm text-gray-400">Previous</span>
+          <span class="font-medium">{prevPost.title}</span>
+        </div>
+      </a>
+    )
+  }
+
+  {
+    nextPost && (
+      <a
+        href={`/${nextPost.slug}`}
+        class="group ml-auto flex items-center text-gray-300 transition-colors hover:text-white"
+      >
+        <div class="flex flex-col text-right">
+          <span class="text-sm text-gray-400">Next</span>
+          <span class="font-medium">{nextPost.title}</span>
+        </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="ml-2 h-5 w-5 transform transition-transform group-hover:translate-x-1"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </a>
+    )
+  }
+</nav>

@@ -1,0 +1,17 @@
+{
+  "root-canal": [
+    "root-canal-basics",
+    "root-canal-procedure",
+    "root-canal-aftercare"
+  ],
+  "pulp-therapy": [
+    "pulp-therapy-introduction",
+    "vital-pulp-therapy",
+    "pulpotomy-vs-pulpectomy"
+  ],
+  "isolation": [
+    "The history of the rubber dam",
+    "Advantages of using rubber dam",
+    "Indication For The Rubber Dam"
+  ]
+}

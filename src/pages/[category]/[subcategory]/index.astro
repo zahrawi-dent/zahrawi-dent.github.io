@@ -1,0 +1,69 @@
+---
+import { getCollection } from "astro:content";
+import SectionLayout from "../../../layouts/SectionLayout.astro";
+import { articleSequences } from "../../../content/sequences";
+
+// Generate paths for all categories and subcategories
+export async function getStaticPaths() {
+  const allArticles = await getCollection("blog");
+
+  // Get unique categories
+  const categories = [
+    ...new Set(allArticles.map((article) => article.data.category)),
+  ];
+
+  // Create paths for each category and its subcategories
+  const paths = [];
+
+  for (const category of categories) {
+    // Get all articles for this category
+    const categoryArticles = allArticles.filter(
+      (article) => article.data.category === category,
+    );
+
+    // Get unique subcategories for this category
+    const subcategories = [
+      ...new Set(categoryArticles.map((article) => article.data.subcategory)),
+    ];
+
+    // Create a path for each subcategory
+    for (const subcategory of subcategories) {
+      const subcategoryArticles = categoryArticles.filter(
+        (article) => article.data.subcategory === subcategory,
+      );
+
+      // Get the sequence for this subcategory
+      const sequence = articleSequences[subcategory];
+
+      // Sort articles based on sequence if available
+      const sortedArticles = sequence
+        ? subcategoryArticles.sort((a, b) => {
+            const aIndex = sequence.indexOf(a.data.title);
+            const bIndex = sequence.indexOf(b.data.title);
+            // If article not in sequence, put it at the end
+            if (aIndex === -1) return 1;
+            if (bIndex === -1) return -1;
+            return aIndex - bIndex;
+          })
+        : subcategoryArticles;
+
+      paths.push({
+        params: { category, subcategory },
+        props: { articles: sortedArticles },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { category, subcategory } = Astro.params;
+const articles = Astro.props.articles;
+---
+
+<SectionLayout
+  {category}
+  section={subcategory}
+  articles={articles}
+  currentPage={1}
+/>

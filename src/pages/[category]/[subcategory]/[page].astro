@@ -1,0 +1,62 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import { type Page as PageType } from "astro";
+import SectionLayout from "../../../layouts/SectionLayout.astro";
+import type { ArticleType } from "@/types";
+import { articleSequences } from "../../../content/sequences";
+
+const { category } = Astro.params;
+
+export async function getStaticPaths({ paginate }) {
+  const posts = await getCollection("blog");
+
+  // Get all unique subcategories
+  const subcategories = [
+    ...new Set(posts.map((post) => post.data.subcategory)),
+  ];
+
+  // for each subcategory, create a path for each page
+  return subcategories.flatMap((subcategory) => {
+    // Filter posts by current subcategory
+    const filteredPosts = posts.filter(
+      (post) => post.data.subcategory === subcategory,
+    );
+
+    // get the current category
+    const currentCategory = posts.find(
+      (post) => post.data.subcategory === subcategory,
+    )?.data.category;
+
+    // Get the sequence for this subcategory
+    const sequence = articleSequences[subcategory];
+    
+    // Sort posts based on sequence if available
+    const sortedPosts = sequence 
+      ? filteredPosts.sort((a, b) => {
+          const aIndex = sequence.indexOf(a.data.title);
+          const bIndex = sequence.indexOf(b.data.title);
+          // If article not in sequence, put it at the end
+          if (aIndex === -1) return 1;
+          if (bIndex === -1) return -1;
+          return aIndex - bIndex;
+        })
+      : filteredPosts;
+
+    // Create paginated routes for this subcategory
+    return paginate(sortedPosts, {
+      params: { category: currentCategory, subcategory },
+      pageSize: 6,
+      props: { category: currentCategory, subcategory },
+    });
+  });
+}
+
+// All paginated data is passed on the "page" prop
+const { page } = Astro.props as { page: PageType<ArticleType> };
+const currentPage = parseInt(Astro.params.page as string);
+const subcategory = Astro.props.subcategory
+---
+
+<SectionLayout {category} section={subcategory} articles={page.data} {currentPage}>
+
+</SectionLayout>

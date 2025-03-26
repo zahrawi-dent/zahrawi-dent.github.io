@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from "astro:content";
+import MarkdownPostLayout from "../../../layouts/MarkdownPostLayout.astro";
+import Prose from "../../../components/Prose.astro";
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("blog");
+
+  // Create a path for each post with its category
+  return allPosts.map((post) => {
+    return {
+      params: {
+        category: post.data.category,
+        subcategory: post.data.subcategory,
+        slug: post.id.split("/")[post.id.split("/").length - 1],
+      },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<MarkdownPostLayout post={post}>
+  <Prose>
+    <Content />
+  </Prose>
+</MarkdownPostLayout>

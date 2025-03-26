@@ -1,0 +1,10 @@
+---
+interface Props {
+  error: unknown;
+}
+
+const { error } = Astro.props;
+
+// https://docs.astro.build/en/basics/astro-pages/#custom-500-error-page
+---
+<div>{error instanceof Error ? error.message : "Unknown error"}</div>

@@ -1,0 +1,157 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import BreadCrumbs from "../components/BreadCrumbs.astro";
+import "../styles/markdown.css";
+import PrevNext from "@/components/PrevNext.astro";
+import TableOfContents from "../components/Toc.tsx";
+import { formatDate, getReadingTime, getPrevNextPosts } from "../utils";
+import { getCollection } from "astro:content";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const frontmatter = post.data;
+
+// Get all blog posts
+const allPosts = await getCollection("blog");
+// Get prev/next posts
+const { prevPost, nextPost } = await getPrevNextPosts(allPosts, post);
+
+const breadcrumbData = [
+  { label: "Home", href: "/" },
+  {
+    label:
+      post.data.category.charAt(0).toUpperCase() + post.data.category.slice(1),
+    href: `/${post.data.category}`,
+  },
+  // if title is too long, truncate
+  {
+    label:
+      post.data.title.length > 20
+        ? post.data.title.slice(0, 20) + "..."
+        : post.data.title,
+    href: `/${post.data.category}/${post.id}`,
+  },
+];
+
+const categoryColorClass = `bg-${frontmatter.category.toLowerCase()}-600`;
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+  <div class="container mx-auto flex min-h-1/2 flex-col">
+    <header class="border-b border-gray-800 px-6 py-4">
+      <BreadCrumbs crumbs={breadcrumbData} />
+    </header>
+
+    <div class="flex flex-grow flex-col md:flex-row">
+
+      <div class="flex flex-1 flex-col md:flex-row">
+        <!-- Mobile TOC (shows above article on small screens) -->
+        <div class="mb-4 w-full px-6 pt-6 md:hidden">
+          <div class="pt-4">
+            <TableOfContents client:load />
+          </div>
+        </div>
+
+        <article class="flex-1 lg:p-6 md:p-4">
+          <!-- Hero Section -->
+          <div class="relative h-[50vh] max-h-[600px] min-h-[400px] w-full">
+            <div
+              class="absolute inset-0 z-10 bg-gradient-to-t from-black/70 to-transparent"
+            >
+            </div>
+            <img
+              src={frontmatter.image.url}
+              alt={frontmatter.title}
+              class="h-full w-full object-cover"
+            />
+
+            <div class="absolute right-0 bottom-0 left-0 z-20 p-6">
+              <div class="container mx-auto">
+                <!--Category component-->
+                <div class="mb-3">
+                  <a
+                    href={`/blog/${frontmatter.category.toLowerCase()}`}
+                    class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800"
+                  >
+                    <svg
+                      class="mr-1 h-3 w-3"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                    {frontmatter.category}
+                  </a>
+                </div>
+
+                <!-- tags  component -->
+                <p class="text-sm font-medium text-teal-600">
+                  <!-- iterate over post.tags and display each tag -->
+                  {
+                    frontmatter.tags.map((tag: any) => (
+                      <a
+                        class="mr-2 mb-2 inline-block rounded-md bg-blue-800 px-3 py-1 text-sm font-medium text-white"
+                        href={`/tags/${tag.toLowerCase()}`}
+                      >
+                        {tag}
+                      </a>
+                    ))
+                  }
+                </p>
+
+                <div class="flex items-center text-white">
+                  <div>
+                    <div class="flex items-center text-sm text-gray-300">
+                      <span>{formatDate(post.data.pubDate)}</span>
+                      <span class="mx-2">•</span>
+                      <span class="flex items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="mr-1 h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
+                        </svg>
+                        {getReadingTime(post.body!)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="markdown-content">
+            <slot />
+          </div>
+
+          <PrevNext prevPost={prevPost} nextPost={nextPost} />
+        </article>
+
+        <!-- Desktop TOC (shows on right side for larger screens) -->
+        <aside
+          class="hidden w-full md:block md:w-64 md:border-l md:border-gray-800 md:px-6 md:py-10"
+        >
+          <div class="md:sticky md:top-20 md:mb-40">
+            <TableOfContents client:load />
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,100 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BreadCrumbs from "../components/BreadCrumbs.astro";
+import Pagination from "../components/Pagination.astro";
+import ArticlesList from "../components/ArticlesList.astro";
+import {categoryData,iconMap} from "../constants";
+import type { ArticleType } from "@/types";
+
+
+interface Props {
+  category: string;
+  section: string;
+  articles: ArticleType[];
+  currentPage: number
+}
+
+const { category, section: subcategory,articles ,currentPage } = Astro.props;
+
+
+const subcategoryData = categoryData[category]?.subcategoryInfo[subcategory] || {displayName: subcategory};
+
+const totalPages = Math.ceil(articles.length / 6);
+const pageLimit = 6;
+
+const breadcrumbData = [
+  { label: "Home", href: "/" },
+  {
+    label: categoryData[category]?.displayName || category,
+    href: `/${category}`,
+  },
+  {
+    label: subcategoryData.displayName,
+    href: `/${category}/${subcategory}`,
+  },
+  // if current page > 1, add a link to the current page
+  ...(currentPage > 1
+    ? [
+        {
+          label: `Page ${currentPage}`,
+          href: `/${category}/${subcategory}/${currentPage}`,
+        },
+      ]
+    : []),
+];
+
+
+const icon = iconMap[subcategoryData.icon]
+
+const title = `${subcategoryData.displayName} | Endodontics`;
+const description = subcategoryData.displayName;
+---
+
+<BaseLayout title={`${title} | Zahrawi Dental Blog`} description={description}>
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <header class="mb-8">
+      <BreadCrumbs crumbs={breadcrumbData} />
+
+      <div class="flex items-center space-x-4">
+        {
+          icon && (
+            <div class="h-12 w-12">
+              <Fragment set:html={icon} />
+            </div>
+          )
+        }
+        <div>
+          <h1 class="text-3xl font-bold text-gray-800">{title}</h1>
+          {description && <p class="mt-2 text-gray-600">{description}</p>}
+        </div>
+      </div>
+    </header>
+
+    {
+      articles.length > 0 ? (
+        <div class="container mx-auto px-4 py-8">
+          {/* articles per page 6  */}
+          <ArticlesList articles={articles.slice(0, pageLimit)} />
+        </div>
+      ) : (
+        <div class="rounded-lg bg-gray-50 p-8 text-center">
+          <h3 class="mb-2 text-lg font-medium text-gray-900">
+            No articles yet
+          </h3>
+          <p class="text-gray-600">
+            We're currently working on content for this section. Check back soon
+            for updates!
+          </p>
+        </div>
+      )
+    }
+
+    <Pagination
+      currentPage={1}
+      totalPages={totalPages}
+      prevUrl={null}
+      nextUrl={totalPages > 1 ? `/${category}/${subcategory}/2` : null}
+    />
+  </div>
+</BaseLayout>
+

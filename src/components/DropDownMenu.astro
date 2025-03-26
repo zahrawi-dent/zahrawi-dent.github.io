@@ -1,0 +1,53 @@
+---
+type DropDownItem = {
+  title: string;
+  url: string;
+  items: { title: string; url: string }[];
+};
+
+
+const { dropDownItem } = Astro.props as { dropDownItem: DropDownItem };
+const {title, url, items} = dropDownItem
+---
+<!-- Regular menu items -->
+<li class="menu-item has-submenu">
+  <div
+    class="flex cursor-pointer items-center justify-between rounded-md px-4 py-2 hover:bg-slate-700"
+  >
+    <div class="flex items-center">
+      <a
+        href={url}
+        class="submenu-arrow mr-2 transform transition-transform duration-200"
+        >›</a
+      >
+      {title}
+    </div>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-4 w-4 text-gray-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </div>
+  <ul class="submenu pb-2 pl-6">
+    {
+      items.map((item) => (
+        <li>
+          <a
+            href={item.url}
+            class="block rounded-md px-4 py-2 hover:bg-slate-700"
+          >
+            {item.title}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</li>

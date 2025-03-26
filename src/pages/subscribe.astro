@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterSubscription from '../components/NewsletterSubscription.tsx';
+
+const title = "Subscribe to Zahrawi Dental Blog";
+const description = "Subscribe to our newsletter for the latest dental insights, tips, and breakthroughs.";
+---
+<BaseLayout title={title} description={description}>
+  <NewsletterSubscription client:load />
+
+</BaseLayout>
+

@@ -1,0 +1,47 @@
+---
+import { iconMap } from "../constants";
+
+interface Props {
+  iconName: keyof typeof iconMap; // Ensures type-safety for icon names
+  title: string;
+  articleCount: number; // Or string, if it's not always a number
+  href: string;
+}
+
+const { iconName, title, articleCount, href } = Astro.props as Props;
+
+const svgString = iconMap[iconName];
+if (!svgString) {
+  console.warn(`Icon "${iconName}" not found in iconMap.`); // Helpful debugging
+  // Optionally render a placeholder or error message
+}
+
+---
+<a href={href} class="group block transform transition-transform duration-300 hover:-translate-y-1">
+  <div
+    class:list={[
+      "h-full overflow-hidden rounded-lg border shadow-sm transition-all duration-300",
+      "hover:border-blue-200 hover:bg-blue-50 hover:shadow-md",
+      "bg-white border-gray-200",
+    ]}
+  >
+    <div class="p-6">
+      <div class="mb-4 text-blue-600 group-hover:text-blue-700">
+        {svgString && <Fragment set:html={svgString} />}
+      </div>
+      <h3 class="mb-2 text-xl font-semibold text-gray-900">{title}</h3>
+      <p class="mb-4 text-gray-600">{articleCount} {articleCount === 1 ? 'article' : 'articles'}</p>
+      <div
+        class="flex items-center font-medium text-blue-600 transition-all duration-300 group-hover:translate-x-1 group-hover:text-blue-700"
+      >
+        Explore topic
+        <svg class="ml-1 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fill-rule="evenodd"
+            d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+</a>

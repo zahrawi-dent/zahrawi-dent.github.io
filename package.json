@@ -1,0 +1,43 @@
+{
+  "name": "@example/minimal",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.2.1",
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/solid-js": "^5.0.5",
+    "@astrojs/svelte": "^7.0.7",
+    "@pagefind/default-ui": "^1.3.0",
+    "@philnash/astro-pagination": "^0.5.0",
+    "@solidjs/router": "^0.15.3",
+    "@tailwindcss/vite": "^4.0.14",
+    "astro": "^5.5.3",
+    "astro-icon": "^1.1.5",
+    "astro-pagefind": "^1.8.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "flexsearch": "^0.8.135",
+    "pagefind": "^1.3.0",
+    "solid-js": "^1.9.5",
+    "tailwind-merge": "^3.0.2",
+    "tailwindcss": "^4.0.14",
+    "tw-animate-css": "^1.2.4",
+    "typescript": "^5.8.2"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.2.3",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
+    "i": "^0.3.7",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.11"
+  }
+}

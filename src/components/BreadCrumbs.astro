@@ -1,0 +1,43 @@
+---
+// src/components/Breadcrumbs.astro
+interface Props {
+  crumbs: { label: string; href?: string }[]; //  Make 'href' optional
+}
+
+const { crumbs } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class="mb-4">
+  <ol class="flex items-center space-x-2">
+    {
+      crumbs.map((crumb, index) => (
+        <>
+          {index > 0 && (
+            <li>
+              <span class="text-gray-400">/</span>
+            </li>
+          )}
+          <li>
+            {crumb.href ? (
+              <a
+                href={crumb.href}
+                class:list={[
+                  "text-grey-500 hover:text-grey-700",
+                  { "text-blue-600 ": index === crumbs.length - 1 }, // Style the last crumb differently
+                ]}
+              >
+                {crumb.label}
+              </a>
+            ) : (
+              <span class="text-gray-600">{crumb.label}</span> // No link for the current page
+            )}
+          </li>
+        </>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+    /* Add any custom styles here if needed */
+</style>
