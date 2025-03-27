@@ -4,6 +4,16 @@ import type { Index as FlexSearchIndex } from "flexsearch"; // Import type
 import BookmarksList from "./BookmarkList";
 import type { Item } from "../types";
 
+// <Show when={searchQuery()}>
+//   <button
+//     onClick={() => setSearchQuery("")}
+//     class="p-2 text-gray-400 hover:text-white"
+//     aria-label="Clear search"
+//   >
+//     <CloseIcon />
+//   </button>
+// </Show>
+
 const ChevronDownIcon = () => (
   <svg class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -345,7 +355,6 @@ export default function Sidebar(props: Props) {
   };
   return (
     <div class="flex flex-col lg:flex-row">
-
       {/* Header (Mobile) */}
       <header class="fixed top-0 right-0 left-0 z-40 flex items-center justify-between border-b border-gray-800 bg-gray-900 p-4 lg:hidden">
         <div class="flex items-center">
@@ -364,10 +373,6 @@ export default function Sidebar(props: Props) {
           >
             <SearchIcon />
           </button>
-          {/* MODIFIED: Hide completely below lg breakpoint */}
-          <Kbd class="hidden" aria-hidden="true"> {/* <-- Just 'hidden' */}
-            /
-          </Kbd>
           <button
             onClick={toggleMobileMenu}
             class="rounded-full p-2 text-gray-300 hover:bg-gray-800"
@@ -389,7 +394,6 @@ export default function Sidebar(props: Props) {
         >
           <div class="mx-auto mt-16 max-w-2xl rounded-lg bg-gray-800 shadow-xl" onClick={(e) => e.stopPropagation()}>
             <div class="relative flex items-center border-b border-gray-700 p-4">
-              {/* ... input, icons, cancel button ... */}
               <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center pl-4">
                 <SearchIcon />
               </div>
@@ -403,21 +407,15 @@ export default function Sidebar(props: Props) {
                 aria-label="Search Input"
                 aria-controls="search-results-list"
               />
-              <Show when={searchQuery()}>
+              <div class="absolute right-3 flex items-center gap-2">
                 <button
-                  onClick={() => setSearchQuery("")}
-                  class="absolute inset-y-0 right-[calc(3.5rem+8px)] p-2 text-gray-400 hover:text-white"
-                  aria-label="Clear search"
+                  onClick={toggleSearch}
+                  class="px-3 py-2 text-sm font-medium text-indigo-400 hover:text-indigo-300"
+                  aria-label="Close search"
                 >
-                  <CloseIcon />
+                  Cancel
                 </button>
-              </Show>
-              <button
-                onClick={toggleSearch}
-                class="absolute right-3 px-3 py-2 text-sm font-medium text-indigo-400 hover:text-indigo-300"
-              >
-                Cancel
-              </button>
+              </div>
             </div>
             {/* Keyboard Hints - MODIFIED: Add hidden lg:flex */}
             <div
