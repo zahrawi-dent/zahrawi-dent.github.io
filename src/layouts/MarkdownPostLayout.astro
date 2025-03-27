@@ -7,6 +7,7 @@ import PrevNext from "@/components/PrevNext.astro";
 import TableOfContents from "../components/Toc.tsx";
 import { formatDate, getReadingTime, getPrevNextPosts } from "../utils";
 import { getCollection } from "astro:content";
+import CommentsSection from "@/components/CommentsSection";
 
 interface Props {
   post: CollectionEntry<"blog">;
@@ -141,6 +142,7 @@ const categoryColorClass = `bg-${frontmatter.category.toLowerCase()}-600`;
           </div>
 
           <PrevNext prevPost={prevPost} nextPost={nextPost} />
+          <CommentsSection client:only='solid-js' />
         </article>
 
         <!-- Desktop TOC (shows on right side for larger screens) -->
