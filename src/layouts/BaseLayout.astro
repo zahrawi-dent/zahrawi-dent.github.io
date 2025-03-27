@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from "astro:transitions";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 
@@ -47,7 +46,6 @@ categories.sort();
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
-    <ClientRouter />
   </head>
   <body class="flex min-h-screen flex-col bg-gray-900 text-white">
     <!-- This div takes up all available space *except* the footer -->
