@@ -92,7 +92,7 @@ const createCategoryNavItems = (titles: string[]): NavItem[] =>
     const slug = title.toLowerCase().replace(/\s+/g, "-");
     return {
       title: title,
-      href: `/categories/${slug}`, // Example path structure
+      href: `/${slug}`, // Example path structure
     };
   });
 

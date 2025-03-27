@@ -8,6 +8,7 @@ import TableOfContents from "../components/Toc.tsx";
 import { formatDate, getReadingTime, getPrevNextPosts } from "../utils";
 import { getCollection } from "astro:content";
 import CommentsSection from "@/components/CommentsSection";
+import EditSuggestion from "@/components/EditSuggestion.astro";
 
 interface Props {
   post: CollectionEntry<"blog">;
@@ -37,6 +38,7 @@ const breadcrumbData = [
     href: `/${post.data.category}/${post.id}`,
   },
 ];
+console.log(post)
 
 const categoryColorClass = `bg-${frontmatter.category.toLowerCase()}-600`;
 ---
@@ -142,7 +144,11 @@ const categoryColorClass = `bg-${frontmatter.category.toLowerCase()}-600`;
           </div>
 
           <PrevNext prevPost={prevPost} nextPost={nextPost} />
-          <CommentsSection client:only='solid-js' />
+
+
+      <EditSuggestion filePath={post.filePath} />
+            <CommentsSection client:only='solid-js' />
+
         </article>
 
         <!-- Desktop TOC (shows on right side for larger screens) -->

@@ -1,0 +1,17 @@
+---
+// EditSuggestion.astro
+const { filePath } = Astro.props;
+
+// Construct GitHub edit URL
+// Replace 'your-username' and 'your-blog-repo' with your actual GitHub username and repository name
+const githubEditUrl = `https://github.com/zahrawi-dent/zahrawi-dent.github.io/edit/main/${filePath}`;
+---
+
+<a
+  href={githubEditUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="inline-flex items-center gap-2 text-current opacity-70 transition-opacity duration-200 hover:opacity-100"
+>
+  ✎ Edit page
+</a>
