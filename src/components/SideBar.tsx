@@ -359,7 +359,9 @@ export default function Sidebar(props: Props) {
       <header class="fixed top-0 right-0 left-0 z-40 flex items-center justify-between border-b border-gray-800 bg-gray-900 p-4 lg:hidden">
         <div class="flex items-center">
           <div class="mr-2 text-teal-300">
-            <ZahrawiIcon />
+            <a href="/">
+              <ZahrawiIcon />
+            </a>
           </div>
           <a href="/" class="block text-xl font-bold text-white">
             Zahrawi
@@ -508,7 +510,9 @@ export default function Sidebar(props: Props) {
         {/* Desktop Header */}
         <div class="hidden items-center border-b border-gray-800 p-4 lg:flex">
           <div class="mr-2 text-teal-300">
-            <ZahrawiIcon />
+            <a href="/">
+              <ZahrawiIcon />
+            </a>
           </div>
           <a href="/" class="text-xl font-bold text-white">
             Zahrawi

@@ -20,23 +20,15 @@ export default defineConfig({
 
   markdown: {},
   redirects: {},
+  prefetch: {
+    prefetchAll: true,
+  },
 
   vite: {
     plugins: [tailwindcss()],
     resolve: {
       alias: {
         "@": "/src",
-      },
-    },
-  },
-
-  // Configure content collections
-  content: {
-    sources: {
-      blog: {
-        contentDir: `${BLOG_CONTENT_PATH}/content`,
-        // Exclude _images directories and their contents
-        exclude: ['**/_images/**'],
       },
     },
   },

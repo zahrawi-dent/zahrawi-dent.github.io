@@ -6,10 +6,9 @@ import { formatDate, getReadingTime } from '../utils';
 interface Props {
   post: CollectionEntry<"blog">;
   featured?: boolean;
-  baseUrl: string;
 }
 
-const { post, featured = false , baseUrl} = Astro.props;
+const { post, featured = false } = Astro.props;
 const data  = post.data;
 const readingTime = post.body ? getReadingTime(post.body) : 0;
 
@@ -29,7 +28,7 @@ const categoryColor = "blue";
 ---
 
 <article class={`group flex flex-col rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl ${featured ? 'md:col-span-2 lg:flex-row' : ''}`}>
-  <a href={`${baseUrl}/${post.id}`} class={`block overflow-hidden ${featured ? 'lg:w-1/2' : ''}`}>
+  <a href={`$/${post.id}`} class={`block overflow-hidden ${featured ? 'lg:w-1/2' : ''}`}>
     <img
       class="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
       src={data.image.url || "/api/placeholder/600/400"}
@@ -81,7 +80,7 @@ const categoryColor = "blue";
       </div>
 
       <!-- Title and description -->
-      <a href={`${baseUrl}/${post.id}`} class="group-hover:text-primary-600">
+      <a href={`/${post.id}`} class="group-hover:text-primary-600">
         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 transition-colors group-hover:text-primary-600">
           {data.title}
         </h3>
