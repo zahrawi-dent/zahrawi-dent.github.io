@@ -1,5 +1,6 @@
 import { createSignal, createEffect, For, Show, onMount, onCleanup, createMemo } from "solid-js";
 import { isServer } from "solid-js/web";
+import type { Index as FlexSearchIndex } from "flexsearch"; // Import type
 import BookmarksList from "./BookmarkList";
 import type { Item } from "../types";
 

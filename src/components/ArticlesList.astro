@@ -27,7 +27,7 @@ const { articles } = Astro.props;
 
 
         <div class="absolute top-4 right-4">
-          <BookmarkButton article={article} client:load />
+          <BookmarkButton article={article}  client:only='solid-js' />
         </div>
 
         {/* Title and Excerpt */}

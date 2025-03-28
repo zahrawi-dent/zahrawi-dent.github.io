@@ -34,7 +34,7 @@ export default function BookmarksList() {
                 </a>
                 <button
                   onClick={[handleDelete, article.id]} // Pass only the ID
-                  class="absolute top-2 right-2 p-2 text-gray-400 opacity-0 transition-colors group-hover:opacity-100 hover:text-red-500"
+                  class="absolute top-2 right-2 p-2 text-red-500 opacity-60 transition-colors hover:opacity-100 cursor-pointer"
                   aria-label="Delete bookmark"
                 >
                   <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
