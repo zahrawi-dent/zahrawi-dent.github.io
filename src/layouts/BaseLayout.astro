@@ -4,6 +4,8 @@ import "../styles/global.css";
 
 import SideBar from "@/components/SideBar.tsx";
 
+import SideBarFindpage from "@/components/SideBarFindpage.tsx";
+
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 
@@ -50,7 +52,7 @@ categories.sort();
   <body class="flex min-h-screen flex-col bg-gray-900 text-white">
     <!-- This div takes up all available space *except* the footer -->
     <div class="flex flex-grow flex-col lg:flex-row">
-      <SideBar client:load categories={categories} searchList={searchList} />
+      <SideBarFindpage categories={categories} client:load/>
 
       <main class="px-4 py-6 pt-16 lg:flex-1 lg:px-8">
         <slot />

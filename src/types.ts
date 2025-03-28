@@ -24,6 +24,7 @@ export interface BookmarkArticle {
 }
 
 export interface Item {
+  id: string;
   title: string;
   description: string;
   href: string;

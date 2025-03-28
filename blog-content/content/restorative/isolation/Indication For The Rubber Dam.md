@@ -11,5 +11,4 @@ pubDate: 2022-08-08
 lastUpdated: 2022-08-08
 tags: ["Rubber Dam", "Isolation"]
 ---
-
-
+# Indication For The Rubber Dam

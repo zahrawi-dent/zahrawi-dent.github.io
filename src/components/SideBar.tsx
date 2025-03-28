@@ -1,6 +1,5 @@
 import { createSignal, createEffect, For, Show, onMount, onCleanup, createMemo } from "solid-js";
 import { isServer } from "solid-js/web";
-import type { Index as FlexSearchIndex } from "flexsearch"; // Import type
 import BookmarksList from "./BookmarkList";
 import type { Item } from "../types";
 
@@ -117,10 +116,6 @@ export default function Sidebar(props: Props) {
   const [activeNavItem, setActiveNavItem] = createSignal<string>("/");
   const [openedCategory, setOpenedCategory] = createSignal<string | null>(null);
 
-  // FlexSearch Index Signals (Typed)
-  const [titleIndex, setTitleIndex] = createSignal<FlexSearchIndex<number> | null>(null);
-  const [descriptionIndex, setDescriptionIndex] = createSignal<FlexSearchIndex<number> | null>(null);
-
   // Search Results - Initialized with the full list
   const [searchResults, setSearchResults] = createSignal<Item[]>(props.searchList || []);
 
@@ -144,49 +139,6 @@ export default function Sidebar(props: Props) {
 
   // --- Effects ---
 
-  // Initialize FlexSearch
-  onMount(async () => {
-    // Guard against running heavy logic unnecessarily
-    if (isServer || !props.searchList || props.searchList.length === 0) return;
-
-    try {
-      // Dynamically import FlexSearch on the client
-      const FlexSearch = (await import("flexsearch")).default;
-
-      // Create indexes
-      const titleIdx = new FlexSearch.Index<number>({
-        preset: "match",
-        tokenize: "forward",
-        // Consider adding context for better relevance: context: true, resolution: 9
-      });
-      const descriptionIdx = new FlexSearch.Index<number>({
-        preset: "match",
-        tokenize: "forward",
-        // Consider adding context: context: true, resolution: 9
-      });
-
-      // Add items to the indexes
-      props.searchList.forEach((item, idx) => {
-        if (item && item.title) {
-          // Add checks for data integrity
-          titleIdx.add(idx, item.title);
-        }
-        if (item && item.description) {
-          descriptionIdx.add(idx, item.description);
-        }
-      });
-
-      // Store indexes in signals
-      setTitleIndex(titleIdx);
-      setDescriptionIndex(descriptionIdx);
-
-      console.log("FlexSearch indexes initialized.");
-    } catch (error) {
-      console.error("Failed to initialize FlexSearch:", error);
-      // Handle initialization error (e.g., show a message)
-    }
-  });
-
   // Update active nav item based on current path (on initial load)
   // Note: This doesn't handle client-side navigation updates automatically.
   // Astro's link components might offer better active state handling.
@@ -209,11 +161,9 @@ export default function Sidebar(props: Props) {
   // Perform Search when debounced query changes
   createEffect(() => {
     const term = debouncedSearchQuery().trim();
-    const tIndex = titleIndex();
-    const dIndex = descriptionIndex();
 
-    // Ensure indexes are ready and list exists
-    if (isServer || !tIndex || !dIndex || !props.searchList) {
+    // Ensure list exists
+    if (isServer || !props.searchList) {
       setSearchResults(props.searchList || []); // Reset or show initial list
       return;
     }
@@ -224,15 +174,13 @@ export default function Sidebar(props: Props) {
       return;
     }
 
-    // Perform search on both indexes
-    const titleResults = tIndex.search(term) as number[]; // Cast result if needed
-    const descResults = dIndex.search(term) as number[];
-
-    // Combine and deduplicate result indexes
-    const resultIndexes = [...new Set([...titleResults, ...descResults])];
-
-    // Map indexes back to original items from props.searchList
-    const results = resultIndexes.map((idx) => props.searchList[idx]).filter((item) => !!item); // Filter out potential undefined items if indexes are somehow out of sync
+    // Perform search on the list
+    const results = props.searchList.filter((item) => {
+      if (item && item.title) {
+        return item.title.toLowerCase().includes(term.toLowerCase());
+      }
+      return false;
+    });
 
     setSearchResults(results);
     setSelectedIndex(results.length > 0 ? 0 : -1); // Reset selection index
@@ -445,54 +393,58 @@ export default function Sidebar(props: Props) {
                 fallback={
                   <div class="py-4 text-center text-gray-400">
                     Start typing to search...
-                    {/* MODIFIED: Wrap Kbd hints in span hidden below lg */}
-                    <span class="hidden lg:inline">
-                      {" "}
-                      Press <Kbd>/</Kbd> to search, <Kbd>Esc</Kbd> to close.
-                    </span>
                   </div>
                 }
               >
-                <div class="mb-2 text-sm text-gray-400">
-                  {searchResults().length} {searchResults().length === 1 ? "result" : "results"} for "
-                  {debouncedSearchQuery()}"
-                </div>
                 <Show
-                  when={searchResults().length > 0}
-                  fallback={<div class="py-4 text-center text-gray-400">No results found.</div>}
-                >
-                  <div class="space-y-1">
-                    <For each={searchResults()}>
-                      {(item, index) => (
-                        <a
-                          href={item.href}
-                          role="option"
-                          aria-selected={index() === selectedIndex()}
-                          data-result-index={index()}
-                          class={`block rounded-lg p-3 transition-colors duration-150 ${
-                            index() === selectedIndex()
-                              ? "bg-indigo-600 text-white"
-                              : "bg-gray-700 text-gray-200 hover:bg-gray-600"
-                          }`}
-                          onClick={() => {
-                            setIsSearchOpen(false);
-                          }}
-                          onMouseEnter={() => setSelectedIndex(index())}
-                        >
-                          <div class="flex items-center gap-3">
-                            <FileIcon />
-                            <span class="font-medium">{item.title}</span>
-                          </div>
-                          <Show when={item.description}>
-                            <div
-                              class={`mt-1 pl-8 text-sm ${index() === selectedIndex() ? "text-indigo-100" : "text-gray-400"}`}
+                  when={isSearching()}
+                  fallback={
+                    <Show
+                      when={searchResults().length > 0}
+                      fallback={<div class="py-4 text-center text-gray-400">No results found.</div>}
+                    >
+                      <div class="mb-2 text-sm text-gray-400">
+                        {searchResults().length} {searchResults().length === 1 ? "result" : "results"} for "
+                        {debouncedSearchQuery()}"
+                      </div>
+                      <div class="space-y-1">
+                        <For each={searchResults()}>
+                          {(item, index) => (
+                            <a
+                              href={item.url}
+                              role="option"
+                              aria-selected={index() === selectedIndex()}
+                              data-result-index={index()}
+                              class={`block rounded-lg p-3 transition-colors duration-150 ${
+                                index() === selectedIndex()
+                                  ? "bg-indigo-600 text-white"
+                                  : "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                              }`}
+                              onClick={() => {
+                                setIsSearchOpen(false);
+                              }}
+                              onMouseEnter={() => setSelectedIndex(index())}
                             >
-                              <p class="line-clamp-2">{item.description}</p>
-                            </div>
-                          </Show>
-                        </a>
-                      )}
-                    </For>
+                              <div class="flex items-center gap-3">
+                                <FileIcon />
+                                <span class="font-medium">{item.title}</span>
+                              </div>
+                              <Show when={item.excerpt}>
+                                <div
+                                  class={`mt-1 pl-8 text-sm ${index() === selectedIndex() ? "text-indigo-100" : "text-gray-400"}`}
+                                >
+                                  <p class="line-clamp-2">{item.excerpt}</p>
+                                </div>
+                              </Show>
+                            </a>
+                          )}
+                        </For>
+                      </div>
+                    </Show>
+                  }
+                >
+                  <div class="py-4 text-center text-gray-400">
+                    Searching...
                   </div>
                 </Show>
               </Show>

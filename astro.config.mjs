@@ -10,8 +10,9 @@ import solidJs from "@astrojs/solid-js";
 
 import mdx from "@astrojs/mdx";
 
+import orama from "@orama/plugin-astro";
+
 // Get blog content path from environment variable, fallback to $HOME/blog-content
-const BLOG_CONTENT_PATH = process.env.BLOG_CONTENT_PATH || `${process.env.HOME}/blog-content`;
 
 // https://astro.build/config
 export default defineConfig({
@@ -29,6 +30,11 @@ export default defineConfig({
     resolve: {
       alias: {
         "@": "/src",
+      },
+    },
+    build: {
+      rollupOptions: {
+        external: ["/pagefind/pagefind.js"],
       },
     },
   },

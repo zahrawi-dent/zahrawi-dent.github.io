@@ -3,7 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import CategoryCard from "../components/CategoryCard.astro";
 import { categoryData, iconMap } from "@/constants";
 import { getCollection } from "astro:content";
-import SearchComponent from '../components/SearchComponent.tsx'
+import ExpSolid from "../components/ExpSolid.tsx";
+import SearchBar from "../components/SearchBar.tsx";
 
 // get all unique categories from blog posts
 const allArticles = await getCollection("blog");
@@ -84,6 +85,10 @@ const description =
           })
         }
       </section>
+
+      <ExpSolid client:load/>
+
+<div id="search"></div>
 
       <div class="mt-16 text-center">
         <a

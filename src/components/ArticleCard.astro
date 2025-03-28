@@ -28,7 +28,7 @@ const categoryColor = "blue";
 ---
 
 <article class={`group flex flex-col rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl ${featured ? 'md:col-span-2 lg:flex-row' : ''}`}>
-  <a href={`$/${post.id}`} class={`block overflow-hidden ${featured ? 'lg:w-1/2' : ''}`}>
+  <a href={`/${post.id}`} class={`block overflow-hidden ${featured ? 'lg:w-1/2' : ''}`}>
     <img
       class="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
       src={data.image.url || "/api/placeholder/600/400"}
