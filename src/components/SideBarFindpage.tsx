@@ -353,265 +353,280 @@ export default function Sidebar(props: Props) {
 
   // --- Render ---
   return (
-    <div class="flex flex-col lg:flex-row">
+    <>
       {/* Header (Mobile) */}
-      <header class="sticky top-0 right-0 left-0 z-40 flex items-center justify-between border-b border-gray-800 bg-gray-900 p-4 lg:hidden">
+      <header class="fixed top-0 right-0 left-0 z-50 flex items-center justify-between border-b border-gray-800 bg-gray-900 p-4 lg:hidden">
         <div class="flex items-center">
           <div class="mr-2 text-teal-300">
-            <ZahrawiIcon />
+            <a href="/">
+              <ZahrawiIcon />
+            </a>
           </div>
           <a href="/" class="block text-xl font-bold text-white">
             Zahrawi
           </a>
         </div>
         <div class="flex items-center gap-2">
-          <button onClick={toggleSearch} class="rounded-full p-2 text-gray-300 hover:bg-gray-800" aria-label="Search">
+          <button
+            onClick={toggleSearch}
+            class="rounded-full p-2 text-gray-300 hover:bg-gray-800"
+            aria-label="Open Search"
+          >
             <SearchIcon />
           </button>
-          <button onClick={toggleMobileMenu} class="rounded-full p-2 text-gray-300 hover:bg-gray-800" aria-label="Menu">
-            {isMobileMenuOpen() ? <CloseIcon /> : <MenuIcon />}
+          <button
+            onClick={toggleMobileMenu}
+            class="rounded-full p-2 text-gray-300 hover:bg-gray-800"
+            aria-label="Toggle Menu"
+          >
+            <Show when={isMobileMenuOpen()} fallback={<MenuIcon />}>
+              <CloseIcon />
+            </Show>
           </button>
         </div>
       </header>
 
       {/* Search Overlay - Powered by Pagefind */}
-      <Show when={isSearchOpen()}>
-        <div
-          class="fixed inset-0 z-50 overflow-y-auto bg-gray-900/90 p-4 backdrop-blur-sm"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) toggleSearch();
-          }}
-        >
-          {" "}
-          {/* Close on overlay click */}
-          <div class="mx-auto mt-4 max-w-2xl overflow-hidden rounded-lg bg-gray-800 shadow-xl md:mt-16">
+      <div class="flex flex-col pt-16 lg:flex-row lg:pt-0">
+        <Show when={isSearchOpen()}>
+          <div
+            class="fixed inset-0 z-50 overflow-y-auto bg-gray-900/90 p-4 backdrop-blur-sm"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) toggleSearch();
+            }}
+          >
             {" "}
-            {/* Container for better styling */}
-            <div class="relative flex items-center border-b border-gray-700">
-              <div class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-gray-400">
-                {" "}
-                {/* Adjusted padding */}
-                <SearchIcon />
-              </div>
-              <input
-                type="search"
-                class="w-full appearance-none border-none bg-transparent py-3 pr-24 pl-12 text-white placeholder-gray-400 focus:ring-0 focus:outline-none" // Simplified input style
-                placeholder="Search content..."
-                value={searchQuery()}
-                onInput={(e) => setSearchQuery(e.currentTarget.value)}
-                ref={searchInput}
-                autocomplete="off"
-                aria-label="Search input"
-              />
-              {/* Loading Spinner (optional, simple text for now) */}
-              <Show when={isSearching()}>
-                <div class="absolute inset-y-0 right-16 animate-pulse p-2 text-xs text-gray-400">...</div>
-              </Show>
-              {/* Cancel Button */}
-              <button
-                onClick={toggleSearch}
-                class="absolute right-4 text-sm font-medium text-indigo-400 hover:text-indigo-300"
-              >
-                Cancel
-              </button>
-            </div>
-            {/* Keyboard Hints - MODIFIED: Add hidden lg:flex */}
-            <div
-              class="hidden flex-wrap items-center gap-x-3 gap-y-1 px-4 pt-3 pb-2 text-xs text-gray-400 lg:flex"
-              aria-hidden="true"
-            >
-              <span>Navigate:</span>
-              <span class="flex items-center gap-1">
-                {" "}
-                <Kbd>↑</Kbd> <Kbd>↓</Kbd>{" "}
-              </span>
-              <span>Select:</span> <Kbd>↵</Kbd>
-              <span>Close:</span> <Kbd>Esc</Kbd>
-            </div>
-            {/* Results Area */}
-            <div class="max-h-[60vh] overflow-y-auto md:max-h-[70vh]">
+            {/* Close on overlay click */}
+            <div class="mx-auto mt-4 max-w-2xl overflow-hidden rounded-lg bg-gray-800 shadow-xl md:mt-16">
               {" "}
-              {/* Constrain height */}
-              {/* Error loading Pagefind */}
-              <Show when={pagefindLoadError()}>
-                <div class="p-4 text-center text-red-400">{pagefindLoadError()}</div>
-              </Show>
-              {/* Loading Search Results */}
-              <Show when={isSearching() && !pagefindLoadError()}>
-                <div class="p-6 text-center text-gray-400">Searching...</div>
-              </Show>
-              {/* Search Results Display */}
-              <Show when={!isSearching() && !pagefindLoadError() && searchQuery().trim().length >= MIN_SEARCH_LENGTH}>
-                <Show
-                  when={searchResults().length > 0}
-                  fallback={<div class="p-6 text-center text-gray-400">No results found for "{searchQuery()}".</div>}
-                >
-                  <div class="px-2 pt-2 pb-1 text-xs text-gray-500">
-                    {searchResults().length} result{searchResults().length === 1 ? "" : "s"}
-                  </div>
-                  <ul class="divide-y divide-gray-700">
-                    <For each={searchResults()}>
-                      {(item, index) => (
-                        <li
-                          data-result-index={index()}
-                          // Use outline for focus visibility which works better with rounded corners
-                          class={`transition-colors duration-100 ${index() === selectedIndex() ? "bg-gray-700/50" : ""
-                            }`}
-                          onMouseEnter={() => setSelectedIndex(index())}
-                        >
-                          <a href={item.url} class="block p-4 hover:bg-gray-700">
-                            <div class="flex items-start gap-3 text-white">
-                              <div class="mt-1 shrink-0 text-gray-500">
-                                <FileIcon />
-                              </div>
-                              <div class="flex-1 overflow-hidden">
-                                {" "}
-                                {/* Allow text to wrap */}
-                                <span class="mb-1 block truncate font-medium">
-                                  {item.meta.title || "Untitled Page"}
-                                </span>
-                                {/* Render Pagefind excerpt with highlights */}
-                                <div
-                                  class="search-excerpt line-clamp-2 text-sm text-gray-400"
-                                  // WARNING: Only use innerHTML if you trust the source indexed by Pagefind.
-                                  // Pagefind itself generates safe HTML (<mark> tags), but ensure your source content is safe.
-                                  innerHTML={item.excerpt}
-                                />
-                              </div>
-                            </div>
-                          </a>
-                        </li>
-                      )}
-                    </For>
-                  </ul>
+              {/* Container for better styling */}
+              <div class="relative flex items-center border-b border-gray-700">
+                <div class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-gray-400">
+                  {" "}
+                  {/* Adjusted padding */}
+                  <SearchIcon />
+                </div>
+                <input
+                  type="search"
+                  class="w-full appearance-none border-none bg-transparent py-3 pr-24 pl-12 text-white placeholder-gray-400 focus:ring-0 focus:outline-none" // Simplified input style
+                  placeholder="Search content..."
+                  value={searchQuery()}
+                  onInput={(e) => setSearchQuery(e.currentTarget.value)}
+                  ref={searchInput}
+                  autocomplete="off"
+                  aria-label="Search input"
+                />
+                {/* Loading Spinner (optional, simple text for now) */}
+                <Show when={isSearching()}>
+                  <div class="absolute inset-y-0 right-16 animate-pulse p-2 text-xs text-gray-400">...</div>
                 </Show>
-              </Show>
-              {/* Prompt to type more */}
-              <Show
-                when={
-                  !isSearching() &&
-                  !pagefindLoadError() &&
-                  searchQuery().trim().length > 0 &&
-                  searchQuery().trim().length < MIN_SEARCH_LENGTH
-                }
+                {/* Cancel Button */}
+                <button
+                  onClick={toggleSearch}
+                  class="absolute right-4 text-sm font-medium text-indigo-400 hover:text-indigo-300"
+                >
+                  Cancel
+                </button>
+              </div>
+              {/* Keyboard Hints - MODIFIED: Add hidden lg:flex */}
+              <div
+                class="hidden flex-wrap items-center gap-x-3 gap-y-1 px-4 pt-3 pb-2 text-xs text-gray-400 lg:flex"
+                aria-hidden="true"
               >
-                <div class="p-6 text-center text-gray-400">Please enter at least {MIN_SEARCH_LENGTH} characters.</div>
-              </Show>
-              {/* Initial state / empty query */}
-              <Show when={!pagefindLoadError() && searchQuery().trim().length === 0}>
-                <div class="p-6 text-center text-gray-500">Start typing to search your content.</div>
-              </Show>
-            </div>
-          </div>
-        </div>
-      </Show>
-
-      {/* Sidebar Navigation */}
-      <aside
-        class={`fixed inset-y-0 top-0 left-0 z-30 transform transition-transform duration-300 ease-in-out lg:sticky lg:w-64 lg:translate-x-0 ${isMobileMenuOpen() ? "translate-x-0" : "-translate-x-full"
-          } flex h-screen flex-col overflow-y-hidden border-r border-gray-800 bg-gray-900 pt-16 text-gray-300 lg:mt-0 lg:pt-0`} // Use h-screen, flex-col, overflow-y-hidden on parent
-      >
-        {/* Desktop Header */}
-        <div class="hidden shrink-0 items-center border-b border-gray-800 p-4 lg:flex">
-          <div class="mr-2 text-teal-300">
-            <ZahrawiIcon />
-          </div>
-          <a href="/" class="text-xl font-bold text-white">
-            Zahrawi
-          </a>
-          <div class="ml-auto flex items-center gap-2">
-            {/* Wrap button and hint */}
-            <button onClick={toggleSearch} class="rounded-full p-2 text-gray-300 hover:bg-gray-800" aria-label="Search">
-              <SearchIcon />
-            </button>
-            {/* Hint for desktop search shortcut */}
-            <Kbd aria-hidden="true">/</Kbd>
-          </div>
-        </div>
-
-        {/* Scrollable Nav Area */}
-        <nav class="flex-grow overflow-y-auto p-4">
-          {" "}
-          {/* This part scrolls */}
-          <ul class="space-y-1">
-            <For each={navItems()}>
-              {(item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    class={`flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors duration-150 ${activeNavItem() === item.href
-                        ? "bg-gray-700 text-white"
-                        : "text-gray-300 hover:bg-gray-800 hover:text-white"
-                      }`}
-                    onClick={(e) => {
-                      if (item.children) {
-                        e.preventDefault();
-                        toggleCategory(item.title);
-                      } else if (isMobileMenuOpen()) {
-                        toggleMobileMenu(); // Close mobile menu on direct nav item click
-                      }
-                    }}
-                    aria-current={activeNavItem() === item.href ? "page" : undefined}
+                <span>Navigate:</span>
+                <span class="flex items-center gap-1">
+                  {" "}
+                  <Kbd>↑</Kbd> <Kbd>↓</Kbd>{" "}
+                </span>
+                <span>Select:</span> <Kbd>↵</Kbd>
+                <span>Close:</span> <Kbd>Esc</Kbd>
+              </div>
+              {/* Results Area */}
+              <div class="max-h-[60vh] overflow-y-auto md:max-h-[70vh]">
+                {" "}
+                {/* Constrain height */}
+                {/* Error loading Pagefind */}
+                <Show when={pagefindLoadError()}>
+                  <div class="p-4 text-center text-red-400">{pagefindLoadError()}</div>
+                </Show>
+                {/* Loading Search Results */}
+                <Show when={isSearching() && !pagefindLoadError()}>
+                  <div class="p-6 text-center text-gray-400">Searching...</div>
+                </Show>
+                {/* Search Results Display */}
+                <Show when={!isSearching() && !pagefindLoadError() && searchQuery().trim().length >= MIN_SEARCH_LENGTH}>
+                  <Show
+                    when={searchResults().length > 0}
+                    fallback={<div class="p-6 text-center text-gray-400">No results found for "{searchQuery()}".</div>}
                   >
-                    <span class="font-medium">{item.title}</span>
-                    {item.children && (
-                      <span
-                        class={`transform transition-transform duration-200 ${openedCategory() === item.title ? "rotate-180" : ""}`}
-                      >
-                        <ChevronDownIcon />
-                      </span>
-                    )}
-                  </a>
-
-                  {/* Sub-menu */}
-                  <Show when={item.children && openedCategory() === item.title}>
-                    <ul class="mt-1 ml-4 space-y-1 border-l border-gray-700 pl-3">
-                      <For each={item.children}>
-                        {(child) => (
-                          <li>
-                            <a
-                              href={child.href}
-                              class={`block rounded-md px-3 py-1.5 text-sm transition-colors duration-150 ${activeNavItem() === child.href
-                                  ? "bg-gray-700 text-white"
-                                  : "text-gray-400 hover:bg-gray-800 hover:text-white"
-                                }`}
-                              onClick={() => {
-                                if (isMobileMenuOpen()) {
-                                  toggleMobileMenu(); // Close mobile menu on sub-item click
-                                }
-                              }}
-                              aria-current={activeNavItem() === child.href ? "page" : undefined}
-                            >
-                              {child.title}
+                    <div class="px-2 pt-2 pb-1 text-xs text-gray-500">
+                      {searchResults().length} result{searchResults().length === 1 ? "" : "s"}
+                    </div>
+                    <ul class="divide-y divide-gray-700">
+                      <For each={searchResults()}>
+                        {(item, index) => (
+                          <li
+                            data-result-index={index()}
+                            // Use outline for focus visibility which works better with rounded corners
+                            class={`transition-colors duration-100 ${
+                              index() === selectedIndex() ? "bg-gray-700/50" : ""
+                            }`}
+                            onMouseEnter={() => setSelectedIndex(index())}
+                          >
+                            <a href={item.url} class="block p-4 hover:bg-gray-700">
+                              <div class="flex items-start gap-3 text-white">
+                                <div class="mt-1 shrink-0 text-gray-500">
+                                  <FileIcon />
+                                </div>
+                                <div class="flex-1 overflow-hidden">
+                                  {" "}
+                                  {/* Allow text to wrap */}
+                                  <span class="mb-1 block truncate font-medium">
+                                    {item.meta.title || "Untitled Page"}
+                                  </span>
+                                  {/* Render Pagefind excerpt with highlights */}
+                                  <div
+                                    class="search-excerpt line-clamp-2 text-sm text-gray-400"
+                                    // WARNING: Only use innerHTML if you trust the source indexed by Pagefind.
+                                    // Pagefind itself generates safe HTML (<mark> tags), but ensure your source content is safe.
+                                    innerHTML={item.excerpt}
+                                  />
+                                </div>
+                              </div>
                             </a>
                           </li>
                         )}
                       </For>
                     </ul>
                   </Show>
-                </li>
-              )}
-            </For>
-          </ul>
-
-          {/* Bookmarks Section */}
-          <div class="mt-auto border-t border-gray-800">
-            <BookmarksList />
+                </Show>
+                {/* Prompt to type more */}
+                <Show
+                  when={
+                    !isSearching() &&
+                    !pagefindLoadError() &&
+                    searchQuery().trim().length > 0 &&
+                    searchQuery().trim().length < MIN_SEARCH_LENGTH
+                  }
+                >
+                  <div class="p-6 text-center text-gray-400">Please enter at least {MIN_SEARCH_LENGTH} characters.</div>
+                </Show>
+                {/* Initial state / empty query */}
+                <Show when={!pagefindLoadError() && searchQuery().trim().length === 0}>
+                  <div class="p-6 text-center text-gray-500">Start typing to search your content.</div>
+                </Show>
+              </div>
+            </div>
           </div>
-        </nav>
+        </Show>
 
-        {/* Bookmarks (Fixed at bottom) */}
-      </aside>
+        {/* Sidebar Navigation */}
+        <aside
+          class={`fixed inset-y-0 left-0 z-30 w-64 transform bg-gray-900 text-gray-300 transition-transform duration-300 ease-in-out lg:sticky lg:translate-x-0 lg:border-r lg:border-gray-800 ${isMobileMenuOpen() ? "translate-x-0" : "-translate-x-full"
+            } ${isMobileMenuOpen() ? "mt-16 lg:mt-0" : "mt-16 lg:mt-0"} flex h-screen flex-col lg:h-auto lg:max-h-screen`}
+        >
+          {/* Desktop Header */}
+          <div class="hidden shrink-0 items-center border-b border-gray-800 p-4 lg:flex">
+            <div class="mr-2 text-teal-300">
+              <ZahrawiIcon />
+            </div>
+            <a href="/" class="text-xl font-bold text-white">
+              Zahrawi
+            </a>
+            <div class="ml-auto flex items-center gap-2">
+              {/* Wrap button and hint */}
+              <button
+                onClick={toggleSearch}
+                class="rounded-full p-2 text-gray-300 hover:bg-gray-800"
+                aria-label="Search"
+              >
+                <SearchIcon />
+              </button>
+              {/* Hint for desktop search shortcut */}
+              <Kbd aria-hidden="true">/</Kbd>
+            </div>
+          </div>
 
-      {/* Mobile Menu Overlay */}
-      <Show when={isMobileMenuOpen()}>
-        <div
-          class="bg-opacity-50 fixed inset-0 z-20 bg-black lg:hidden"
-          onClick={toggleMobileMenu}
-          aria-hidden="true"
-        />
-      </Show>
-    </div>
+          {/* Scrollable Nav Area */}
+
+          <nav class="flex-grow overflow-y-auto p-4">
+            {/* ... rest of the navigation UL/For logic ... */}
+            <ul class="space-y-2">
+              <For each={navItems()}>
+                {(item) => (
+                  <li>
+                    <a
+                      href={item.href}
+                      class={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors duration-150 ${(activeNavItem() === item.href || (item.href !== "/" && activeNavItem().startsWith(item.href))) &&
+                          item.href !== "#"
+                          ? "bg-gray-800 text-white"
+                          : "hover:bg-gray-800 hover:text-white"
+                        }`}
+                      onClick={(e) => {
+                        if (item.children) {
+                          e.preventDefault();
+                          toggleCategory(item.title);
+                        } else {
+                          if (isMobileMenuOpen()) toggleMobileMenu();
+                        }
+                      }}
+                      aria-expanded={item.children ? openedCategory() === item.title : undefined}
+                      aria-controls={item.children ? `submenu-${item.title.replace(/\s+/g, "-")}` : undefined}
+                    >
+                      <span class="font-medium">{item.title}</span>
+                      <Show when={item.children}>
+                        <span
+                          class={`transform transition-transform duration-200 ${openedCategory() === item.title ? "rotate-180" : ""}`}
+                        >
+                          <ChevronDownIcon />
+                        </span>
+                      </Show>
+                    </a>
+
+                    <Show when={item.children && openedCategory() === item.title}>
+                      <ul
+                        class="mt-2 ml-4 space-y-1 border-l border-gray-700 pl-3"
+                        id={`submenu-${item.title.replace(/\s+/g, "-")}`}
+                      >
+                        <For each={item.children}>
+                          {(child) => (
+                            <li>
+                              <a
+                                href={child.href}
+                                class={`block rounded-lg px-3 py-1.5 text-sm transition-colors duration-150 ${activeNavItem() === child.href
+                                    ? "bg-gray-700 text-white"
+                                    : "text-gray-400 hover:bg-gray-700 hover:text-white"
+                                  }`}
+                                onClick={() => {
+                                  if (isMobileMenuOpen()) toggleMobileMenu();
+                                }}
+                              >
+                                {child.title}
+                              </a>
+                            </li>
+                          )}
+                        </For>
+                      </ul>
+                    </Show>
+                  </li>
+                )}
+              </For>
+            </ul>
+
+            {/* Bookmarks Section */}
+            <div class="mt-auto border-t border-gray-800">
+              <BookmarksList />
+            </div>
+          </nav>
+          {/* Bookmarks (Fixed at bottom) */}
+        </aside>
+
+        {/* Mobile Menu Overlay */}
+        <Show when={isMobileMenuOpen()}>
+          <div class="fixed inset-0 z-20 bg-black/50 lg:hidden" onClick={toggleMobileMenu} aria-hidden="true" />
+        </Show>
+      </div>
+    </>
   );
 }
 

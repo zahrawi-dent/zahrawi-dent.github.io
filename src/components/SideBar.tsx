@@ -302,10 +302,11 @@ export default function Sidebar(props: Props) {
       document.body.style.overflow = nextState ? "hidden" : "";
     }
   };
+
   return (
-    <div class="flex flex-col lg:flex-row">
+    <>
       {/* Header (Mobile) */}
-      <header class="fixed top-0 right-0 left-0 z-40 flex items-center justify-between border-b border-gray-800 bg-gray-900 p-4 lg:hidden">
+      <header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between border-b border-gray-800 bg-gray-900 p-4 lg:hidden">
         <div class="flex items-center">
           <div class="mr-2 text-teal-300">
             <a href="/">
@@ -335,233 +336,232 @@ export default function Sidebar(props: Props) {
           </button>
         </div>
       </header>
-      {/* Search Overlay */}
-      <Show when={isSearchOpen()}>
-        <div
-          class="fixed inset-0 z-50 bg-gray-900/95 p-4 backdrop-blur-sm"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) toggleSearch();
-          }}
-        >
-          <div class="mx-auto mt-16 max-w-2xl rounded-lg bg-gray-800 shadow-xl" onClick={(e) => e.stopPropagation()}>
-            <div class="relative flex items-center border-b border-gray-700 p-4">
-              <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center pl-4">
-                <SearchIcon />
-              </div>
-              <input
-                ref={searchInputRef}
-                type="search"
-                class="w-full rounded-full border border-gray-600 bg-gray-700 py-2 pr-24 pl-10 text-white placeholder-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                placeholder="Search content..."
-                value={searchQuery()}
-                onInput={(e) => setSearchQuery(e.currentTarget.value)}
-                aria-label="Search Input"
-                aria-controls="search-results-list"
-              />
-              <div class="absolute right-3 flex items-center gap-2">
-                <button
-                  onClick={toggleSearch}
-                  class="px-3 py-2 text-sm font-medium text-indigo-400 hover:text-indigo-300"
-                  aria-label="Close search"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-            {/* Keyboard Hints - MODIFIED: Add hidden lg:flex */}
-            <div
-              class="hidden flex-wrap items-center gap-x-3 gap-y-1 px-4 pt-3 pb-2 text-xs text-gray-400 lg:flex"
-              aria-hidden="true"
-            >
-              <span>Navigate:</span>
-              <span class="flex items-center gap-1">
-                {" "}
-                <Kbd>↑</Kbd> <Kbd>↓</Kbd>{" "}
-              </span>
-              <span>Select:</span> <Kbd>↵</Kbd>
-              <span>Close:</span> <Kbd>Esc</Kbd>
-            </div>
 
-            {/* Search Results Area */}
-            <div
-              class="max-h-[calc(80vh-10rem)] overflow-y-auto p-4 pt-0 lg:max-h-[calc(80vh-8rem)]"
-              id="search-results-list"
-              role="listbox"
-              aria-label="Search Results"
-            >
-              <Show
-                when={debouncedSearchQuery().trim() !== ""}
-                fallback={
-                  <div class="py-4 text-center text-gray-400">
-                    Start typing to search...
-                  </div>
-                }
+      <div class="flex flex-col lg:flex-row pt-16 lg:pt-0">
+        {/* Search Overlay */}
+        <Show when={isSearchOpen()}>
+          <div
+            class="fixed inset-0 z-50 bg-gray-900/95 p-4 backdrop-blur-sm"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) toggleSearch();
+            }}
+          >
+            <div class="mx-auto mt-16 max-w-2xl rounded-lg bg-gray-800 shadow-xl" onClick={(e) => e.stopPropagation()}>
+              <div class="relative flex items-center border-b border-gray-700 p-4">
+                <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center pl-4">
+                  <SearchIcon />
+                </div>
+                <input
+                  ref={searchInputRef}
+                  type="search"
+                  class="w-full rounded-full border border-gray-600 bg-gray-700 py-2 pr-24 pl-10 text-white placeholder-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  placeholder="Search content..."
+                  value={searchQuery()}
+                  onInput={(e) => setSearchQuery(e.currentTarget.value)}
+                  aria-label="Search Input"
+                  aria-controls="search-results-list"
+                />
+                <div class="absolute right-3 flex items-center gap-2">
+                  <button
+                    onClick={toggleSearch}
+                    class="px-3 py-2 text-sm font-medium text-indigo-400 hover:text-indigo-300"
+                    aria-label="Close search"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+              {/* Keyboard Hints - MODIFIED: Add hidden lg:flex */}
+              <div
+                class="hidden flex-wrap items-center gap-x-3 gap-y-1 px-4 pt-3 pb-2 text-xs text-gray-400 lg:flex"
+                aria-hidden="true"
+              >
+                <span>Navigate:</span>
+                <span class="flex items-center gap-1">
+                  {" "}
+                  <Kbd>↑</Kbd> <Kbd>↓</Kbd>{" "}
+                </span>
+                <span>Select:</span> <Kbd>↵</Kbd>
+                <span>Close:</span> <Kbd>Esc</Kbd>
+              </div>
+
+              {/* Search Results Area */}
+              <div
+                class="max-h-[calc(80vh-10rem)] overflow-y-auto p-4 pt-0 lg:max-h-[calc(80vh-8rem)]"
+                id="search-results-list"
+                role="listbox"
+                aria-label="Search Results"
               >
                 <Show
-                  when={isSearching()}
+                  when={debouncedSearchQuery().trim() !== ""}
                   fallback={
-                    <Show
-                      when={searchResults().length > 0}
-                      fallback={<div class="py-4 text-center text-gray-400">No results found.</div>}
-                    >
-                      <div class="mb-2 text-sm text-gray-400">
-                        {searchResults().length} {searchResults().length === 1 ? "result" : "results"} for "
-                        {debouncedSearchQuery()}"
-                      </div>
-                      <div class="space-y-1">
-                        <For each={searchResults()}>
-                          {(item, index) => (
-                            <a
-                              href={item.url}
-                              role="option"
-                              aria-selected={index() === selectedIndex()}
-                              data-result-index={index()}
-                              class={`block rounded-lg p-3 transition-colors duration-150 ${
-                                index() === selectedIndex()
-                                  ? "bg-indigo-600 text-white"
-                                  : "bg-gray-700 text-gray-200 hover:bg-gray-600"
-                              }`}
-                              onClick={() => {
-                                setIsSearchOpen(false);
-                              }}
-                              onMouseEnter={() => setSelectedIndex(index())}
-                            >
-                              <div class="flex items-center gap-3">
-                                <FileIcon />
-                                <span class="font-medium">{item.title}</span>
-                              </div>
-                              <Show when={item.excerpt}>
-                                <div
-                                  class={`mt-1 pl-8 text-sm ${index() === selectedIndex() ? "text-indigo-100" : "text-gray-400"}`}
-                                >
-                                  <p class="line-clamp-2">{item.excerpt}</p>
-                                </div>
-                              </Show>
-                            </a>
-                          )}
-                        </For>
-                      </div>
-                    </Show>
+                    <div class="py-4 text-center text-gray-400">
+                      Start typing to search...
+                    </div>
                   }
                 >
-                  <div class="py-4 text-center text-gray-400">
-                    Searching...
-                  </div>
+                  <Show
+                    when={isSearching()}
+                    fallback={
+                      <Show
+                        when={searchResults().length > 0}
+                        fallback={<div class="py-4 text-center text-gray-400">No results found.</div>}
+                      >
+                        <div class="mb-2 text-sm text-gray-400">
+                          {searchResults().length} {searchResults().length === 1 ? "result" : "results"} for "
+                          {debouncedSearchQuery()}"
+                        </div>
+                        <div class="space-y-1">
+                          <For each={searchResults()}>
+                            {(item, index) => (
+                              <a
+                                href={item.url}
+                                role="option"
+                                aria-selected={index() === selectedIndex()}
+                                data-result-index={index()}
+                                class={`block rounded-lg p-3 transition-colors duration-150 ${index() === selectedIndex()
+                                    ? "bg-indigo-600 text-white"
+                                    : "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                                  }`}
+                                onClick={() => {
+                                  setIsSearchOpen(false);
+                                }}
+                                onMouseEnter={() => setSelectedIndex(index())}
+                              >
+                                <div class="flex items-center gap-3">
+                                  <FileIcon />
+                                  <span class="font-medium">{item.title}</span>
+                                </div>
+                                <Show when={item.excerpt}>
+                                  <div
+                                    class={`mt-1 pl-8 text-sm ${index() === selectedIndex() ? "text-indigo-100" : "text-gray-400"}`}
+                                  >
+                                    <p class="line-clamp-2">{item.excerpt}</p>
+                                  </div>
+                                </Show>
+                              </a>
+                            )}
+                          </For>
+                        </div>
+                      </Show>
+                    }
+                  >
+                    <div class="py-4 text-center text-gray-400">
+                      Searching...
+                    </div>
+                  </Show>
                 </Show>
-              </Show>
+              </div>
             </div>
           </div>
-        </div>
-      </Show>
+        </Show>
 
-      {/* Sidebar Navigation */}
-      <aside
-        class={`fixed inset-y-0 left-0 z-30 w-64 transform bg-gray-900 text-gray-300 transition-transform duration-300 ease-in-out lg:sticky lg:translate-x-0 lg:border-r lg:border-gray-800 ${
-          isMobileMenuOpen() ? "translate-x-0" : "-translate-x-full"
-        } ${isMobileMenuOpen() ? "mt-16 lg:mt-0" : "mt-16 lg:mt-0"} flex h-screen flex-col lg:h-auto lg:max-h-screen`}
-      >
-        {/* Desktop Header */}
-        <div class="hidden items-center border-b border-gray-800 p-4 lg:flex">
-          <div class="mr-2 text-teal-300">
-            <a href="/">
-              <ZahrawiIcon />
+        {/* Sidebar Navigation */}
+        <aside
+          class={`fixed inset-y-0 left-0 z-30 w-64 transform bg-gray-900 text-gray-300 transition-transform duration-300 ease-in-out lg:sticky lg:translate-x-0 lg:border-r lg:border-gray-800 ${isMobileMenuOpen() ? "translate-x-0" : "-translate-x-full"
+            } ${isMobileMenuOpen() ? "mt-16 lg:mt-0" : "mt-16 lg:mt-0"} flex h-screen flex-col lg:h-auto lg:max-h-screen`}
+        >
+          {/* Desktop Header */}
+          <div class="hidden items-center border-b border-gray-800 p-4 lg:flex">
+            <div class="mr-2 text-teal-300">
+              <a href="/">
+                <ZahrawiIcon />
+              </a>
+            </div>
+            <a href="/" class="text-xl font-bold text-white">
+              Zahrawi
             </a>
+            {/* Desktop Search Trigger + Hint */}
+            <div class="ml-auto flex items-center gap-2">
+              <button
+                onClick={toggleSearch}
+                class="rounded-full p-2 text-gray-300 hover:bg-gray-800"
+                aria-label="Open Search"
+              >
+                <SearchIcon />
+              </button>
+              {/* Add '/' hint for desktop */}
+              <Kbd aria-hidden="true">/</Kbd>
+            </div>
           </div>
-          <a href="/" class="text-xl font-bold text-white">
-            Zahrawi
-          </a>
-          {/* Desktop Search Trigger + Hint */}
-          <div class="ml-auto flex items-center gap-2">
-            <button
-              onClick={toggleSearch}
-              class="rounded-full p-2 text-gray-300 hover:bg-gray-800"
-              aria-label="Open Search"
-            >
-              <SearchIcon />
-            </button>
-            {/* Add '/' hint for desktop */}
-            <Kbd aria-hidden="true">/</Kbd>
-          </div>
-        </div>
 
-        {/* Navigation Links */}
-        <nav class="flex-grow overflow-y-auto p-4">
-          {/* ... rest of the navigation UL/For logic ... */}
-          <ul class="space-y-2">
-            <For each={navItems()}>
-              {(item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    class={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors duration-150 ${
-                      (activeNavItem() === item.href || (item.href !== "/" && activeNavItem().startsWith(item.href))) &&
-                      item.href !== "#"
-                        ? "bg-gray-800 text-white"
-                        : "hover:bg-gray-800 hover:text-white"
-                    }`}
-                    onClick={(e) => {
-                      if (item.children) {
-                        e.preventDefault();
-                        toggleCategory(item.title);
-                      } else {
-                        if (isMobileMenuOpen()) toggleMobileMenu();
-                      }
-                    }}
-                    aria-expanded={item.children ? openedCategory() === item.title : undefined}
-                    aria-controls={item.children ? `submenu-${item.title.replace(/\s+/g, "-")}` : undefined}
-                  >
-                    <span class="font-medium">{item.title}</span>
-                    <Show when={item.children}>
-                      <span
-                        class={`transform transition-transform duration-200 ${openedCategory() === item.title ? "rotate-180" : ""}`}
-                      >
-                        <ChevronDownIcon />
-                      </span>
-                    </Show>
-                  </a>
-
-                  <Show when={item.children && openedCategory() === item.title}>
-                    <ul
-                      class="mt-2 ml-4 space-y-1 border-l border-gray-700 pl-3"
-                      id={`submenu-${item.title.replace(/\s+/g, "-")}`}
+          {/* Navigation Links */}
+          <nav class="flex-grow overflow-y-auto p-4">
+            {/* ... rest of the navigation UL/For logic ... */}
+            <ul class="space-y-2">
+              <For each={navItems()}>
+                {(item) => (
+                  <li>
+                    <a
+                      href={item.href}
+                      class={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors duration-150 ${(activeNavItem() === item.href || (item.href !== "/" && activeNavItem().startsWith(item.href))) &&
+                          item.href !== "#"
+                          ? "bg-gray-800 text-white"
+                          : "hover:bg-gray-800 hover:text-white"
+                        }`}
+                      onClick={(e) => {
+                        if (item.children) {
+                          e.preventDefault();
+                          toggleCategory(item.title);
+                        } else {
+                          if (isMobileMenuOpen()) toggleMobileMenu();
+                        }
+                      }}
+                      aria-expanded={item.children ? openedCategory() === item.title : undefined}
+                      aria-controls={item.children ? `submenu-${item.title.replace(/\s+/g, "-")}` : undefined}
                     >
-                      <For each={item.children}>
-                        {(child) => (
-                          <li>
-                            <a
-                              href={child.href}
-                              class={`block rounded-lg px-3 py-1.5 text-sm transition-colors duration-150 ${
-                                activeNavItem() === child.href
-                                  ? "bg-gray-700 text-white"
-                                  : "text-gray-400 hover:bg-gray-700 hover:text-white"
-                              }`}
-                              onClick={() => {
-                                if (isMobileMenuOpen()) toggleMobileMenu();
-                              }}
-                            >
-                              {child.title}
-                            </a>
-                          </li>
-                        )}
-                      </For>
-                    </ul>
-                  </Show>
-                </li>
-              )}
-            </For>
-          </ul>
+                      <span class="font-medium">{item.title}</span>
+                      <Show when={item.children}>
+                        <span
+                          class={`transform transition-transform duration-200 ${openedCategory() === item.title ? "rotate-180" : ""}`}
+                        >
+                          <ChevronDownIcon />
+                        </span>
+                      </Show>
+                    </a>
 
-          {/* Bookmarks Section */}
-          <div class="mt-auto border-t border-gray-800">
-            <BookmarksList />
-          </div>
-        </nav>
-      </aside>
+                    <Show when={item.children && openedCategory() === item.title}>
+                      <ul
+                        class="mt-2 ml-4 space-y-1 border-l border-gray-700 pl-3"
+                        id={`submenu-${item.title.replace(/\s+/g, "-")}`}
+                      >
+                        <For each={item.children}>
+                          {(child) => (
+                            <li>
+                              <a
+                                href={child.href}
+                                class={`block rounded-lg px-3 py-1.5 text-sm transition-colors duration-150 ${activeNavItem() === child.href
+                                    ? "bg-gray-700 text-white"
+                                    : "text-gray-400 hover:bg-gray-700 hover:text-white"
+                                  }`}
+                                onClick={() => {
+                                  if (isMobileMenuOpen()) toggleMobileMenu();
+                                }}
+                              >
+                                {child.title}
+                              </a>
+                            </li>
+                          )}
+                        </For>
+                      </ul>
+                    </Show>
+                  </li>
+                )}
+              </For>
+            </ul>
 
-      {/* Mobile Overlay */}
-      <Show when={isMobileMenuOpen()}>
-        <div class="fixed inset-0 z-20 bg-black/50 lg:hidden" onClick={toggleMobileMenu} aria-hidden="true" />
-      </Show>
-    </div>
+            {/* Bookmarks Section */}
+            <div class="mt-auto border-t border-gray-800">
+              <BookmarksList />
+            </div>
+          </nav>
+        </aside>
+
+        {/* Mobile Overlay */}
+        <Show when={isMobileMenuOpen()}>
+          <div class="fixed inset-0 z-20 bg-black/50 lg:hidden" onClick={toggleMobileMenu} aria-hidden="true" />
+        </Show>
+      </div>
+    </>
   );
 }
