@@ -1,77 +1,202 @@
-import { createStore, reconcile } from "solid-js/store";
-import { createEffect } from "solid-js";
-import type { BookmarkArticle } from "../types";
+// src/stores/bookmarkStore.js
+import { createStore } from "solid-js/store";
+import { createSignal, createEffect } from "solid-js";
 
-// Helper to safely get initial state, handling server-side rendering
-const getInitialBookmarks = (): BookmarkArticle[] => {
-  if (typeof window === "undefined") {
-    return []; // No localStorage on server
+// Create a singleton store for the bookmarks
+let [bookmarks, setBookmarks] = createStore([]);
+let initialized = false;
+
+// Storage key for localStorage
+const STORAGE_KEY = "zahrawi_bookmarks";
+
+// Define the store as a function to maintain singleton pattern
+export const bookmarkStore = (() => {
+  // Initialize the store if not already done
+  if (!initialized && typeof window !== "undefined") {
+    syncFromStorage();
+    initialized = true;
   }
-  try {
-    return JSON.parse(localStorage.getItem("bookmarks") || "[]");
-  } catch (e) {
-    console.error("Failed to parse bookmarks from localStorage:", e);
-    return [];
+
+  // Function to add a bookmark
+  function addBookmark(article) {
+    // Generate a unique ID if one doesn't exist
+    const bookmarkId = article.id || `bookmark_${Date.now()}`;
+
+    // Check if the article is already bookmarked
+    const exists = bookmarks.some(bookmark =>
+      bookmark.id === bookmarkId ||
+      (bookmark.slug === article.slug &&
+        bookmark.data.category === article.data.category &&
+        bookmark.data.subcategory === article.data.subcategory)
+    );
+
+    if (!exists) {
+      // Add id property if it doesn't exist
+      const bookmarkToAdd = { ...article, id: bookmarkId };
+      setBookmarks([...bookmarks, bookmarkToAdd]);
+      saveToStorage();
+      return true;
+    }
+    return false;
   }
-};
 
-function createBookmarkStore() {
-  // Create the reactive store, initialized from localStorage
-  const [bookmarks, setBookmarks] = createStore<BookmarkArticle[]>(getInitialBookmarks());
+  // Function to remove a bookmark
+  function removeBookmark(id) {
+    setBookmarks(bookmarks.filter(bookmark => bookmark.id !== id));
+    saveToStorage();
+  }
 
-  // Effect to automatically save to localStorage whenever the store changes
-  createEffect(() => {
+  // Function to toggle a bookmark
+  function toggleBookmark(article) {
+    const bookmarkId = article.id || `bookmark_${Date.now()}`;
+
+    // Check if article is already bookmarked
+    const existingIndex = bookmarks.findIndex(bookmark =>
+      bookmark.id === bookmarkId ||
+      (bookmark.slug === article.slug &&
+        bookmark.data.category === article.data.category &&
+        bookmark.data.subcategory === article.data.subcategory)
+    );
+
+    if (existingIndex >= 0) {
+      // Remove bookmark if it exists
+      removeBookmark(bookmarks[existingIndex].id);
+      return false; // Indicates bookmark was removed
+    } else {
+      // Add bookmark if it doesn't exist
+      addBookmark(article);
+      return true; // Indicates bookmark was added
+    }
+  }
+
+  // Check if an article is bookmarked
+  function isBookmarked(article) {
+    return bookmarks.some(bookmark =>
+    (bookmark.slug === article.slug &&
+      bookmark.data.category === article.data.category &&
+      bookmark.data.subcategory === article.data.subcategory)
+    );
+  }
+
+  // Save bookmarks to localStorage
+  function saveToStorage() {
     if (typeof window !== "undefined") {
-      // Use JSON.stringify on the store proxy directly
-      localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-      // Dispatch event for potential non-Solid listeners (optional, can be removed if only Solid components use the store)
-      window.dispatchEvent(new CustomEvent("bookmarks-changed"));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(bookmarks));
+      } catch (error) {
+        console.error("Failed to save bookmarks to localStorage:", error);
+      }
     }
-  });
+  }
 
-  // --- Store Actions ---
-
-  const addBookmark = (bookmark: BookmarkArticle) => {
-    // Check if already exists directly on the store state
-    if (!bookmarks.some((b) => b.id === bookmark.id)) {
-      setBookmarks([...bookmarks, bookmark]); // Add to the store
+  // Load bookmarks from localStorage
+  function syncFromStorage() {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          setBookmarks(JSON.parse(stored));
+        }
+      } catch (error) {
+        console.error("Failed to load bookmarks from localStorage:", error);
+      }
     }
-  };
+  }
 
-  const removeBookmark = (id: string) => {
-    // Filter the store state
-    setBookmarks((prevBookmarks) => prevBookmarks.filter((b) => b.id !== id));
-  };
+  // Clear all bookmarks
+  function clearBookmarks() {
+    setBookmarks([]);
+    saveToStorage();
+  }
 
-  const isBookmarked = (id: string): boolean => {
-    // Check directly against the reactive store state
-    return bookmarks.some((b) => b.id === id);
-  };
+  // Create a signal for total bookmarks count
+  const [bookmarkCount] = createSignal(() => bookmarks.length);
+
+  // Set up effect to listen for storage events from other tabs
+  if (typeof window !== "undefined") {
+    window.addEventListener("storage", (event) => {
+      if (event.key === STORAGE_KEY) {
+        syncFromStorage();
+      }
+    });
+  }
 
   return {
-    // Export the reactive state directly
-    bookmarks,
-    // Export actions
+    // Expose the store as a readable array
+    get bookmarks() {
+      return bookmarks;
+    },
     addBookmark,
     removeBookmark,
-    // Export a reactive check function
+    toggleBookmark,
     isBookmarked,
-    // Provide a way to re-sync from storage if needed (e.g., storage event listener)
-    syncFromStorage: () => {
-      // reconcile helps update the store efficiently without recreating everything
-      setBookmarks(reconcile(getInitialBookmarks()));
-    },
+    syncFromStorage,
+    clearBookmarks,
+    bookmarkCount
   };
-}
+})();
 
-export const bookmarkStore = createBookmarkStore();
+// Export the store by default
+export default bookmarkStore;
 
-// Optional: Listen for storage events in other tabs/windows
-if (typeof window !== "undefined") {
-  window.addEventListener("storage", (event) => {
-    if (event.key === "bookmarks") {
-      // Re-sync the store state if localStorage was changed externally
-      bookmarkStore.syncFromStorage();
-    }
-  });
-}
+// import { createStore, reconcile } from "solid-js/store";
+// import { createEffect } from "solid-js";
+// import type { BookmarkArticle } from "../types";
+//
+// const getInitialBookmarks = (): BookmarkArticle[] => {
+//   if (typeof window === "undefined") {
+//     return []
+//   }
+//   try {
+//     return JSON.parse(localStorage.getItem("bookmarks") || "[]");
+//   } catch (e) {
+//     console.error("Failed to parse bookmarks from localStorage:", e);
+//     return [];
+//   }
+// };
+//
+// function createBookmarkStore() {
+//   const [bookmarks, setBookmarks] = createStore<BookmarkArticle[]>(getInitialBookmarks());
+//
+//   createEffect(() => {
+//     if (typeof window !== "undefined") {
+//       localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+//       window.dispatchEvent(new CustomEvent("bookmarks-changed"));
+//     }
+//   });
+//
+//
+//   const addBookmark = (bookmark: BookmarkArticle) => {
+//     if (!bookmarks.some((b) => b.id === bookmark.id)) {
+//       setBookmarks([...bookmarks, bookmark]);
+//     }
+//   };
+//
+//   const removeBookmark = (id: string) => {
+//     setBookmarks((prevBookmarks) => prevBookmarks.filter((b) => b.id !== id));
+//   };
+//
+//   const isBookmarked = (id: string): boolean => {
+//     return bookmarks.some((b) => b.id === id);
+//   };
+//
+//   return {
+//     bookmarks,
+//     addBookmark,
+//     removeBookmark,
+//     isBookmarked,
+//     syncFromStorage: () => {
+//       setBookmarks(reconcile(getInitialBookmarks()));
+//     },
+//   };
+// }
+//
+// export const bookmarkStore = createBookmarkStore();
+//
+// if (typeof window !== "undefined") {
+//   window.addEventListener("storage", (event) => {
+//     if (event.key === "bookmarks") {
+//       bookmarkStore.syncFromStorage();
+//     }
+//   });
+// }

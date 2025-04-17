@@ -3,8 +3,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import CategoryCard from "../components/CategoryCard.astro";
 import { categoryData, iconMap } from "@/constants";
 import { getCollection } from "astro:content";
-import ExpSolid from "../components/ExpSolid.tsx";
-import SearchBar from "../components/SearchBar.tsx";
 
 // get all unique categories from blog posts
 const allArticles = await getCollection("blog");
@@ -12,48 +10,11 @@ const categories = [
   ...new Set(allArticles.map((article) => article.data.category)),
 ];
 
-// const categoriesInfo = [
-//   {
-//     title: "Endodontics",
-//     description: "Comprehensive guides to maintaining optimal dental wellness",
-//     icon: "tooth",
-//     color: "text-blue-400",
-//   },
-//   {
-//     title: "Anatomy",
-//     description:
-//       "Explore latest trends in smile transformation and aesthetic procedures",
-//     icon: "sparkle",
-//     color: "text-purple-400",
-//   },
-//   {
-//     title: "Restorative",
-//     description: "Cutting-edge innovations reshaping modern dental care",
-//     icon: "microscope",
-//     color: "text-green-400",
-//   },
-//   {
-//     title: "Patient Care",
-//     description:
-//       "Compassionate insights into dental anxiety and patient experience",
-//     icon: "heart",
-//     color: "text-red-400",
-//   },
-//   {
-//     title: "Professional Insights",
-//     description: "Expert perspectives from leading dental professionals",
-//     icon: "stethoscope",
-//     color: "text-yellow-400",
-//   },
-// ];
 
 const title = "Zahrawi Dental Blog";
 const description =
   "Empowering patients and professionals with cutting-edge dental knowledge and insights";
-
-
 ---
-
 <BaseLayout title={title} description={description}>
   <main class="min-h-screen bg-gray-900 text-white">
     <div class="container mx-auto px-4 py-16">
@@ -86,8 +47,6 @@ const description =
         }
       </section>
 
-<div id="search"></div>
-
       <div class="mt-16 text-center">
         <a
           href="/subscribe"
@@ -99,7 +58,3 @@ const description =
     </div>
   </main>
 </BaseLayout>
-
-<style>
-  /* Additional custom styles if needed */
-</style>

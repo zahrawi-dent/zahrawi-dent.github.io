@@ -3,21 +3,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import BreadCrumbs from "../components/BreadCrumbs.astro";
 import Pagination from "../components/Pagination.astro";
 import ArticlesList from "../components/ArticlesList.astro";
-import {categoryData,iconMap} from "../constants";
+import { categoryData, iconMap } from "../constants";
 import type { ArticleType } from "@/types";
-
 
 interface Props {
   category: string;
   section: string;
   articles: ArticleType[];
-  currentPage: number
+  currentPage: number;
 }
 
-const { category, section: subcategory,articles ,currentPage } = Astro.props;
+const { category, section: subcategory, articles, currentPage } = Astro.props;
 
-
-const subcategoryData = categoryData[category]?.subcategoryInfo[subcategory] || {displayName: subcategory};
+const subcategoryData = categoryData[category]?.subcategoryInfo[
+  subcategory
+] || { displayName: subcategory };
 
 const totalPages = Math.ceil(articles.length / 6);
 const pageLimit = 6;
@@ -43,8 +43,7 @@ const breadcrumbData = [
     : []),
 ];
 
-
-const icon = iconMap[subcategoryData.icon]
+const icon = iconMap[subcategoryData.icon];
 
 const title = `${subcategoryData.displayName} | Endodontics`;
 const description = subcategoryData.displayName;
@@ -73,7 +72,6 @@ const description = subcategoryData.displayName;
     {
       articles.length > 0 ? (
         <div class="container mx-auto px-4 py-8">
-          {/* articles per page 6  */}
           <ArticlesList articles={articles.slice(0, pageLimit)} />
         </div>
       ) : (
@@ -97,4 +95,3 @@ const description = subcategoryData.displayName;
     />
   </div>
 </BaseLayout>
-

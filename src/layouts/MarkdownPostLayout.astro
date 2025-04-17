@@ -38,7 +38,7 @@ const breadcrumbData = [
     href: `/${post.data.category}/${post.id}`,
   },
 ];
-console.log(post)
+console.log(post);
 
 const categoryColorClass = `bg-${frontmatter.category.toLowerCase()}-600`;
 ---
@@ -50,7 +50,6 @@ const categoryColorClass = `bg-${frontmatter.category.toLowerCase()}-600`;
     </header>
 
     <div class="flex flex-grow flex-col md:flex-row">
-
       <div class="flex flex-1 flex-col md:flex-row">
         <!-- Mobile TOC (shows above article on small screens) -->
         <div class="mb-4 w-full px-6 pt-6 md:hidden">
@@ -59,7 +58,7 @@ const categoryColorClass = `bg-${frontmatter.category.toLowerCase()}-600`;
           </div>
         </div>
 
-        <article class="flex-1 lg:p-6 md:p-4">
+        <article class="flex-1 md:p-4 lg:p-6">
           <!-- Hero Section -->
           <div class="relative h-[50vh] max-h-[600px] min-h-[400px] w-full">
             <div
@@ -140,15 +139,14 @@ const categoryColorClass = `bg-${frontmatter.category.toLowerCase()}-600`;
           </div>
 
           <div class="markdown-content" data-pagefind-body>
+            <h1 transition:name={frontmatter.title}>{frontmatter.title}</h1>
             <slot />
           </div>
 
           <PrevNext prevPost={prevPost} nextPost={nextPost} />
 
-
-      <EditSuggestion filePath={post.filePath} />
-            <CommentsSection client:only='solid-js' />
-
+          <EditSuggestion filePath={post.filePath} />
+          <CommentsSection client:only="solid-js" />
         </article>
 
         <!-- Desktop TOC (shows on right side for larger screens) -->

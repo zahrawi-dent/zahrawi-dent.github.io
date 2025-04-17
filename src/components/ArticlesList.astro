@@ -27,11 +27,11 @@ const { articles } = Astro.props;
 
 
         <div class="absolute top-4 right-4">
-          <BookmarkButton article={article}  client:only='solid-js' />
+          <BookmarkButton article={article}  client:load />
         </div>
 
         {/* Title and Excerpt */}
-        <h2 class="text-lg md:text-2xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">
+        <h2 class="text-lg md:text-2xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors" transition:name={article.data.title}>
           <a href=`/${article.id}`>{article.data.title}</a>
         </h2>
         <p class="text-gray-600 mb-4 line-clamp-2">{article.data.description}</p>

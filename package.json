@@ -21,7 +21,7 @@
     "@philnash/astro-pagination": "^0.5.0",
     "@solidjs/router": "^0.15.3",
     "@tailwindcss/vite": "^4.0.14",
-    "astro": "^5.5.3",
+    "astro": "^5.7.3",
     "astro-icon": "^1.1.5",
     "astro-pagefind": "^1.8.3",
     "class-variance-authority": "^0.7.1",

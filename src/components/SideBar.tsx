@@ -4,15 +4,6 @@ import type { Index as FlexSearchIndex } from "flexsearch"; // Import type
 import BookmarksList from "./BookmarkList";
 import type { Item } from "../types";
 
-// <Show when={searchQuery()}>
-//   <button
-//     onClick={() => setSearchQuery("")}
-//     class="p-2 text-gray-400 hover:text-white"
-//     aria-label="Clear search"
-//   >
-//     <CloseIcon />
-//   </button>
-// </Show>
 
 const ChevronDownIcon = () => (
   <svg class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -420,8 +411,8 @@ export default function Sidebar(props: Props) {
                                 aria-selected={index() === selectedIndex()}
                                 data-result-index={index()}
                                 class={`block rounded-lg p-3 transition-colors duration-150 ${index() === selectedIndex()
-                                    ? "bg-indigo-600 text-white"
-                                    : "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                                  ? "bg-indigo-600 text-white"
+                                  : "bg-gray-700 text-gray-200 hover:bg-gray-600"
                                   }`}
                                 onClick={() => {
                                   setIsSearchOpen(false);
@@ -495,9 +486,9 @@ export default function Sidebar(props: Props) {
                     <a
                       href={item.href}
                       class={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors duration-150 ${(activeNavItem() === item.href || (item.href !== "/" && activeNavItem().startsWith(item.href))) &&
-                          item.href !== "#"
-                          ? "bg-gray-800 text-white"
-                          : "hover:bg-gray-800 hover:text-white"
+                        item.href !== "#"
+                        ? "bg-gray-800 text-white"
+                        : "hover:bg-gray-800 hover:text-white"
                         }`}
                       onClick={(e) => {
                         if (item.children) {
@@ -531,8 +522,8 @@ export default function Sidebar(props: Props) {
                               <a
                                 href={child.href}
                                 class={`block rounded-lg px-3 py-1.5 text-sm transition-colors duration-150 ${activeNavItem() === child.href
-                                    ? "bg-gray-700 text-white"
-                                    : "text-gray-400 hover:bg-gray-700 hover:text-white"
+                                  ? "bg-gray-700 text-white"
+                                  : "text-gray-400 hover:bg-gray-700 hover:text-white"
                                   }`}
                                 onClick={() => {
                                   if (isMobileMenuOpen()) toggleMobileMenu();
