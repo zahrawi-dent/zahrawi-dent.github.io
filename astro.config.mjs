@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 import pagefind from "astro-pagefind";
 
 import tailwindcss from "@tailwindcss/vite";
@@ -38,4 +38,9 @@ export default defineConfig({
       },
     },
   },
+  experimental: {
+    fonts: [
+      { provider: fontProviders.google(), name: "Roboto", cssVariable: "--font-roboto" },
+    ]
+  }
 });
