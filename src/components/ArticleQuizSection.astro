@@ -1,0 +1,70 @@
+---
+// ArticleQuizSection.astro - Component to add an MCQ quiz for blog articles
+import ArticleQuiz from "../components/ArticleQuiz";
+import "../styles/fireworks.css";
+
+interface Props {
+  postContent: string;
+}
+
+const { postContent } = Astro.props;
+
+// This function would generate quiz questions based on the article content
+// In a real implementation, you might want to use AI to generate these questions
+// or store them alongside the article content
+function generateQuestions(content: string) {
+  // For demonstration purposes, we'll create some dummy questions
+  // In a real implementation, you would parse the content and create relevant questions
+  return [
+    {
+      question: "What is the main topic of this article?",
+      options: [
+        "Web Development",
+        "Machine Learning",
+        "Database Design",
+        "Mobile App Development",
+      ],
+      correctAnswer: 0, // index of the correct answer
+    },
+    {
+      question: "Which component is used for navigation in the article?",
+      options: ["NavigationBar", "BreadCrumbs", "SiteNav", "HeaderLinks"],
+      correctAnswer: 1,
+    },
+    {
+      question: "What framework is used for the comments section?",
+      options: ["React", "Vue", "SolidJS", "Svelte"],
+      correctAnswer: 2,
+    },
+    {
+      question: "How is the table of contents displayed on mobile devices?",
+      options: [
+        "It's hidden completely",
+        "It's shown at the bottom of the article",
+        "It's shown above the article",
+        "It uses a dropdown menu",
+      ],
+      correctAnswer: 2,
+    },
+    {
+      question: "Which component allows users to suggest edits to the article?",
+      options: [
+        "SuggestChanges",
+        "EditSuggestion",
+        "ContentFeedback",
+        "ArticleEditor",
+      ],
+      correctAnswer: 1,
+    },
+  ];
+}
+
+const questions = generateQuestions(postContent);
+---
+
+<div class="my-12 border-t border-gray-200 pt-8 dark:border-gray-700">
+  <h2 class="mb-6 text-center text-2xl font-bold">Test Your Knowledge</h2>
+  <div class="quiz-container">
+    <ArticleQuiz questions={questions} client:load />
+  </div>
+</div>

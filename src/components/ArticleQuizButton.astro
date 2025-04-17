@@ -1,0 +1,22 @@
+---
+// ArticleQuizButton.astro - A minimal wrapper for the QuizButton component
+import QuizButton from "../components/QuizButton";
+
+interface Props {
+  postId: string;
+  postTitle: string;
+}
+
+const { postId, postTitle } = Astro.props;
+---
+
+<div class="quiz-button-container">
+  <QuizButton postId={postId} postTitle={postTitle} client:only="solid-js" />
+</div>
+
+<style>
+  /* Add some containment for better performance */
+  .quiz-button-container {
+    contain: content;
+  }
+</style>
