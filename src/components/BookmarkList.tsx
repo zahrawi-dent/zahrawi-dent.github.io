@@ -1,6 +1,7 @@
 // BookmarksList.jsx
 import { Show, For, createSignal, onMount } from "solid-js";
 import { bookmarkStore } from "../stores/bookmarkStore";
+import type { BookmarkArticle } from "@/types";
 
 // Create a singleton instance for BookmarksList
 let isInitialized = false;
@@ -27,10 +28,16 @@ export default function BookmarkList() {
     }
   });
 
-  const handleDelete = (id, e) => {
+
+
+  const handleDelete = (article: BookmarkArticle, e: Event) => {
+
     e.preventDefault();
-    e.stopPropagation(); // Prevent potential clicks bubbling up
-    removeBookmark(id);
+    e.stopPropagation();
+    // Toggle the bookmark and update the UI state
+    bookmarkStore.toggleBookmark(article);
+
+    // removeBookmark(id);
   };
 
   return (
@@ -45,7 +52,7 @@ export default function BookmarkList() {
         >
           <div class="space-y-3">
             <For each={bookmarks}>
-              {(article) => (
+              {(article: BookmarkArticle) => (
                 <div class="group relative">
                   <a
                     href={`/${article.data.category}/${article.data.subcategory}/${article.slug}`}
@@ -55,7 +62,7 @@ export default function BookmarkList() {
                     <p class="mt-1 line-clamp-2 text-sm text-gray-400">{article.data.description}</p>
                   </a>
                   <button
-                    onClick={(e) => handleDelete(article.id, e)}
+                    onClick={(e) => handleDelete(article, e)}
                     class="absolute top-2 right-2 p-2 text-red-500 opacity-60 transition-colors hover:opacity-100 cursor-pointer"
                     aria-label="Delete bookmark"
                   >

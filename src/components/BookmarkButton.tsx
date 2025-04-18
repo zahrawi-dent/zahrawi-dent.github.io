@@ -1,5 +1,5 @@
 // src/components/BookmarkButton.jsx
-import { createSignal, onMount } from "solid-js";
+import { createEffect, createSignal, onMount } from "solid-js";
 import { bookmarkStore } from "../stores/bookmarkStore";
 
 export default function BookmarkButton(props) {
@@ -8,6 +8,14 @@ export default function BookmarkButton(props) {
 
   // Check bookmark status on mount
   onMount(() => {
+    setIsBookmarked(bookmarkStore.isBookmarked(article));
+  });
+
+  // an effect that runs whenever the bookmarks array changes
+  createEffect(() => {
+    // Access the bookmarks array to create a dependency
+    const currentBookmarks = bookmarkStore.bookmarks;
+    // Update the button state based on current bookmarks
     setIsBookmarked(bookmarkStore.isBookmarked(article));
   });
 
@@ -23,7 +31,7 @@ export default function BookmarkButton(props) {
 
   return (
     <button
-      class=" text-gray-400 transition-colors hover:text-blue-600"
+      class="text-gray-400 transition-colors hover:text-blue-600"
       onClick={toggleBookmark}
       aria-label={isBookmarked() ? "Remove bookmark" : "Add bookmark"}
     >
@@ -46,7 +54,7 @@ export default function BookmarkButton(props) {
   //   <button
   //     onClick={toggleBookmark}
   //     class={`flex items-center space-x-1 px-3 py-1.5 rounded-lg transition-colors ${isBookmarked()
-  //       ? "bg-blue-500/20 text-blue-400 hover:bg-blue-500/30"
+  //       ? "bg-amber-500/20 text-amber-400 hover:bg-amber-500/30"
   //       : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white"
   //       }`}
   //     aria-label={isBookmarked() ? "Remove bookmark" : "Add bookmark"}
@@ -64,6 +72,9 @@ export default function BookmarkButton(props) {
   //         d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
   //       />
   //     </svg>
+  //     <span class="text-sm font-medium">
+  //       {isBookmarked() ? "Bookmarked" : "Bookmark"}
+  //     </span>
   //   </button>
   // );
 }

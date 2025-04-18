@@ -1,6 +1,6 @@
 // src/components/ThemeToggle.jsx
 import { Show } from 'solid-js';
-import sidebarStore from '../stores/sidebarStore'; // Import the store
+import { state, actions } from '../stores/sidebarStore'; // Import the store
 
 const SunIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -15,17 +15,16 @@ const MoonIcon = () => (
 );
 
 export default function ThemeToggle() {
-  const store = sidebarStore; // Access the store
 
   return (
     <button
-      onClick={() => store.toggleTheme()} // Call the store action
+      onClick={() => actions.toggleTheme()} // Call the store action
       type="button"
-      aria-label={`Switch to ${store.state.theme === 'light' ? 'dark' : 'light'} mode`}
-      aria-pressed={store.state.theme === 'dark'}
+      aria-label={`Switch to ${state.theme === 'light' ? 'dark' : 'light'} mode`}
+      aria-pressed={state.theme === 'dark'}
       class="rounded-full p-2 text-gray-300 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-indigo-500"
     >
-      <Show when={store.state.theme === 'light'} fallback={<MoonIcon />}>
+      <Show when={state.theme === 'light'} fallback={<MoonIcon />}>
         <SunIcon />
       </Show>
     </button>
