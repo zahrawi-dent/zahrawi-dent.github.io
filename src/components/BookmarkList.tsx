@@ -55,7 +55,7 @@ export default function BookmarkList() {
               {(article: BookmarkArticle) => (
                 <div class="group relative">
                   <a
-                    href={`/${article.data.category}/${article.data.subcategory}/${article.slug}`}
+                    href={`/${article.id}`}
                     class="block rounded-lg bg-gray-800 p-3 pr-10 transition-colors hover:bg-gray-700"
                   >
                     <h4 class="line-clamp-2 font-medium text-white">{article.data.title}</h4>

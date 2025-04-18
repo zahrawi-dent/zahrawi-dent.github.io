@@ -72,7 +72,7 @@ interface SortedSubcategory {
 
 function sortSubcategories(
   subcategories: Record<string, Article[]>,
-  categoryInfo: CategoryInfo
+  categoryInfo: CategoryInfo,
 ): SortedSubcategory[] {
   return categoryInfo.subcategoryOrder
     .filter((key) => subcategories[key])
@@ -87,7 +87,7 @@ function sortSubcategories(
 function addRemainingSubcategories(
   subcategories: Record<string, Article[]>,
   categoryInfo: CategoryInfo,
-  sortedSubcategories: SortedSubcategory[]
+  sortedSubcategories: SortedSubcategory[],
 ): void {
   Object.keys(subcategories)
     .filter((key) => !categoryInfo.subcategoryOrder.includes(key))
@@ -101,10 +101,8 @@ function addRemainingSubcategories(
     });
 }
 
-
 const sortedSubcategories = sortSubcategories(subcategories, categoryInfo);
 addRemainingSubcategories(subcategories, categoryInfo, sortedSubcategories);
-
 
 const title = `${categoryInfo.displayName}`;
 const description = categoryInfo.description;
@@ -113,7 +111,7 @@ const breadcrumbData = [
   { label: "Home", href: "/" },
   {
     label: categoryInfo.displayName,
-    href: `/${category}`,
+    href: `/${category}/`,
   },
 ];
 ---
