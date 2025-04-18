@@ -4,6 +4,7 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 
 import SideBarFindpage from "@/components/SideBarFindpage.tsx";
+import LoadingIndicator from "../components/LoadingIndicator.astro";
 
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
@@ -44,6 +45,7 @@ categories.sort();
     <ClientRouter />
   </head>
   <body class="flex min-h-screen flex-col bg-gray-900 text-white">
+    <LoadingIndicator />
     <div class="flex flex-grow flex-col lg:flex-row">
       <SideBarFindpage client:load categories={categories} transition:persist />
 

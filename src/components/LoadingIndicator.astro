@@ -1,0 +1,50 @@
+<div
+  id="page-corner-spinner"
+  aria-label="Loading page"
+  role="status"
+  class="fixed right-4 bottom-4 z-[9999] p-2"
+>
+  <div
+    class="h-6 w-6 animate-spin rounded-full border-2 border-solid border-blue-600 border-t-transparent dark:border-blue-400 dark:border-t-transparent"
+  >
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<style is:global>
+  #page-corner-spinner {
+    /* Start hidden, smoothly transition opacity */
+    opacity: 0;
+    transform: scale(0.8); /* Optional: slightly scale down when hidden */
+    pointer-events: none; /* Prevent interaction when hidden */
+    transition:
+      opacity 0.3s ease-in-out,
+      transform 0.3s ease-in-out; /* Smooth fade and scale */
+
+    /* Optional delay: only show if loading takes > 200ms */
+    /* transition-delay: 0.2s; */
+  }
+
+  /* Class added during navigation by the script below */
+  html.is-navigating #page-corner-spinner {
+    opacity: 1;
+    transform: scale(1); /* Scale back to normal size */
+    pointer-events: auto; /* Allow interaction if needed */
+    /* transition-delay: 0s; /* Remove delay when showing */
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener("astro:before-preparation", () => {
+    document.documentElement.classList.add("is-navigating");
+  });
+  document.addEventListener("astro:after-swap", () => {
+    // Optionally add a small delay before removing the class
+    // to ensure the spinner stays visible during the whole swap + animation.
+    // Adjust delay based on your transition duration/preference.
+    // setTimeout(() => {
+    //   document.documentElement.classList.remove('is-navigating');
+    // }, 100); // Example: 100ms delay
+    document.documentElement.classList.remove("is-navigating");
+  });
+</script>
