@@ -21,15 +21,10 @@ export const bookmarkStore = (() => {
   // Function to add a bookmark
   function addBookmark(article: BookmarkArticle) {
     // Generate a unique ID if one doesn't exist
-    const bookmarkId = article.id || `bookmark_${Date.now()}`;
+    const bookmarkId = article.id
 
     // Check if the article is already bookmarked
-    const exists = bookmarks.some(bookmark =>
-      bookmark.id === bookmarkId ||
-      (bookmark.slug === article.slug &&
-        bookmark.data.category === article.data.category &&
-        bookmark.data.subcategory === article.data.subcategory)
-    );
+    const exists = bookmarks.some(bookmark => bookmark.id === bookmarkId);
 
     if (!exists) {
       // Add id property if it doesn't exist
@@ -52,12 +47,7 @@ export const bookmarkStore = (() => {
     const bookmarkId = article.id || `bookmark_${Date.now()}`;
 
     // Check if article is already bookmarked
-    const existingIndex = bookmarks.findIndex(bookmark =>
-      bookmark.id === bookmarkId ||
-      (bookmark.slug === article.slug &&
-        bookmark.data.category === article.data.category &&
-        bookmark.data.subcategory === article.data.subcategory)
-    );
+    const existingIndex = bookmarks.findIndex(bookmark => bookmark.id === bookmarkId);
 
     if (existingIndex >= 0) {
       // Remove bookmark if it exists
@@ -73,11 +63,9 @@ export const bookmarkStore = (() => {
 
   // Check if an article is bookmarked
   function isBookmarked(article: BookmarkArticle) {
-    return bookmarks.some(bookmark =>
-    (bookmark.slug === article.slug &&
-      bookmark.data.category === article.data.category &&
-      bookmark.data.subcategory === article.data.subcategory)
-    );
+    // return bookmarks.some(bookmark =>
+    //   bookmark.id === article.id);
+    return bookmarks.some(bookmark => (bookmark.id === article.id));
   }
 
   // Save bookmarks to localStorage
