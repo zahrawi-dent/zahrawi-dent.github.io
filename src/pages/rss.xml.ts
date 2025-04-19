@@ -10,6 +10,8 @@ export async function GET(context: any) {
     title: "Zahrawi Dental Learner | Blog",
     description: "Your source for learning about the world of dentistry.",
     site: context.site,
+    stylesheet: "/pretty-feed-v3.xsl",
+    trailingSlash: false,
     items: posts.map((post) => ({
       title: post.data.title,
       content: sanitizeHtml(parser.render(post.body || ''), {
