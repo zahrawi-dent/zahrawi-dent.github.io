@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig } from "astro/config";
 import pagefind from "astro-pagefind";
 
 import tailwindcss from "@tailwindcss/vite";
@@ -10,9 +10,7 @@ import solidJs from "@astrojs/solid-js";
 
 import mdx from "@astrojs/mdx";
 
-import orama from "@orama/plugin-astro";
 
-// Get blog content path from environment variable, fallback to $HOME/blog-content
 
 // https://astro.build/config
 export default defineConfig({
