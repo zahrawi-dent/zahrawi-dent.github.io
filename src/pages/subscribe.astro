@@ -1,9 +1,23 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-const title = "Subscribe | Zahrawi Dental Blog";
-const description = "Subscribe to Zahrawi Dental Blog";
----
-<BaseLayout {title} {description}>
-<script async src="https://eocampaign1.com/form/08d5ee00-0b4a-11f0-a567-df9737a7c137.js" data-form="08d5ee00-0b4a-11f0-a567-df9737a7c137"></script>
-</BaseLayout>
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import EmailOctopusForm from "@/components/EmailOctopusForm.tsx";
 
+const DEFAULT_FORM_ACTION =
+  import.meta.env.VITE_EMAIL_OCTOPUS_FORM_ACTION || "";
+const DEFAULT_HONEYPOT_FIELD =
+  import.meta.env.VITE_EMAIL_OCTOPUS_HONEYPOT_FIELD || "";
+const DEFAULT_RECAPTCHA_SITE_KEY =
+  import.meta.env.VITE_EMAIL_OCTOPUS_RECAPTCHA_SITE_KEY || "";
+---
+
+<BaseLayout
+  title="Subscribe | Zahrawi Dental Blog"
+  description="Subscribe to Zahrawi Dental Blog"
+>
+  <EmailOctopusForm
+    client:load
+    formActionUrl={DEFAULT_FORM_ACTION}
+    honeypotFieldName={DEFAULT_HONEYPOT_FIELD}
+    recaptchaSiteKey={DEFAULT_RECAPTCHA_SITE_KEY}
+  />
+</BaseLayout>
