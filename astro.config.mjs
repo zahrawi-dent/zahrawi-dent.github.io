@@ -10,16 +10,15 @@ import solidJs from "@astrojs/solid-js";
 
 import mdx from "@astrojs/mdx";
 
-
-
 import sitemap from "@astrojs/sitemap";
+import AstroPwa from "@vite-pwa/astro";
 
 
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://zahrawi-dent.github.io",
-  integrations: [pagefind(), icon(), solidJs(), mdx(), sitemap()],
+  integrations: [pagefind(), icon(), solidJs(), mdx(), sitemap(), AstroPwa()],
 
   markdown: {},
   redirects: {},
