@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/mdx": "^4.2.4",
     "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.3.0",
     "@astrojs/solid-js": "^5.0.8",
     "@astrojs/svelte": "^7.0.10",
     "@giscus/solid": "^3.1.0",
