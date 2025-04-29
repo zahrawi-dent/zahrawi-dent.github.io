@@ -63,7 +63,12 @@ const description = subcategoryData.displayName;
           )
         }
         <div>
-          <h1 class="text-3xl font-bold text-gray-800">{title}</h1>
+          <h1
+            class="text-3xl font-bold text-white"
+            transition:name={subcategoryData.displayName}
+          >
+            {title}
+          </h1>
           {description && <p class="mt-2 text-gray-600">{description}</p>}
         </div>
       </div>
