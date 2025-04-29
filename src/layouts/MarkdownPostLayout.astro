@@ -27,15 +27,12 @@ const { prevPost, nextPost } = await getPrevNextPosts(allPosts, post);
 const breadcrumbData = [
   { label: "Home", href: "/" },
   {
-    label:
-      // post.data.category.charAt(0).toUpperCase() + post.data.category.slice(1),
-      categoryData[post.data.category].displayName,
+    label: categoryData[post.data.category].displayName,
     href: `/${post.data.category}`,
   },
   // if title is too long, truncate
   {
     label:
-      // post.data.category.charAt(0).toUpperCase() + post.data.category.slice(1),
       categoryData[post.data.category].subcategoryInfo[post.data.subcategory]
         .displayName,
     href: `/${post.data.category}/${post.data.subcategory}`,
