@@ -120,7 +120,7 @@ const breadcrumbData = [
   <div class="container mx-auto px-4 py-8">
     <header class="mb-10 text-center">
       <BreadCrumbs crumbs={breadcrumbData} />
-      <h1 class="mb-3 text-4xl font-bold">{title}</h1>
+      <h1 class="mb-3 text-4xl font-bold" transition:name={title}>{title}</h1>
       <p class="mx-auto max-w-2xl text-gray-600">{description}</p>
     </header>
   </div>

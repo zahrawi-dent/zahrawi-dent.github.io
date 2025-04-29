@@ -7,7 +7,7 @@ interface Props {
   href: string;
 }
 
-const { title, description, icon, color,href } = Astro.props;
+const { title, description, icon, color, href } = Astro.props;
 ---
 
 <div
@@ -16,14 +16,16 @@ const { title, description, icon, color,href } = Astro.props;
   <div class={`text-6xl mb-4 ${color} flex items-center justify-center`}>
     <Fragment set:html={icon} />
   </div>
-  <h2
-    class="mb-3 text-2xl font-semibold transition-colors group-hover:text-blue-400"
-  >
-    {title}
-  </h2>
+  <a href={href} transition:name={title}>
+    <h2
+      class="mb-3 text-2xl font-semibold transition-colors group-hover:text-blue-400"
+    >
+      {title}
+    </h2>
+  </a>
   <p class="mb-4 text-gray-400">{description}</p>
   <a
-      href={href}
+    href={href}
     class="mt-4 inline-block rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
   >
     Explore Category
