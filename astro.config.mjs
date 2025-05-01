@@ -15,10 +15,14 @@ import AstroPwa from "@vite-pwa/astro";
 
 
 
+import yeskunallumami from "@yeskunall/astro-umami";
+
+
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://zahrawi-dent.github.io",
-  integrations: [pagefind(), icon(), solidJs(), mdx(), sitemap(), AstroPwa()],
+  integrations: [pagefind(), icon(), solidJs(), mdx(), sitemap(), AstroPwa(), yeskunallumami({ id: "39cd2b10-2385-4cd1-8883-151d28432738" })],
 
   markdown: {},
   redirects: {},
