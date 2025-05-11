@@ -1,4 +1,10 @@
 ---
+import { SEO } from "astro-seo";
+import { getImagePath } from "astro-opengraph-images";
+
+const { url, site } = Astro;
+const openGraphImageUrl = getImagePath({ url, site });
+
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
@@ -50,6 +56,19 @@ categories.sort();
     <link rel="sitemap" href="/sitemap-index.xml" />
     <title>{title}</title>
     <ClientRouter />
+    <SEO
+      openGraph={{
+        basic: {
+          title: title,
+          type: "website",
+          image: openGraphImageUrl,
+          url: url,
+        },
+        optional: {
+          description: "My page description",
+        },
+      }}
+    />
   </head>
   <body class="flex min-h-screen flex-col bg-gray-900 text-white">
     <LoadingIndicator />
