@@ -1,4 +1,5 @@
 ---
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro";
 
@@ -19,5 +20,7 @@ const { Content } = await render(post);
 ---
 
 <!-- <MarkdownPostLayout post={post}> -->
-<Content />
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <Content />
+</BaseLayout>
 <!-- </MarkdownPostLayout> -->

@@ -1,4 +1,6 @@
 ---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
 interface Props {
   error: unknown;
 }
@@ -7,4 +9,7 @@ const { error } = Astro.props;
 
 // https://docs.astro.build/en/basics/astro-pages/#custom-500-error-page
 ---
-<div>{error instanceof Error ? error.message : "Unknown error"}</div>
+
+<BaseLayout title="500 | Zahrawi" description="500 page not found">
+  <div>{error instanceof Error ? error.message : "Unknown error"}</div>
+</BaseLayout>

@@ -1,5 +1,8 @@
 // @ts-check
+
 import fs from "fs";
+
+
 import { defineConfig } from "astro/config";
 import pagefind from "astro-pagefind";
 
@@ -27,20 +30,24 @@ import opengraphImages, { presets } from "astro-opengraph-images";
 // https://astro.build/config
 export default defineConfig({
   site: "https://zahrawi-dent.github.io",
-  integrations: [pagefind(), icon(), solidJs(), mdx(), sitemap(), AstroPwa(), yeskunallumami({ id: "39cd2b10-2385-4cd1-8883-151d28432738" }),
-  opengraphImages({
-    options: {
-      fonts: [
-        {
-          name: "Roboto",
-          weight: 400,
-          style: "normal",
-          data: fs.readFileSync("node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff"),
-        },
-      ],
-    },
-    render: presets.blackAndWhite,
-  }),
+  integrations: [
+    pagefind(),
+    icon(), solidJs(), mdx(), sitemap(), AstroPwa(), yeskunallumami({ id: "39cd2b10-2385-4cd1-8883-151d28432738" }),
+
+    opengraphImages({
+      options: {
+        fonts: [
+          {
+            name: "Roboto",
+            weight: 400,
+            style: "normal",
+            data: fs.readFileSync("node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff"),
+          },
+        ],
+      },
+      render: presets.blackAndWhite,
+    }),
+
   ],
 
   markdown: {},
@@ -59,7 +66,7 @@ export default defineConfig({
     build: {
       rollupOptions: {
         external: ["/pagefind/pagefind.js"],
-      },
+      }
     },
   },
 });

@@ -3,7 +3,8 @@ import { SEO } from "astro-seo";
 import { getImagePath } from "astro-opengraph-images";
 
 const { url, site } = Astro;
-const openGraphImageUrl = getImagePath({ url, site });
+// const openGraphImageUrl = getImagePath({ url, site });
+const openGraphImageUrl = "https://zahrawi-dental.com/404/index.png";
 
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
@@ -44,6 +45,19 @@ categories.sort();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- <meta property="og:title" content={title} /> -->
+    <!-- <meta property="og:url" content={url} /> -->
+    <!-- <meta property="og:type" content="website" /> -->
+    <!-- <meta property="og:image" content={openGraphImageUrl} /> -->
+    <!-- <meta property="og:description" content={description} /> -->
+
+    <meta property="og:title" content="titl" />
+    <meta property="og:url" content="lkj" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={openGraphImageUrl} />
+    <meta property="og:description" content="lkjsdf" />
+
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -55,20 +69,8 @@ categories.sort();
     />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <title>{title}</title>
+
     <ClientRouter />
-    <SEO
-      openGraph={{
-        basic: {
-          title: title,
-          type: "website",
-          image: openGraphImageUrl,
-          url: url,
-        },
-        optional: {
-          description: "My page description",
-        },
-      }}
-    />
   </head>
   <body class="flex min-h-screen flex-col bg-gray-900 text-white">
     <LoadingIndicator />
