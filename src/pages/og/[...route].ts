@@ -29,7 +29,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
         [8, 3, 2],
       ],
       logo: {
-        path: "./src/logo.png",
+        path: "public/favicon.svg",
         size: [500],
       },
     };
