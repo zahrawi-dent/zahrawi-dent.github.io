@@ -1,10 +1,10 @@
 ---
-import { SEO } from "astro-seo";
-import { getImagePath } from "astro-opengraph-images";
-
-const { url, site } = Astro;
-// const openGraphImageUrl = getImagePath({ url, site });
-const openGraphImageUrl = "https://zahrawi-dental.com/404/index.png";
+// import { SEO } from "astro-seo";
+// import { getImagePath } from "astro-opengraph-images";
+//
+// const { url, site } = Astro;
+// // const openGraphImageUrl = getImagePath({ url, site });
+// const openGraphImageUrl = "https://zahrawi-dental.com/404/index.png";
 
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
@@ -51,12 +51,6 @@ categories.sort();
     <!-- <meta property="og:type" content="website" /> -->
     <!-- <meta property="og:image" content={openGraphImageUrl} /> -->
     <!-- <meta property="og:description" content={description} /> -->
-
-    <meta property="og:title" content="titl" />
-    <meta property="og:url" content="lkj" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content={openGraphImageUrl} />
-    <meta property="og:description" content="lkjsdf" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
