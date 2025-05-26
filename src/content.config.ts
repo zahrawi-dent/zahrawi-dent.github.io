@@ -8,8 +8,6 @@ const blog = defineCollection({
   }),
   schema: z.object({
     title: z.string(),
-    pubDate: z.date(),
-    lastUpdated: z.date(),
     description: z.string(),
     category: z.enum([
       "endodontics",
@@ -21,11 +19,6 @@ const blog = defineCollection({
       "anatomy",
     ]),
     subcategory: z.string(),
-    author: z.string(),
-    image: z.object({
-      url: z.string(),
-      alt: z.string(),
-    }),
     tags: z.array(z.string()),
   }),
 });
