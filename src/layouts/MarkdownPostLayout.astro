@@ -14,9 +14,10 @@ import { categoryData } from "@/constants";
 
 interface Props {
   post: CollectionEntry<"blog">;
+  lastModified: string;
 }
 
-const { post } = Astro.props;
+const { post, lastModified } = Astro.props;
 const frontmatter = post.data;
 
 // Get all blog posts
@@ -119,7 +120,7 @@ const categoryColorClass = `bg-${frontmatter.category.toLowerCase()}-600`;
                 <div class="flex items-center text-white">
                   <div>
                     <div class="flex items-center text-sm text-gray-300">
-                      <span>{formatDate(post.data.pubDate)}</span>
+                      <span>{lastModified}</span>
                       <span class="mx-2">•</span>
                       <span class="flex items-center">
                         <svg

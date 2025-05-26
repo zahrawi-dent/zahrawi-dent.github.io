@@ -32,7 +32,7 @@ export default function BookmarkButton(props) {
   return (
     <button
       class="text-gray-400 transition-colors hover:text-blue-600"
-      onClick={toggleBookmark}
+      onclick={toggleBookmark}
       aria-label={isBookmarked() ? "Remove bookmark" : "Add bookmark"}
     >
       {isBookmarked() ? (
