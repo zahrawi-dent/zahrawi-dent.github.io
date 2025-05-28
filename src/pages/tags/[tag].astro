@@ -18,9 +18,9 @@ export async function getStaticPaths() {
       post.data.tags.includes(tag),
     );
 
-    filteredPosts.sort(
-      (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-    );
+    // filteredPosts.sort(
+    //   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+    // );
 
     return {
       params: { tag: tag.toLowerCase() },

@@ -59,16 +59,16 @@ export default function QuizButton(props: QuizButtonProps) {
   });
 
   return (
-    <div class="my-8 py-6 border-t border-gray-200 dark:border-gray-700">
+    <div class="my-8 py-6 border-t border-gray-700">
       {/* ... (rest of the component is unchanged) ... */}
       <div class="flex flex-col items-center justify-center">
         {/* Button to open the modal */}
         <button
           onClick={openQuizModal}
-          class="group relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 p-0.5 text-sm font-medium text-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:text-white dark:focus:ring-blue-800"
+          class="group relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 p-0.5 text-sm font-medium hover:text-white focus:outline-none focus:ring-4  text-white focus:ring-blue-800"
           disabled={isLoading()}
         >
-          <span class="relative flex items-center space-x-2 rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0 dark:bg-gray-800">
+          <span class="relative flex items-center space-x-2 rounded-md px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0 bg-gray-800">
             {isLoading() ? (
               <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -84,7 +84,7 @@ export default function QuizButton(props: QuizButtonProps) {
             )}
           </span>
         </button>
-        <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">
+        <p class="mt-3 text-sm text-gray-400">
           Take a quick quiz about "{props.postTitle}"
         </p>
 
@@ -97,7 +97,7 @@ export default function QuizButton(props: QuizButtonProps) {
             </Show>
             <Show when={!QuizComponent() && isLoading()}>
               <div class="flex justify-center items-center h-40">
-                <p class="text-gray-600 dark:text-gray-400">Loading Quiz...</p>
+                <p class="text-gray-400">Loading Quiz...</p>
               </div>
             </Show>
           </Modal>

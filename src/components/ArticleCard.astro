@@ -30,18 +30,6 @@ const categoryColor = "blue";
 <article
   class={`group flex flex-col rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl ${featured ? "md:col-span-2 lg:flex-row" : ""}`}
 >
-  <a
-    href={`/${post.id}`}
-    class={`block overflow-hidden ${featured ? "lg:w-1/2" : ""}`}
-  >
-    <img
-      class="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-      src={data.image.url || "/api/placeholder/600/400"}
-      alt={data.image.alt || data.title}
-      loading="lazy"
-    />
-  </a>
-
   <div
     class={`flex-1 bg-white dark:bg-gray-800 p-6 flex flex-col justify-between ${featured ? "lg:w-1/2" : ""}`}
   >
@@ -70,7 +58,7 @@ const categoryColor = "blue";
       </div>
 
       <!-- Title and description -->
-      <a href={`/blog/${post.id}`} class="group-hover:text-primary-600">
+      <a href={`/${post.id}`} class="group-hover:text-primary-600">
         <h3
           class="group-hover:text-primary-600 mb-2 text-xl font-bold text-gray-900 transition-colors dark:text-white"
         >
@@ -88,9 +76,6 @@ const categoryColor = "blue";
         <div
           class="flex items-center space-x-1 text-xs text-gray-500 dark:text-gray-400"
         >
-          <time datetime={data.pubDate.toISOString()}>
-            {formatDate(data.pubDate)}
-          </time>
           <span aria-hidden="true">&middot;</span>
           <span>{readingTime} min read</span>
         </div>
