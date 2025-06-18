@@ -30,6 +30,17 @@ import { remarkModifiedTime } from './src/utils/remark-modified-time.mjs';
 
 
 
+import reunmediaogImages from "@reunmedia/astro-og-images";
+
+
+
+import ogImages from "@reunmedia/astro-og-images";
+import { readFile } from "fs/promises";
+
+
+
+
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://zahrawi-dent.github.io",
@@ -41,6 +52,18 @@ export default defineConfig({
     sitemap(),
     AstroPwa(),
     yeskunallumami({ id: "39cd2b10-2385-4cd1-8883-151d28432738" }),
+    reunmediaogImages(),
+    ogImages({
+      // At least one font is required
+      fonts: [
+        {
+          name: "Roboto",
+          data: await readFile(
+            "./node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff",
+          ),
+        },
+      ],
+    }),
   ],
 
   markdown: {

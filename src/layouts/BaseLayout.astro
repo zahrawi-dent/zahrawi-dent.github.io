@@ -17,12 +17,19 @@ import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import { categoryData } from "@/constants";
 
+import { ogImage } from "@reunmedia/astro-og-images";
+
+import ogTemplate from "././ogLayout";
+// ogImage returns absolute URL to rendered image
+
 interface Props {
   title: string;
   description: string;
 }
 
 const { title = "Zahrawi Dental Blog", description } = Astro.props as Props;
+
+const ogImageUrl = await ogImage(ogTemplate({ title, description }));
 
 // list all available categories
 const allArticles: CollectionEntry<"blog">[] = await getCollection("blog");
@@ -45,6 +52,8 @@ categories.sort();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:image" content={ogImageUrl} />
+
     <!-- <meta property="og:title" content={title} /> -->
     <!-- <meta property="og:url" content={url} /> -->
     <!-- <meta property="og:type" content="website" /> -->
@@ -66,6 +75,7 @@ categories.sort();
     <ClientRouter />
   </head>
   <body class="flex min-h-screen flex-col bg-gray-900 text-white">
+    <img style="max-width: 100%;" src={ogImageUrl} />
     <LoadingIndicator />
     <div class="flex flex-grow flex-col lg:flex-row">
       <SideBarFindpage client:load categories={categories} transition:persist />
