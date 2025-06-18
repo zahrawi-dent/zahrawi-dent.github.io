@@ -104,6 +104,9 @@ importers:
       sanitize-html:
         specifier: ^2.16.0
         version: 2.16.0
+      sharp:
+        specifier: ^0.34.2
+        version: 0.34.2
       solid-js:
         specifier: ^1.9.5
         version: 1.9.6
@@ -10929,7 +10932,7 @@ snapshots:
 
   typescript-auto-import-cache@0.3.5:
     dependencies:
-      semver: 7.7.1
+      semver: 7.7.2
 
   typescript@5.8.3: {}
 
@@ -11173,7 +11176,7 @@ snapshots:
   volar-service-typescript@0.0.62(@volar/language-service@2.4.13):
     dependencies:
       path-browserify: 1.0.1
-      semver: 7.7.1
+      semver: 7.7.2
       typescript-auto-import-cache: 0.3.5
       vscode-languageserver-textdocument: 1.0.12
       vscode-nls: 5.2.0

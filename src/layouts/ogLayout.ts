@@ -1,6 +1,9 @@
 import { html } from "@reunmedia/astro-og-images";
 import { deepmerge } from "deepmerge-ts";
 
+// alternative layout backgroundImageAndLogo
+// https://github.com/ReunMedia/astro-og-images/blob/main/playground/src/ogImageTemplates/backgroundImageAndLogo.ts
+
 interface TemplateOptions {
   title: string;
   description: string;
