@@ -1,9 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 import SectionLayout from "../../../layouts/SectionLayout.astro";
-import { articleSequences } from "../../../content/sequences";
+import { getOrderedArticles } from "../../../utils/articleSequencer.ts";
 
-// Generate paths for all categories and subcategories
 export async function getStaticPaths() {
   const allArticles = await getCollection("blog");
 
@@ -32,24 +31,14 @@ export async function getStaticPaths() {
         (article) => article.data.subcategory === subcategory,
       );
 
-      // Get the sequence for this subcategory
-      const sequence = articleSequences[subcategory];
-
-      // Sort articles based on sequence if available
-      const sortedArticles = sequence
-        ? subcategoryArticles.sort((a, b) => {
-            const aIndex = sequence.indexOf(a.data.title);
-            const bIndex = sequence.indexOf(b.data.title);
-            // If article not in sequence, put it at the end
-            if (aIndex === -1) return 1;
-            if (bIndex === -1) return -1;
-            return aIndex - bIndex;
-          })
-        : subcategoryArticles;
+      const orderedArticles = getOrderedArticles(
+        subcategory,
+        subcategoryArticles,
+      );
 
       paths.push({
         params: { category, subcategory },
-        props: { articles: sortedArticles },
+        props: { articles: orderedArticles },
       });
     }
   }
@@ -58,12 +47,7 @@ export async function getStaticPaths() {
 }
 
 const { category, subcategory } = Astro.params;
-const articles = Astro.props.articles;
+const { articles } = Astro.props;
 ---
 
-<SectionLayout
-  {category}
-  section={subcategory}
-  articles={articles}
-  currentPage={1}
-/>
+<SectionLayout {category} section={subcategory} {articles} currentPage={1} />

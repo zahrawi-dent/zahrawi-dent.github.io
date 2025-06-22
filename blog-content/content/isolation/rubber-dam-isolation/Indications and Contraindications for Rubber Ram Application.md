@@ -5,7 +5,6 @@ category: 'isolation'
 subcategory: 'rubber-dam-isolation'
 tags: ["Rubber Dam", "Isolation"]
 ---
-# Indications and Contraindications for Rubber Ram Application
 ## ✅ Indications
 ### Endodontic Treatment
 - The rubber dam prevents bacterial contamination of the root canal system from the oral environment. 

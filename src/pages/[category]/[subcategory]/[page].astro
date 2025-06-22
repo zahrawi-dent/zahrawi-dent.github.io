@@ -4,6 +4,7 @@ import { type Page as PageType } from "astro";
 import SectionLayout from "../../../layouts/SectionLayout.astro";
 import type { ArticleType } from "@/types";
 import { articleSequences } from "../../../content/sequences";
+import { getOrderedArticles } from "@/utils/articleSequencer";
 
 const { category } = Astro.params;
 
@@ -28,22 +29,24 @@ export async function getStaticPaths({ paginate }) {
     )?.data.category;
 
     // Get the sequence for this subcategory
-    const sequence = articleSequences[subcategory];
-    
+    // const sequence = articleSequences[subcategory];
+
+    const orderedArticles = getOrderedArticles(subcategory, filteredPosts);
+
     // Sort posts based on sequence if available
-    const sortedPosts = sequence 
-      ? filteredPosts.sort((a, b) => {
-          const aIndex = sequence.indexOf(a.data.title);
-          const bIndex = sequence.indexOf(b.data.title);
-          // If article not in sequence, put it at the end
-          if (aIndex === -1) return 1;
-          if (bIndex === -1) return -1;
-          return aIndex - bIndex;
-        })
-      : filteredPosts;
+    // const sortedPosts = sequence
+    //   ? filteredPosts.sort((a, b) => {
+    //       const aIndex = sequence.indexOf(a.data.title);
+    //       const bIndex = sequence.indexOf(b.data.title);
+    //       // If article not in sequence, put it at the end
+    //       if (aIndex === -1) return 1;
+    //       if (bIndex === -1) return -1;
+    //       return aIndex - bIndex;
+    //     })
+    //   : filteredPosts;
 
     // Create paginated routes for this subcategory
-    return paginate(sortedPosts, {
+    return paginate(orderedArticles, {
       params: { category: currentCategory, subcategory },
       pageSize: 6,
       props: { category: currentCategory, subcategory },
@@ -54,9 +57,12 @@ export async function getStaticPaths({ paginate }) {
 // All paginated data is passed on the "page" prop
 const { page } = Astro.props as { page: PageType<ArticleType> };
 const currentPage = parseInt(Astro.params.page as string);
-const subcategory = Astro.props.subcategory
+const subcategory = Astro.props.subcategory;
 ---
 
-<SectionLayout {category} section={subcategory} articles={page.data} {currentPage}>
-
-</SectionLayout>
+<SectionLayout
+  {category}
+  section={subcategory}
+  articles={page.data}
+  {currentPage}
+/>

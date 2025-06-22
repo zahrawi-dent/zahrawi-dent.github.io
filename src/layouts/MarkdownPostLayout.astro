@@ -5,12 +5,13 @@ import BreadCrumbs from "../components/BreadCrumbs.astro";
 import "../styles/markdown.css";
 import PrevNext from "@/components/PrevNext.astro";
 import TableOfContents from "../components/Toc.tsx";
-import { formatDate, getReadingTime, getPrevNextPosts } from "../utils";
+import { getReadingTime } from "../utils";
 import { getCollection } from "astro:content";
 import CommentsSection from "@/components/CommentsSection";
 import EditSuggestion from "@/components/EditSuggestion.astro";
 import ArticleQuizButton from "../components/ArticleQuizButton.astro"; // Import our quiz button component
 import { categoryData } from "@/constants";
+import { getAdjacentArticles } from "@/utils/articleSequencer";
 
 interface Props {
   post: CollectionEntry<"blog">;
@@ -23,7 +24,14 @@ const frontmatter = post.data;
 // Get all blog posts
 const allPosts = await getCollection("blog");
 // Get prev/next posts
-const { prevPost, nextPost } = await getPrevNextPosts(allPosts, post);
+const { prevPost, nextPost } = getAdjacentArticles(
+  post.data.subcategory,
+  post.data.title,
+  allPosts,
+);
+
+console.log("-----------------------------");
+console.log(prevPost?.data.title, nextPost?.data.title);
 
 const breadcrumbData = [
   { label: "Home", href: "/" },

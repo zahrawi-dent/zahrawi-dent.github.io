@@ -1,20 +1,28 @@
 ---
+import type { CollectionEntry } from "astro:content";
+
 // src/components/PrevNext.astro
 
+type BlogPost = CollectionEntry<"blog">;
 interface Props {
-  prevPost?: {
-    slug: string;
-    title: string;
-    category: string;
-    subcategory: string;
-  };
-  nextPost?: {
-    slug: string;
-    title: string;
-    category: string;
-    subcategory: string;
-  };
+  prevPost: BlogPost | null;
+  nextPost: BlogPost | null;
 }
+
+// interface Props {
+//   prevPost?: {
+//     slug: string;
+//     title: string;
+//     category: string;
+//     subcategory: string;
+//   };
+//   nextPost?: {
+//     slug: string;
+//     title: string;
+//     category: string;
+//     subcategory: string;
+//   };
+// }
 
 const { prevPost, nextPost } = Astro.props;
 ---
@@ -25,7 +33,7 @@ const { prevPost, nextPost } = Astro.props;
   {
     prevPost && (
       <a
-        href={`/${prevPost.slug}`}
+        href={`/${prevPost.id}`}
         class="group flex items-center text-gray-300 transition-colors hover:text-white"
       >
         <svg
@@ -44,7 +52,7 @@ const { prevPost, nextPost } = Astro.props;
         </svg>
         <div class="flex flex-col">
           <span class="text-sm text-gray-400">Previous</span>
-          <span class="font-medium">{prevPost.title}</span>
+          <span class="font-medium">{prevPost.data.title}</span>
         </div>
       </a>
     )
@@ -53,12 +61,12 @@ const { prevPost, nextPost } = Astro.props;
   {
     nextPost && (
       <a
-        href={`/${nextPost.slug}`}
+        href={`/${nextPost.id}`}
         class="group ml-auto flex items-center text-gray-300 transition-colors hover:text-white"
       >
         <div class="flex flex-col text-right">
           <span class="text-sm text-gray-400">Next</span>
-          <span class="font-medium">{nextPost.title}</span>
+          <span class="font-medium">{nextPost.data.title}</span>
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
