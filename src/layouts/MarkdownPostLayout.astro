@@ -27,7 +27,7 @@ const allPosts = await getCollection("blog");
 const { prevPost, nextPost } = getAdjacentArticles(
   post.data.subcategory,
   post.data.title,
-  allPosts,
+  allPosts.filter((p) => p.data.subcategory === post.data.subcategory),
 );
 
 console.log("-----------------------------");
