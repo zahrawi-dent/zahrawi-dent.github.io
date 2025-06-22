@@ -1,14 +1,8 @@
 ---
 title: Advantages of Rubber Dam Isolation
-author: Astro Learner
 description: "Discover how rubber dam isolation improves clinical outcomes, enhances efficiency, and protects both patients and clinicians during dental procedures."
-category: 'restorative'
-subcategory: 'isolation'
-image:
-  url: "../../assets/rubber dam iowa.jpg"
-  alt: "The word astro against an illustration of planets and stars."
-pubDate: 2022-08-08
-lastUpdated: 2022-08-08
+category: 'isolation'
+subcategory: 'rubber-dam-isolation'
 tags: ["Rubber Dam", "Isolation"]
 ---
 ## Access and Visibility

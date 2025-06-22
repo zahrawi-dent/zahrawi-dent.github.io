@@ -1,8 +1,10 @@
 /* markdown-styles.css */
 .markdown-content {
   /* Base text styling */
-  color: white; /* grey-900 */
+  color: white;
+  /* grey-900 */
   line-height: 1.7;
+
   /* Headings */
   & h1,
   & h2,
@@ -17,25 +19,30 @@
 
   & h1 {
     font-size: 2.25rem;
-    border-bottom: 2px solid #14b8a6; /* teal-500 */
+    border-bottom: 2px solid #14b8a6;
+    /* teal-500 */
     padding-bottom: 0.3em;
   }
 
   & h2 {
     font-size: 1.75rem;
-    border-bottom: 1px solid #14b8a6; /* teal-500 */
+    border-bottom: 1px solid #14b8a6;
+    /* teal-500 */
     padding-bottom: 0.2em;
   }
 
   & h3 {
     font-size: 1.5rem;
   }
+
   & h4 {
     font-size: 1.25rem;
   }
+
   & h5 {
     font-size: 1.1rem;
   }
+
   & h6 {
     font-size: 1rem;
   }
@@ -48,14 +55,16 @@
 
   /* Links */
   & a {
-    color: #0d9488; /* teal-600 */
+    color: #0d9488;
+    /* teal-600 */
     text-decoration: none;
     border-bottom: 1px dotted #0d9488;
     transition: all 0.2s ease-in-out;
   }
 
   & a:hover {
-    color: #14b8a6; /* teal-500 */
+    color: #14b8a6;
+    /* teal-500 */
     border-bottom: 1px solid #14b8a6;
   }
 
@@ -73,35 +82,43 @@
   }
 
   & ul li::marker {
-    color: #14b8a6; /* teal-500 */
+    color: #14b8a6;
+    /* teal-500 */
   }
 
   & ol li::marker {
-    color: #14b8a6; /* teal-500 */
+    color: #14b8a6;
+    /* teal-500 */
   }
 
   /* Blockquotes */
   & blockquote {
-    border-left: 4px solid #14b8a6; /* teal-500 */
+    border-left: 4px solid #14b8a6;
+    /* teal-500 */
     padding-left: 1em;
     margin-left: 0;
     margin-right: 0;
     font-style: italic;
-    color: #4b5563; /* grey-600 */
-    background-color: #f3f4f6; /* grey-100 */
+    color: #4b5563;
+    /* grey-600 */
+    background-color: #f3f4f6;
+    /* grey-100 */
     padding: 1em;
     border-radius: 0.25em;
   }
 
   /* Code blocks and inline code */
   & pre {
-    background-color: #1f2937; /* grey-800 */
-    color: #f9fafb; /* grey-50 */
+    background-color: #1f2937;
+    /* grey-800 */
+    color: #f9fafb;
+    /* grey-50 */
     padding: 1em;
     border-radius: 0.25em;
     overflow-x: auto;
     margin: 1.5em 0;
-    border-left: 4px solid #14b8a6; /* teal-500 */
+    border-left: 4px solid #14b8a6;
+    /* teal-500 */
   }
 
   & code {
@@ -109,9 +126,11 @@
     font-size: 0.9em;
   }
 
-  & :not(pre) > code {
-    background-color: #e5e7eb; /* grey-200 */
-    color: #111827; /* grey-900 */
+  & :not(pre)>code {
+    background-color: #e5e7eb;
+    /* grey-200 */
+    color: #111827;
+    /* grey-900 */
     padding: 0.2em 0.4em;
     border-radius: 0.25em;
     white-space: nowrap;
@@ -125,20 +144,25 @@
   }
 
   & th {
-    background-color: #f3f4f6; /* grey-100 */
-    color: #111827; /* grey-900 */
+    background-color: #f3f4f6;
+    /* grey-100 */
+    color: #111827;
+    /* grey-900 */
     font-weight: 600;
-    border: 1px solid #d1d5db; /* grey-300 */
+    border: 1px solid #d1d5db;
+    /* grey-300 */
     padding: 0.5em 0.75em;
     text-align: left;
   }
 
   & tr:nth-child(even) {
-    background-color: #f9fafb; /* grey-50 */
+    background-color: #f9fafb;
+    /* grey-50 */
   }
 
   & td {
-    border: 1px solid #d1d5db; /* grey-300 */
+    border: 1px solid #d1d5db;
+    /* grey-300 */
     padding: 0.5em 0.75em;
   }
 
@@ -148,7 +172,8 @@
     height: auto;
     border-radius: 0.25em;
     margin: 1.5em 0;
-    border: 1px solid #e5e7eb; /* grey-200 */
+    border: 1px solid #e5e7eb;
+    /* grey-200 */
   }
 
   /* Figures with captions */
@@ -159,7 +184,8 @@
   & figcaption {
     text-align: center;
     font-size: 0.875rem;
-    color: #6b7280; /* grey-500 */
+    color: #6b7280;
+    /* grey-500 */
     margin-top: 0.5em;
   }
 
@@ -167,7 +193,8 @@
   & hr {
     border: 0;
     height: 1px;
-    background-color: #d1d5db; /* grey-300 */
+    background-color: #d1d5db;
+    /* grey-300 */
     margin: 2em 0;
   }
 
@@ -178,7 +205,8 @@
 
   & dt {
     font-weight: 700;
-    color: #0d9488; /* teal-600 */
+    color: #0d9488;
+    /* teal-600 */
   }
 
   & dd {
@@ -189,24 +217,27 @@
   /* Footnotes */
   & .footnote {
     font-size: 0.875rem;
-    color: #6b7280; /* grey-500 */
+    color: #6b7280;
+    /* grey-500 */
   }
 
   /* Highlighted text */
   & mark {
-    background-color: #99f6e4; /* teal-200 */
+    background-color: #99f6e4;
+    /* teal-200 */
     padding: 0.2em 0.4em;
     border-radius: 0.25em;
   }
 }
 
-.markdown-content > * {
+.markdown-content>* {
   max-width: 100% !important;
   width: 100% !important;
 }
 
 /* src/styles/markdown.css */
 .markdown-content h1 {
+  color: #4e937a;
   font-size: 2.25rem;
   font-weight: 700;
   margin-top: 2rem;
@@ -222,6 +253,7 @@
 }
 
 .markdown-content h3 {
+  color: #049f9a;
   font-size: 1.5rem;
   font-weight: 600;
   margin-top: 1.5rem;
@@ -321,4 +353,8 @@
 .markdown-content table th {
   background-color: #f7fafc;
   font-weight: 600;
+}
+
+.markdown-content strong {
+  color: white;
 }

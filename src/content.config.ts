@@ -11,6 +11,7 @@ const blog = defineCollection({
     description: z.string(),
     category: z.enum([
       "endodontics",
+      "isolation",
       "orthodontics",
       "restorative",
       "oral-surgery",

@@ -60,6 +60,24 @@ const categoryData = {
       // Add subcategory details
     },
   },
+
+  isolation: {
+    displayName: "Isolation",
+    description:
+      "Isolation...",
+    icon: "stethoscope",
+    subcategoryOrder: [
+      "rubber-dam-isolation",
+    ],
+    subcategoryInfo: {
+      "rubber-dam-isolation": {
+        displayName: "Rubber Dam Isolation",
+        icon: "aftercare",
+      },
+    },
+  },
+
+
   anatomy: {
     displayName: "Dental Anatomy",
     description: "Learn about the structure and functions of the human dental arch",
