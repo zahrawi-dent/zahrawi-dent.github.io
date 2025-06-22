@@ -10,6 +10,14 @@ image:
 pubDate: 2022-08-08
 lastUpdated: 2022-08-08
 tags: ["astro", "successes"]
+mcqs: [
+      { question: "What is the main topic of this article?", options: ["Web Dev", "ML", "DB", "Mobile"], correctAnswer: 0 },
+      { question: "Which component is used for navigation?", options: ["Nav", "BreadCrumbs", "SiteNav", "Header"], correctAnswer: 1 },
+      { question: "Framework for comments?", options: ["React", "Vue", "SolidJS", "Svelte"], correctAnswer: 2 },
+      { question: "How is TOC on mobile?", options: ["Hidden", "Bottom", "Top", "Dropdown"], correctAnswer: 2 },
+      { question: "Edit suggestion component?", options: ["Suggest", "EditSuggestion", "Feedback", "Editor"], correctAnswer: 1 }
+       ]
+
 ---
 
 # hello

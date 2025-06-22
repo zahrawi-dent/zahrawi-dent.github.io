@@ -6,6 +6,7 @@ import Modal from '../components/QuizModal';
 interface QuizButtonProps {
   postId: string;
   postTitle: string;
+  mcqs: any
 }
 
 export default function QuizButton(props: QuizButtonProps) {
@@ -29,7 +30,6 @@ export default function QuizButton(props: QuizButtonProps) {
 
 
   const openQuizModal = async () => {
-    // ... (rest of the openQuizModal logic is unchanged)
     if (!isComponentLoaded()) {
       setIsLoading(true);
       try {
@@ -93,7 +93,7 @@ export default function QuizButton(props: QuizButtonProps) {
           <Modal isOpen={showModal()} onClose={closeQuizModal} title={`Quiz: ${props.postTitle}`}>
             {/* ... modal content ... */}
             <Show when={QuizComponent()}>
-              <Dynamic component={QuizComponent()} postId={props.postId} />
+              <Dynamic component={QuizComponent()} postId={props.postId} mcqs={props.mcqs} />
             </Show>
             <Show when={!QuizComponent() && isLoading()}>
               <div class="flex justify-center items-center h-40">

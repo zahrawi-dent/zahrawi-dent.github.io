@@ -19,6 +19,13 @@ const blog = defineCollection({
       "oral-health",
       "anatomy",
     ]),
+    mcqs: z.array(
+      z.object({
+        question: z.string(),
+        options: z.array(z.string()),
+        correctAnswer: z.number(),
+      })
+    ),
     subcategory: z.string(),
     tags: z.array(z.string()),
   }),

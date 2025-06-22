@@ -10,6 +10,7 @@ interface QuizQuestion {
 
 interface ArticleQuizProps {
   postId: string;
+  mcqs: any
 }
 
 let quizContainerRef: HTMLDivElement | undefined;
@@ -204,14 +205,14 @@ export default function ArticleQuiz(props: ArticleQuizProps) {
     stopConfettiEffects();
     try {
       await new Promise(resolve => setTimeout(resolve, 500));
-      console.log(`Loading questions for post: ${postId}`);
-      const dummyQuestions = [
-        { question: `What is the main topic of this article (${postId})?`, options: ["Web Dev", "ML", "DB", "Mobile"], correctAnswer: 0 },
-        { question: "Which component is used for navigation?", options: ["Nav", "BreadCrumbs", "SiteNav", "Header"], correctAnswer: 1 },
-        { question: "Framework for comments?", options: ["React", "Vue", "SolidJS", "Svelte"], correctAnswer: 2 },
-        { question: "How is TOC on mobile?", options: ["Hidden", "Bottom", "Top", "Dropdown"], correctAnswer: 2 },
-        { question: "Edit suggestion component?", options: ["Suggest", "EditSuggestion", "Feedback", "Editor"], correctAnswer: 1 }
-      ];
+      const dummyQuestions = props.mcqs
+      //   [
+      //   { question: `What is the main topic of this article (${postId})?`, options: ["Web Dev", "ML", "DB", "Mobile"], correctAnswer: 0 },
+      //   { question: "Which component is used for navigation?", options: ["Nav", "BreadCrumbs", "SiteNav", "Header"], correctAnswer: 1 },
+      //   { question: "Framework for comments?", options: ["React", "Vue", "SolidJS", "Svelte"], correctAnswer: 2 },
+      //   { question: "How is TOC on mobile?", options: ["Hidden", "Bottom", "Top", "Dropdown"], correctAnswer: 2 },
+      //   { question: "Edit suggestion component?", options: ["Suggest", "EditSuggestion", "Feedback", "Editor"], correctAnswer: 1 }
+      // ];
       if (dummyQuestions && dummyQuestions.length > 0) {
         setQuestions(dummyQuestions);
       } else {
@@ -318,11 +319,6 @@ export default function ArticleQuiz(props: ArticleQuizProps) {
 
   const handleKeyDown = (event: KeyboardEvent) => {
     // Handle Enter during completed screen
-    if (quizCompleted() && event.key === 'Enter') {
-      event.preventDefault();
-      resetQuiz();
-      return;
-    }
 
     if (isLoading() || error() || quizCompleted() || questions().length === 0) {
       return;
@@ -414,7 +410,7 @@ export default function ArticleQuiz(props: ArticleQuizProps) {
                   }
                   {')'}
                 </p>
-                <p class="text-sm text-gray-400 mb-4">(Press Enter to take again)</p>
+                {/* <p class="text-sm text-gray-400 mb-4">(Press Enter to take again)</p> */}
                 <button
                   onClick={resetQuiz}
                   class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500"

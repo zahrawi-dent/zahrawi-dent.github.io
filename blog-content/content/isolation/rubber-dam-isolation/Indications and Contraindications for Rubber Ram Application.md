@@ -4,6 +4,79 @@ description: "The key indications and rare contraindications for rubber dam use 
 category: 'isolation'
 subcategory: 'rubber-dam-isolation'
 tags: ["Rubber Dam", "Isolation"]
+
+mcqs: [
+  {
+    question: "Why is rubber dam essential during endodontic treatment?",
+    options: [
+      "To whiten the tooth",
+      "To prevent pulp calcification",
+      "To avoid bacterial contamination and aspiration of instruments",
+      "To reduce pain sensation"
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "In deep caries management, what does the rubber dam help ensure?",
+    options: [
+      "Rapid dentin remineralization",
+      "Sterile, dry field for pulp capping success",
+      "Tooth desensitization",
+      "Improved fluoride absorption"
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "Why is rubber dam critical in adhesive dental procedures?",
+    options: [
+      "It replaces the need for etching",
+      "It maintains pulp vitality",
+      "It provides isolation from moisture to ensure proper bond strength",
+      "It improves color matching"
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "What is the main purpose of rubber dam use in high-risk patients (e.g., with HIV or Hepatitis B)?",
+    options: [
+      "To lower treatment cost",
+      "To eliminate the need for sterilization",
+      "To prevent allergic reactions",
+      "To reduce cross-infection risk for the dental team"
+    ],
+    correctAnswer: 3
+  },
+  {
+    question: "Which patient is LEAST likely to tolerate a rubber dam placement?",
+    options: [
+      "A patient with deep caries",
+      "A patient with good nasal breathing",
+      "A patient with severe psychological disorders",
+      "A patient undergoing bleaching"
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "Why are partially erupted teeth a challenge for rubber dam placement?",
+    options: [
+      "They are too hard to isolate due to patient pain",
+      "They lack sufficient structure to retain a clamp",
+      "They cause excessive bleeding",
+      "They increase moisture"
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "Which of the following is a common workaround for isolating malpositioned teeth?",
+    options: [
+      "Skipping rubber dam",
+      "Using serrated or active clamps",
+      "Using local anesthesia",
+      "Applying fluoride before dam placement"
+    ],
+    correctAnswer: 1
+  }
+]
 ---
 ## ✅ Indications
 ### Endodontic Treatment

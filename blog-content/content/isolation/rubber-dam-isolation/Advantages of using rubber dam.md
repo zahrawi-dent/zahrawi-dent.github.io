@@ -4,6 +4,79 @@ description: "Discover how rubber dam isolation improves clinical outcomes, enha
 category: 'isolation'
 subcategory: 'rubber-dam-isolation'
 tags: ["Rubber Dam", "Isolation"]
+
+mcqs: [
+  {
+    question: "What is the primary reason rubber dam is used in bonding procedures?",
+    options: [
+      "To reduce treatment time",
+      "To control moisture and contamination",
+      "To enhance esthetics",
+      "To stabilize the occlusion"
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "Which feature of the rubber dam improves contrast and visibility in the working field?",
+    options: [
+      "Its reflective surface",
+      "Its bright color",
+      "Its dark, non-reflective background",
+      "Its transparency"
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "How does the rubber dam contribute to operator efficiency?",
+    options: [
+      "By requiring less instrumentation",
+      "By minimizing the need for anesthesia",
+      "By creating a clean, distraction-free field",
+      "By eliminating the need for suction"
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "Which of the following is a protective benefit of the rubber dam for the patient?",
+    options: [
+      "Improves occlusion",
+      "Prevents aspiration of instruments and debris",
+      "Whitens the teeth during treatment",
+      "Eliminates the need for anesthesia"
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "What is a benefit of using rubber dam in deep caries management?",
+    options: [
+      "It improves esthetic outcomes",
+      "It reduces dentin hypersensitivity",
+      "It ensures aseptic, moisture-free conditions",
+      "It increases fluoride release"
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "How does the rubber dam assist with mirror visibility?",
+    options: [
+      "By reducing mirror fogging",
+      "By illuminating the oral cavity",
+      "By reflecting more light onto the tooth",
+      "By holding the mirror in place"
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "Why is the rubber dam particularly useful in Class V restorations?",
+    options: [
+      "It replaces the need for matrix bands",
+      "It retracts the tongue",
+      "It provides gingival retraction and isolates cervical areas",
+      "It supports occlusal alignment"
+    ],
+    correctAnswer: 2
+  }
+]
 ---
 ## Access and Visibility
 - The rubber dam provides maximal access and visibility of the treatment area through:
