@@ -57,7 +57,6 @@ mcqs: [
   },
 ]
 ---
-## Rubber Dam Sheet
 ### Thickness
 - Rubber dam sheets are available in various thicknesses, including thin, medium, heavy, extra heavy, and special heavy.
 - Heavy dams are not more challenging to apply than thinner ones, but they do have distinct advantages:
