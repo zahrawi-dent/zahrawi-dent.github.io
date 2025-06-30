@@ -70,7 +70,7 @@ mcqs: [
 - Used to create holes in the rubber dam sheet for isolating individual teeth.
 - Features a rotating metal disc (table) with five or six holes of varying sizes.
 - A sharp, tapered plunger aligns with the selected hole to perforate the dam.
-### Rubber Dam Hole Sizes
+## Rubber Dam Hole Sizes
 - Recommended Hole Sizes for Heavy Latex Dams:
 - Size 5: Molars that will be clamped (anchor molars).
 - Size 4: Other molars.
@@ -79,7 +79,7 @@ mcqs: [
 - Size 1: Mandibular incisors.
 
 - Adjust hole sizes based on tooth dimensions, operator preference, dam thickness, or material type.
-### Punching Tips
+## Punching Tips
 - Punch the dam after it is mounted on the frame (especially for beginners) — this stretches the dam and improves hole positioning.
 - Center the plunger accurately over the cutting hole to avoid damaging the hole’s edges.
 - Inspect the punch disc regularly — worn or damaged holes reduce cutting quality.
@@ -87,7 +87,7 @@ mcqs: [
 	- Tearing during dam placement
 	- Inadequate seal around the tooth
 - Do not punch holes for missing teeth — skipping them maintains dam tension and improves isolation by preventing gaps and fluid leakage.
-### Punching with Templates
+## Punching with Templates
 - When using templates or pre-marked dams:
 	- For Class V restorations, punch the hole ~1 mm facial to the marked position for retraction with a No. 212SA clamp.
 	- Modify hole positions to accommodate atypically aligned teeth or rotations.

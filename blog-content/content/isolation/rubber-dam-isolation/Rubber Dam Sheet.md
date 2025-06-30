@@ -57,28 +57,28 @@ mcqs: [
   },
 ]
 ---
-### Thickness
+## Thickness
 - Rubber dam sheets are available in various thicknesses, including thin, medium, heavy, extra heavy, and special heavy.
 - Heavy dams are not more challenging to apply than thinner ones, but they do have distinct advantages:
 - **Greater durability**: Heavy dams are less likely to tear
 - **Better seal and tissue retraction**: Heavy dams provide a more effective seal around the teeth and retract the gingival tissues more efficiently.
 	- This is especially beneficial in Class V restorations, where a cervical clamp is often used in conjunction with the rubber dam to apically flatten soft tissues and improve access.
 - Medium dams are ideal for situations where insertion is difficult due to tight proximal contacts or when the proximal contacts are broad and tooth mobility is limited.
-### Color
+## Color
 - Green and blue are preferred because they provide good contrast with the surroundings.
 - Green and blue are the most commonly preferred colors, as they provide excellent contrast against the surrounding tissues, enhancing visibility.
 	- They are also considered soothing colors for the eyes, which helps reduce strain during prolonged procedures.
 - The rubber dam sheet has two sides: a shiny side and a dull side.
 	- The dull side should face the operator to minimize light reflection
-### Size
+## Size
 - available in 5’’ × 5’’ or 6’’ × 6’’ inch square sheets. (12.5 × 12.5 cm or 15  × 15 cm²)
 - Rubber dam sheets are available in: 5" × 5" (12.5 × 12.5 cm) and 6" × 6" (15 × 15 cm).
 - The 6" × 6" size is typically used for isolation of posterior teeth in permanent dentition.
 - The 5" × 5" size is often used for primary dentition or anterior teeth.
-### Material
+## Material
 - The most popular material is latex, which offers flexibility and durability.
 - However, some patients are allergic to latex, so it’s important to have latex-free alternatives available, such as polyisoprene or vinyl.
-### Shelf Life
+## Shelf Life
 - Rubber dam materials, both latex and non-latex, deteriorate over time, which can result in decreased tear resistance.
 - As the material approaches its expiration date, it becomes brittle and tears more easily.
 - To check if the rubber dam material has passed it's shelf life, perform a tear test by attempting to tear a sheet with your thumb and index finger.
