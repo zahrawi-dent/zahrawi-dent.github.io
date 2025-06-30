@@ -31,9 +31,6 @@ const { prevPost, nextPost } = getAdjacentArticles(
   allPosts.filter((p) => p.data.subcategory === post.data.subcategory),
 );
 
-console.log("-----------------------------");
-console.log(prevPost?.data.title, nextPost?.data.title);
-
 const breadcrumbData = [
   { label: "Home", href: "/" },
   {

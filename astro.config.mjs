@@ -21,7 +21,7 @@ import AstroPwa from "@vite-pwa/astro";
 
 import yeskunallumami from "@yeskunall/astro-umami";
 
-import { remarkModifiedTime } from './src/utils/remark-modified-time.mjs';
+import { remarkModifiedTime } from './src/utils/remark-modified-time';
 
 
 
