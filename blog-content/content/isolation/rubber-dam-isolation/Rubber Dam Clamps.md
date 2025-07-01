@@ -112,9 +112,6 @@ mcqs: [
 - Selection should be based on individual tooth anatomy rather than just tooth class
 - Always assess the shape between clamp jaws and determine if it corresponds with the cervical anatomy of the tooth 
 - Always test clamp fit and stability before placing the dam. If the clamp rocks or slides, try a different size or shape.
-
-- [^1]
-[^1]: ![[Pasted image 20250222131851.png|400]]
 ### Rule of Four
 - Optimal clamp stability requires four-point contact between clamp and tooth surface
 - Three-point contact (particularly two distal points) may provide adequate stability but requires careful consideration of tipping forces from the rubber dam
