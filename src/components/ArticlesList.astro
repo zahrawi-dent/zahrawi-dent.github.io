@@ -8,18 +8,20 @@ import BookmarkButton  from './BookmarkButton.tsx';
 
 interface Props {
   articles: ArticleType[];
+  currentPage: number;
 }
 
 const { articles } = Astro.props;
 ---
 <div class=" mx-auto px-4 py-6 space-y-6">
   {articles.map((article, index) => {
+  const idx = index + (6 * (Astro.props.currentPage - 1));
   return   (
     <article class="group flex flex-col md:flex-row bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 ease-in-out">
 
       {/* Index  */}
       <div class="w-12 md:w-16 flex-shrink-0 flex items-center justify-center bg-gray-100 text-gray-600 font-bold text-lg rounded-l-lg ">
-         <span class="md:rounded-none rounded-t-lg ">{index + 1}</span>
+         <span class="md:rounded-none rounded-t-lg ">{idx+1}</span>
       </div>
 
 

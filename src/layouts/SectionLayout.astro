@@ -8,19 +8,22 @@ import type { ArticleType } from "@/types";
 
 interface Props {
   category: string;
-  section: string;
+  // section is subcategory
+  subcategory: string;
   articles: ArticleType[];
   currentPage: number;
 }
 
-const { category, section: subcategory, articles, currentPage } = Astro.props;
+const { category, subcategory: section, articles, currentPage } = Astro.props;
 
-const subcategoryData = categoryData[category]?.subcategoryInfo[
-  subcategory
-] || { displayName: subcategory };
+const subcategoryData = categoryData[category]?.subcategoryInfo[section] || {
+  displayName: section,
+};
 
+// for pagination
 const totalPages = Math.ceil(articles.length / 6);
 const pageLimit = 6;
+///
 
 const breadcrumbData = [
   { label: "Home", href: "/" },
@@ -30,14 +33,14 @@ const breadcrumbData = [
   },
   {
     label: subcategoryData.displayName,
-    href: `/${category}/${subcategory}`,
+    href: `/${category}/${section}`,
   },
   // if current page > 1, add a link to the current page
   ...(currentPage > 1
     ? [
         {
           label: `Page ${currentPage}`,
-          href: `/${category}/${subcategory}/${currentPage}`,
+          href: `/${category}/${section}/${currentPage}`,
         },
       ]
     : []),
@@ -77,7 +80,8 @@ const description = subcategoryData.displayName;
     {
       articles.length > 0 ? (
         <div class="container mx-auto px-4 py-8">
-          <ArticlesList articles={articles.slice(0, pageLimit)} />
+          <!--  only show first 6 -->
+          <ArticlesList articles={articles.slice(0, pageLimit)} {currentPage} />
         </div>
       ) : (
         <div class="rounded-lg bg-gray-50 p-8 text-center">
@@ -96,7 +100,7 @@ const description = subcategoryData.displayName;
       currentPage={1}
       totalPages={totalPages}
       prevUrl={null}
-      nextUrl={totalPages > 1 ? `/${category}/${subcategory}/2` : null}
+      nextUrl={totalPages > 1 ? `/${category}/${section}/2` : null}
     />
   </div>
 </BaseLayout>
