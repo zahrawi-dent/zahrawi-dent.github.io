@@ -1,36 +1,75 @@
 ---
 interface Props {
   title: string;
-  description: string;
-  icon: string;
-  color: string;
+  icon: string; // Expecting raw SVG HTML
   href: string;
+  theme: 'blue' | 'purple' | 'green'; // Use a theme for maintainable styling
 }
 
-const { title, description, icon, color, href } = Astro.props;
+const { title, icon, href, theme } = Astro.props;
+
+// A robust theme object to manage all color variants from one place.
+// This is much cleaner than passing individual color classes.
+const themes = {
+  blue: {
+    iconColor: 'text-blue-400',
+    hoverText: 'group-hover:text-blue-400',
+    buttonClasses: 'bg-blue-600 hover:bg-blue-700',
+  },
+  purple: {
+    iconColor: 'text-purple-400',
+    hoverText: 'group-hover:text-purple-400',
+    buttonClasses: 'bg-purple-600 hover:bg-purple-700',
+  },
+  green: {
+    iconColor: 'text-green-400',
+    hoverText: 'group-hover:text-green-400',
+    buttonClasses: 'bg-green-600 hover:bg-green-700',
+  },
+};
+
+const currentTheme = themes[theme];
 ---
 
-<a href={href} class="group block">
-  <div
-    class="rounded-lg bg-slate-800 p-6 shadow-lg transition-transform duration-300 hover:scale-105"
-  >
-    <!-- Icon -->
-    <!-- <div class={`text-6xl mb-4 ${color} flex items-center justify-center`}> -->
-    <!--   <Fragment set:html={icon} /> -->
-    <!-- </div> -->
+<!-- The entire card is a link for maximum usability and accessibility. -->
+<a 
+  href={href} 
+  class="group block h-full rounded-lg bg-slate-800 p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-slate-700/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-blue-500"
+>
+  <!-- Use a flex container to structure the card's content vertically. -->
+  <div class="flex h-full flex-col text-center">
+    
+    <!-- This div will grow to push the button to the bottom. -->
+    <div class="flex-grow">
+      <!-- Icon -->
+     <div 
+        class:list={[
+          // 1. Create a fixed-size container. w-16 h-16 = 64x64px.
+          'mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-lg',
+          // 2. The color class is applied here.
+          currentTheme.iconColor
+        ]}
+      >
+        <!-- 3. The raw SVG is injected here. It will be contained and centered by the parent div. -->
+        <Fragment set:html={icon} />
+      </div>
 
-    <h2
-      class="mb-3 text-2xl font-semibold transition-colors group-hover:text-blue-400"
-    >
-      {title}
-    </h2>
-    <p class="mb-4 text-slate-400">{description}</p>
+      <!-- Title -->
+      <h2 class={`text-2xl font-bold transition-colors ${currentTheme.hoverText}`}>
+        {title}
+      </h2>
+    </div>
 
-    <!-- CTA button -->
-    <span
-      class="mt-4 inline-block rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-    >
-      Explore Category
-    </span>
+    <!-- CTA Button -->
+    <div class="mt-6">
+      <span
+        class:list={[
+          'inline-block rounded-md px-6 py-2 font-semibold text-white transition-colors',
+          currentTheme.buttonClasses
+        ]}
+      >
+        Explore
+      </span>
+    </div>
   </div>
 </a>
