@@ -1,7 +1,7 @@
 ---
 title: Rubber Dam Frame
 description: "the purpose, types, and clinical considerations of rubber dam frames"
-category: 'isolation'
+category: 'restorative'
 subcategory: 'rubber-dam-isolation'
 tags: ["Rubber Dam", "Isolation"]
 mcqs: [

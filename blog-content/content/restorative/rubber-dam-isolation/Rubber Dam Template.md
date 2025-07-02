@@ -1,7 +1,7 @@
 ---
-title: lijk
+title: Rubber Dam Template
 description: "A guide to rubber dam templates and techniques for accurate hole placement and effective isolation."
-category: 'isolation'
+category: 'restorative'
 subcategory: 'rubber-dam-isolation'
 tags: ["Rubber Dam", "Isolation"]
 mcqs: [

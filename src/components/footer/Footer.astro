@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Icon from "./Icon.astro";
 import FooterLinkGroup from "./FooterLinkGroup.astro";
+import { categoryData } from "@/constants";
 
 const socialLinks = [
   { label: "Youtube", url: "https://youtube.com", icon: "youtube" },
@@ -17,8 +18,9 @@ const categories = [
 const categoryLinks = {
   title: "Content Categories",
   links: categories.map((cat) => ({
-    label: cat.charAt(0).toUpperCase() + cat.slice(1), // Capitalize
-    url: cat,
+    // label: cat.charAt(0).toUpperCase() + cat.slice(1), // Capitalize
+    label: categoryData[cat].displayName,
+    url: `/${cat}`,
   })),
 };
 

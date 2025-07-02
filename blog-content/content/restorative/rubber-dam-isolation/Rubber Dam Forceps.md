@@ -1,7 +1,7 @@
 ---
 title: Rubber Dam Forceps
 description: "Rubber dam forceps, their design variations, and key features for safe and precise clamp placement and removal during dental isolation."
-category: 'isolation'
+category: 'restorative'
 subcategory: 'rubber-dam-isolation'
 tags: ["Rubber Dam", "Isolation"]
 mcqs: [

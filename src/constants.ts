@@ -56,9 +56,9 @@ const categoryData: Record<string, Category> = {
   restorative: {
     displayName: "Restorative Dentistry",
     description: "Explore the world of restorative dentistry, including composite resins",
-    icon: "heart",
+    icon: "restorative",
     subcategoryOrder: [
-      "isolation",
+      "rubber-dam-isolation",
       "disease-classification",
       "non-surgical-therapy",
       "surgical-procedures",
@@ -66,7 +66,7 @@ const categoryData: Record<string, Category> = {
       "periodontal-medicine",
     ],
     subcategoryInfo: {
-      isolation: {
+      "rubber-dam-isolation": {
         displayName: "Isolation Techniques",
         icon: "tooth-anatomy",
       },
@@ -115,6 +115,14 @@ const categoryData: Record<string, Category> = {
 };
 
 const iconMap: Record<string, string> = {
+  "restorative": `
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="#000000" 
+  data-darkreader-inline-fill="" style="--darkreader-inline-fill: var(--darkreader-background-000000, #000000);">
+<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+<g id="SVGRepo_iconCarrier"> <g fill="none" fill-rule="evenodd">
+<path fill="#D8D8D8" d="M12.1727757,26 C13.0434286,37.8525461 17.1403968,61 23,61 C26.8661992,61 27.3053608,36.4098157 32.5,36.3875505 C38.6946392,36.4098157 38.1338008,61 42,61 C48.627417,61 53,31.3888407 53,22 C53,12.6111593 48.627417,5 42,5 C38.8333333,5 35.6666667,8 32.5,8 C29.3333333,8 26.1666667,5 23,5 C18.7056102,5 15.3579565,8.19569359 13.5332026,13 L20.5011424,13 C24.0903623,13 27,15.9174538 27,19.5 C27,23.0898509 24.0936265,26 20.5011424,26 L12.1727757,26 Z" data-darkreader-inline-fill="" style="--darkreader-inline-fill: var(--darkreader-background-d8d8d8, #2e3234);"></path> <path stroke="#FF5656" stroke-linecap="round" stroke-width="2" d="M21.5,29 L21.5,29 C26.1944204,29 30,25.1944204 30,20.5" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: var(--darkreader-text-ff5656, #ff5656);"></path> </g> </g></svg>
+  `,
   "tooth-anatomy": `
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -1,7 +1,7 @@
 ---
 title: Rubber Dam Punch
 description: "Learn how to punch the perfect rubber dam holes with easy tips, size guides, and tricks for better isolation."
-category: 'isolation'
+category: 'restorative'
 subcategory: 'rubber-dam-isolation'
 tags: ["Rubber Dam", "Isolation"]
 mcqs: [

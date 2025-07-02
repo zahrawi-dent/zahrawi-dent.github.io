@@ -1,7 +1,7 @@
 ---
 title: Rubber Dam Sheet
 description: "A quick guide to rubber dam sheets—their types, properties, and how they enhance isolation and efficiency in dental procedures."
-category: 'isolation'
+category: 'restorative'
 subcategory: 'rubber-dam-isolation'
 tags: ["Rubber Dam", "Isolation"]
 mcqs: [

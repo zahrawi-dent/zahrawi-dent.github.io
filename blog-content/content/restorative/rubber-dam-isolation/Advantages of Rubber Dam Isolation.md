@@ -1,7 +1,7 @@
 ---
 title: Advantages of Rubber Dam Isolation
 description: "Discover how rubber dam isolation improves clinical outcomes, enhances efficiency, and protects both patients and clinicians during dental procedures."
-category: 'isolation'
+category: 'restorative'
 subcategory: 'rubber-dam-isolation'
 tags: ["Rubber Dam", "Isolation"]
 

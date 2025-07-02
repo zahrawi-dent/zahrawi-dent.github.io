@@ -1,7 +1,7 @@
 ---
 title: Rubber Dam Clamps
 description: "Rubber dam clamps—their types, functions, selection criteria, and safety tips—to ensure effective tooth isolation and soft tissue management in dental procedures."
-category: 'isolation'
+category: 'restorative'
 subcategory: 'rubber-dam-isolation'
 tags: ["Rubber Dam", "Isolation"]
 mcqs: [
