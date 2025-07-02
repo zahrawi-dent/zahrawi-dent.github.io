@@ -1,5 +1,18 @@
 // Define category display data
-const categoryData = {
+
+interface Subcategory {
+  displayName: string;
+  icon: string;
+}
+
+interface Category {
+  displayName: string;
+  description: string;
+  icon: string;
+  subcategoryOrder: string[];
+  subcategoryInfo: Record<string, Subcategory>;
+}
+const categoryData: Record<string, Category> = {
   endodontics: {
     displayName: "Endodontics",
     description:
