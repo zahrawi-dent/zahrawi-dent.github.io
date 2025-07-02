@@ -1,0 +1,32 @@
+---
+// src/components/FooterLinkGroup.astro
+interface Link {
+  label: string;
+  url: string;
+}
+interface Props {
+  title: string;
+  links: Link[];
+}
+const { title, links } = Astro.props;
+---
+
+<div>
+  <h3 class="text-sm font-semibold tracking-wider text-slate-400 uppercase">
+    {title}
+  </h3>
+  <ul role="list" class="mt-4 space-y-4">
+    {
+      links.map((link) => (
+        <li>
+          <a
+            href={link.url}
+            class="text-base text-slate-300 transition-colors hover:text-white"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>

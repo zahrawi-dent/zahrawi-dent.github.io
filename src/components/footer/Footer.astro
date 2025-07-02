@@ -1,0 +1,119 @@
+---
+import { getCollection } from "astro:content";
+import Icon from "./Icon.astro";
+import FooterLinkGroup from "./FooterLinkGroup.astro";
+
+const socialLinks = [
+  { label: "Youtube", url: "https://youtube.com", icon: "youtube" },
+  { label: "Twitter", url: "https://twitter.com", icon: "twitter" },
+  { label: "LinkedIn", url: "https://linkedin.com", icon: "linkedin" },
+];
+
+const allPosts = await getCollection("blog");
+const categories = [
+  ...new Set(allPosts.map((post) => post.data.category)),
+].slice(0, 5); // Show top 5
+
+const categoryLinks = {
+  title: "Content Categories",
+  links: categories.map((cat) => ({
+    label: cat.charAt(0).toUpperCase() + cat.slice(1), // Capitalize
+    url: cat,
+  })),
+};
+
+const aboutLinks = {
+  title: "About Zahrawi",
+  links: [
+    { label: "Our Mission", url: "/about#mission" },
+    { label: "The Team", url: "/about#team" },
+    { label: "Contact Us", url: "/contact" },
+  ],
+};
+
+const resourcesLinks = {
+  title: "Resources",
+  links: [
+    { label: "All Articles", url: "/blog" },
+    { label: "Video Library", url: "/videos" },
+    { label: "Tools", url: "/tools" },
+  ],
+};
+
+const description =
+  "Evidence-based insights, clinical tips, and practice management strategies for modern dental professionals.";
+---
+
+<footer
+  class="border-t border-slate-800 bg-slate-900"
+  aria-labelledby="footer-heading"
+>
+  <h2 id="footer-heading" class="sr-only">Footer</h2>
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+    <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+      <!-- Branding Section -->
+      <div class="space-y-8 xl:col-span-1">
+        <a href="/" class="inline-flex items-center gap-3 text-white">
+          <Icon name="zahrawi" class="h-8 w-8 text-teal-400" />
+          <span class="text-2xl font-bold">Zahrawi</span>
+        </a>
+        <p class="text-base text-slate-400">
+          {description}
+        </p>
+        <div class="flex space-x-6">
+          {
+            socialLinks.map((link) => (
+              <a
+                href={link.url}
+                class="text-slate-400 transition hover:text-teal-400"
+                aria-label={link.label}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name={link.icon} class="h-6 w-6" />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Links Section -->
+      <div
+        class="mt-12 grid grid-cols-2 gap-8 md:grid-cols-3 xl:col-span-2 xl:mt-0"
+      >
+        <FooterLinkGroup
+          title={categoryLinks.title}
+          links={categoryLinks.links}
+        />
+        <FooterLinkGroup title={aboutLinks.title} links={aboutLinks.links} />
+        <FooterLinkGroup
+          title={resourcesLinks.title}
+          links={resourcesLinks.links}
+        />
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div
+      class="mt-12 border-t border-slate-800 pt-8 md:flex md:items-center md:justify-between"
+    >
+      <div class="flex space-x-6 md:order-2">
+        <a
+          href="/privacy"
+          class="text-sm text-slate-400 transition hover:text-white">Privacy</a
+        >
+        <a
+          href="/terms"
+          class="text-sm text-slate-400 transition hover:text-white">Terms</a
+        >
+        <a
+          href="/rss.xml"
+          class="text-sm text-slate-400 transition hover:text-white">RSS</a
+        >
+      </div>
+      <p class="mt-8 text-sm text-slate-400 md:order-1 md:mt-0">
+        Made with &#x2764 in Egypt.
+      </p>
+    </div>
+  </div>
+</footer>
