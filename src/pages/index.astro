@@ -4,27 +4,29 @@ import CategoryCard from "../components/CategoryCard.astro";
 import { categoryData, iconMap } from "@/constants";
 import { getCollection } from "astro:content";
 
-// get all unique categories from blog posts
 const allArticles = await getCollection("blog");
+
+// get all unique categories that's used in articles. not the one in content schema
 const categories = [
   ...new Set(allArticles.map((article) => article.data.category)),
 ];
 
-
 const title = "Zahrawi Dental Blog";
 const description =
-  "Empowering patients and professionals with cutting-edge dental knowledge and insights";
+  "A modern, free, and open-source dental blog powered by community contributions, sharing up-to-date knowledge across all branches of dentistry.";
 ---
 <BaseLayout title={title} description={description}>
-  <main class="min-h-screen bg-gray-900 text-white">
+  <main class="min-h-[75vh] bg-slate-900 text-slate-100">
     <div class="container mx-auto px-4 py-16">
+
+        <!-- Header -->
       <header class="mb-16 text-center">
         <h1
-          class="mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-5xl font-bold text-transparent"
+          class="mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-4xl md:text-5xl font-bold text-transparent"
         >
           Zahrawi Dental Blog
         </h1>
-        <p class="mx-auto max-w-2xl text-xl text-gray-300">
+        <p class="mx-auto max-w-2xl text-lg md:text-xl ">
           {description}
         </p>
       </header>
@@ -33,7 +35,7 @@ const description =
         {
           categories.map((category) => {
             const categoryInfo =
-              categoryData[category as keyof typeof categoryData];
+              categoryData[category];
             return (
               <CategoryCard
                 title={categoryInfo.displayName}
@@ -47,6 +49,7 @@ const description =
         }
       </section>
 
+        <!-- Subscribe CTA  -->
       <div class="mt-16 text-center">
         <a
             href="/subscribe/"
