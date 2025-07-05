@@ -36,7 +36,7 @@ export default function BookmarkButton(props) {
       aria-label={isBookmarked() ? "Remove bookmark" : "Add bookmark"}
     >
       {isBookmarked() ? (
-        <svg class="h-6 w-6" viewBox="0 0 24 24">
+        <svg class="h-6 w-6 block" viewBox="0 0 24 24">
           <path fill="currentColor" d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z" />
         </svg>
       ) : (
