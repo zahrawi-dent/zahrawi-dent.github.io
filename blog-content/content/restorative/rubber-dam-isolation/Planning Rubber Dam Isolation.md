@@ -3,6 +3,7 @@ title: Planning Rubber Dam Isolation
 description: " planning effective rubber dam isolation, from single-tooth to quadrant coverage, ensuring optimal visibility, access, and procedural efficiency"
 category: 'restorative'
 subcategory: 'rubber-dam-isolation'
+tags: ["Rubber Dam", "Isolation"]
 mcqs: [
   {
     question: "What is the minimum recommended number of teeth to isolate for rubber dam stability and visibility?",
