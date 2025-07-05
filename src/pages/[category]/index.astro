@@ -5,53 +5,8 @@ import BreadCrumbs from "../../components/BreadCrumbs.astro";
 import { categoryData } from "../../constants";
 import SubcategoryCard from "../../components/SubcategoryCard.astro";
 
+// Type definitions
 type Article = CollectionEntry<"blog">;
-
-export async function getStaticPaths() {
-  // get all unique categories from blog posts
-  const allArticles = await getCollection("blog");
-
-  const categories = [
-    ...new Set(allArticles.map((article) => article.data.category)),
-  ];
-
-  // create a path for each category
-  return categories.map((category) => ({
-    params: { category },
-    props: {
-      articles: allArticles.filter(
-        (article) => article.data.category === category,
-      ),
-    },
-  }));
-}
-
-const { category } = Astro.params;
-
-const articles: Article[] = Astro.props.articles;
-
-function groupArticlesBySubcategory(
-  articles: Article[],
-): Record<string, Article[]> {
-  return articles.reduce((acc: Record<string, Article[]>, article: Article) => {
-    const subcategory = article.data.subcategory;
-    if (!acc[subcategory]) {
-      acc[subcategory] = [];
-    }
-    acc[subcategory].push(article);
-    return acc;
-  }, {});
-}
-
-const subcategories = groupArticlesBySubcategory(articles);
-
-// Get category information or provide defaults
-const categoryInfo = categoryData[category as keyof typeof categoryData] || {
-  displayName: category,
-  description: `Articles about ${category}`,
-  subcategoryOrder: Object.keys(subcategories),
-  subcategoryInfo: {},
-};
 
 interface SubcategoryInfo {
   displayName?: string;
@@ -59,6 +14,8 @@ interface SubcategoryInfo {
 }
 
 interface CategoryInfo {
+  displayName: string;
+  description: string;
   subcategoryOrder: string[];
   subcategoryInfo: Record<string, SubcategoryInfo>;
 }
@@ -70,87 +27,111 @@ interface SortedSubcategory {
   icon: string;
 }
 
-function sortSubcategories(
-  subcategories: Record<string, Article[]>,
-  categoryInfo: CategoryInfo,
-): SortedSubcategory[] {
-  return categoryInfo.subcategoryOrder
-    .filter((key) => subcategories[key])
-    .map((key) => ({
-      name: key,
-      articles: subcategories[key] || [],
-      displayName: categoryInfo.subcategoryInfo[key]?.displayName || key,
-      icon: categoryInfo.subcategoryInfo[key]?.icon || "default",
-    }));
+export async function getStaticPaths() {
+  const allArticles = await getCollection("blog");
+  const categories = [
+    ...new Set(allArticles.map((article) => article.data.category)),
+  ];
+
+  return categories.map((category) => ({
+    params: { category },
+    props: {
+      articles: allArticles.filter(
+        (article) => article.data.category === category,
+      ),
+    },
+  }));
 }
 
-function addRemainingSubcategories(
-  subcategories: Record<string, Article[]>,
-  categoryInfo: CategoryInfo,
-  sortedSubcategories: SortedSubcategory[],
-): void {
-  Object.keys(subcategories)
-    .filter((key) => !categoryInfo.subcategoryOrder.includes(key))
-    .forEach((key) => {
-      sortedSubcategories.push({
-        name: key,
-        articles: subcategories[key],
-        displayName: key,
-        icon: "default",
-      });
-    });
+const { category } = Astro.params;
+const articles: Article[] = Astro.props.articles;
+
+function processSubcategories(
+  articles: Article[],
+  category: string,
+): [SortedSubcategory[], CategoryInfo] {
+  // Group articles by subcategories of the current category
+  const subcategories = articles.reduce(
+    (acc, article) => {
+      const sub = article.data.subcategory;
+      if (!acc[sub]) acc[sub] = [];
+      acc[sub].push(article);
+      return acc;
+    },
+    {} as Record<string, Article[]>,
+  );
+
+  // Get category info
+  const categoryInfo: CategoryInfo = categoryData[
+    category as keyof typeof categoryData
+  ] || {
+    displayName: category,
+    description: `Articles about ${category}`,
+    // Default subcategory order
+    subcategoryOrder: Object.keys(subcategories),
+    subcategoryInfo: {},
+  };
+
+  const orderedKeys = categoryInfo.subcategoryOrder || [];
+  const allKeys = Object.keys(subcategories);
+
+  const sortedKeys = orderedKeys.filter((key) => allKeys.includes(key));
+  const remainingKeys = allKeys.filter((key) => !orderedKeys.includes(key));
+
+  const finalOrder = [...sortedKeys, ...remainingKeys];
+
+  const sortedSubcategories = finalOrder.map((key) => ({
+    name: key,
+    articles: subcategories[key],
+    displayName: categoryInfo.subcategoryInfo[key]?.displayName || key,
+    icon: categoryInfo.subcategoryInfo[key]?.icon || "default",
+  }));
+
+  return [sortedSubcategories, categoryInfo];
 }
 
-const sortedSubcategories = sortSubcategories(subcategories, categoryInfo);
-addRemainingSubcategories(subcategories, categoryInfo, sortedSubcategories);
+const [sortedSubcategories, categoryInfo] = processSubcategories(
+  articles,
+  category!,
+);
 
-const title = `${categoryInfo.displayName}`;
+const title = categoryInfo.displayName;
 const description = categoryInfo.description;
 
 const breadcrumbData = [
   { label: "Home", href: "/" },
-  {
-    label: categoryInfo.displayName,
-    href: `/${category}/`,
-  },
+  { label: title, href: `/${category}/` },
+];
+
+const titleStyles = [
+  "mb-4 bg-gradient-to-r from-slate-100 via-slate-300 to-blue-400 bg-clip-text text-5xl font-bold text-transparent",
+  "transition-all duration-700 ease-out",
+  "mt-8",
 ];
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="container mx-auto px-4 py-8">
-    <header class="mb-10 text-center">
-      <BreadCrumbs crumbs={breadcrumbData} />
-      <h1 class="mb-3 text-4xl font-bold" transition:name={title}>{title}</h1>
-      <p class="mx-auto max-w-2xl text-gray-600">{description}</p>
-    </header>
-  </div>
+  <div class="min-h-[75vh]">
+    <div class="mx-auto px-4 py-8">
+      <header class="mb-12 text-center">
+        <BreadCrumbs crumbs={breadcrumbData} />
 
-  <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-    {
-      sortedSubcategories.map((subcategory) => {
-        return (
-          <SubcategoryCard
-            iconName={subcategory.icon}
-            title={subcategory.displayName}
-            articleCount={subcategory.articles.length}
-            href={`/${category}/${subcategory.name}`}
-          />
-        );
-      })
-    }
-  </div>
+        <h1 class:list={titleStyles} transition:name={title}>{title}</h1>
+      </header>
+    </div>
 
-  {
-    sortedSubcategories.length === 0 && (
-      <div class="rounded-lg bg-gray-50 p-8 text-center">
-        <h3 class="mb-2 text-lg font-medium text-gray-900">
-          No subcategories yet
-        </h3>
-        <p class="text-gray-600">
-          We're currently working on content for this category. Check back soon
-          for updates!
-        </p>
-      </div>
-    )
-  }
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {
+        sortedSubcategories.map((subcategory) => {
+          return (
+            <SubcategoryCard
+              title={subcategory.displayName}
+              articleCount={subcategory.articles.length}
+              href={`/${category}/${subcategory.name}`}
+            />
+          );
+        })
+      }
+    </div>
+  </div>
 </BaseLayout>

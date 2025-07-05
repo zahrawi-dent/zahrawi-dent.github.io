@@ -17,39 +17,16 @@ const categoryData: Record<string, Category> = {
     displayName: "Endodontics",
     description:
       "Comprehensive resources on root canal therapy, from diagnosis to post-treatment care. Follow the natural clinical workflow for a systematic approach to endodontic procedures.",
-    icon: "stethoscope",
+    icon: "endodontics",
     subcategoryOrder: [
       "diagnosis",
       "access-preparation",
       "canal-preparation",
-      "obturation",
-      "post-treatment",
-      "case-studies",
     ],
     subcategoryInfo: {
-      diagnosis: {
-        displayName: "Diagnosis & Assessment",
-        icon: "diagnosis",
-      },
       "access-preparation": {
         displayName: "Access Preparation",
         icon: "drill",
-      },
-      "canal-preparation": {
-        displayName: "Canal Preparation & Cleaning",
-        icon: "files",
-      },
-      obturation: {
-        displayName: "Obturation Techniques",
-        icon: "filling",
-      },
-      "post-treatment": {
-        displayName: "Post-Treatment Care",
-        icon: "aftercare",
-      },
-      "case-studies": {
-        displayName: "Case Studies & Complications",
-        icon: "case-study",
       },
     },
   },
@@ -59,59 +36,15 @@ const categoryData: Record<string, Category> = {
     icon: "restorative",
     subcategoryOrder: [
       "rubber-dam-isolation",
-      "disease-classification",
-      "non-surgical-therapy",
-      "surgical-procedures",
-      "periodontal-maintenance",
-      "periodontal-medicine",
     ],
     subcategoryInfo: {
       "rubber-dam-isolation": {
         displayName: "Isolation Techniques",
         icon: "tooth-anatomy",
       },
-      // Add subcategory details
     },
   },
 
-  isolation: {
-    displayName: "Isolation",
-    description:
-      "Isolation...",
-    icon: "stethoscope",
-    subcategoryOrder: [
-      "rubber-dam-isolation",
-    ],
-    subcategoryInfo: {
-      "rubber-dam-isolation": {
-        displayName: "Rubber Dam Isolation",
-        icon: "aftercare",
-      },
-    },
-  },
-
-
-  anatomy: {
-    displayName: "Dental Anatomy",
-    description: "Learn about the structure and functions of the human dental arch",
-    icon: "tooth",
-    subcategoryOrder: [
-      "isolation",
-      "disease-classification",
-      "non-surgical-therapy",
-      "surgical-procedures",
-      "periodontal-maintenance",
-      "periodontal-medicine",
-    ],
-    subcategoryInfo: {
-      isolation: {
-        displayName: "Isolation Techniques",
-        icon: "tooth-anatomy",
-      },
-      // Add subcategory details
-    },
-  },
-  // Add more categories as needed
 };
 
 const iconMap: Record<string, string> = {
