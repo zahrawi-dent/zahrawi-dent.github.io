@@ -8,21 +8,30 @@ import type { ArticleType } from "@/types";
 
 interface Props {
   category: string;
-  // section is subcategory
   subcategory: string;
   articles: ArticleType[];
   currentPage: number;
+  totalPages: number,
+  prevUrl: string | null;
+  nextUrl: string | null;
 }
 
-const { category, subcategory: section, articles, currentPage } = Astro.props;
+const {
+  category,
+  subcategory: section,
+  articles,
+  currentPage,
+  totalPages,
+  prevUrl,
+  nextUrl,
+} = Astro.props;
 
 const subcategoryData = categoryData[category]?.subcategoryInfo[section] || {
   displayName: section,
 };
 
 // for pagination
-const totalPages = Math.ceil(articles.length / 6);
-const pageLimit = 6;
+// const totalPages = Math.ceil(articles.length / 6);
 ///
 
 const breadcrumbData = [
@@ -81,7 +90,8 @@ const description = subcategoryData.displayName;
       articles.length > 0 ? (
         <div class="container mx-auto px-4 py-8">
           <!--  only show first 6 -->
-          <ArticlesList articles={articles.slice(0, pageLimit)} {currentPage} />
+          <!-- <ArticlesList articles={articles.slice(0, pageLimit)} {currentPage} /> -->
+        <ArticlesList articles={articles} {currentPage} />
         </div>
       ) : (
         <div class="rounded-lg bg-gray-50 p-8 text-center">
@@ -96,11 +106,13 @@ const description = subcategoryData.displayName;
       )
     }
 
-    <Pagination
-      currentPage={1}
-      totalPages={totalPages}
-      prevUrl={null}
-      nextUrl={totalPages > 1 ? `/${category}/${section}/2` : null}
-    />
+    <!-- <Pagination -->
+    <!--     {currentPage} -->
+    <!--   {totalPages} -->
+    <!--   prevUrl={null} -->
+    <!--   nextUrl={totalPages > 1 ? `/${category}/${section}/2` : null} -->
+    <!-- /> -->
+
+    <Pagination {currentPage} {totalPages} {prevUrl} {nextUrl} />
   </div>
 </BaseLayout>

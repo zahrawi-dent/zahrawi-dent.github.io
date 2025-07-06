@@ -48,6 +48,21 @@ export async function getStaticPaths() {
 
 const { category, subcategory } = Astro.params;
 const { articles } = Astro.props;
+
+const pageSize = 6;
+const totalPages = Math.ceil(articles.length / pageSize);
+const paginatedArticles = articles.slice(0, pageSize);
+
+const prevUrl = null; // First page has no previous
+const nextUrl = totalPages > 1 ? `/${category}/${subcategory}/2` : null;
 ---
 
-<SectionLayout {category} {subcategory} {articles} currentPage={1} />
+<SectionLayout
+  {category}
+  {subcategory}
+  articles={paginatedArticles}
+  currentPage={1}
+  totalPages={totalPages}
+  prevUrl={prevUrl}
+  nextUrl={nextUrl}
+/>
