@@ -1,5 +1,5 @@
 ---
-title: Indications and Contraindications for Rubber Ram Application
+title: Indications and Contraindications for Rubber Dam Application
 description: "The key indications and rare contraindications for rubber dam use in dentistry"
 category: 'restorative'
 subcategory: 'rubber-dam-isolation'

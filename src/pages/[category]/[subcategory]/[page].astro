@@ -39,10 +39,6 @@ export async function getStaticPaths({ paginate }) {
 // All paginated data is passed on the "page" prop
 const { page } = Astro.props as { page: PageType<ArticleType> };
 const { category, subcategory } = Astro.params;
-
-// const currentPage = parseInt(Astro.params.page as string);
-
-const pageSize = 6;
 ---
 
 <SectionLayout
