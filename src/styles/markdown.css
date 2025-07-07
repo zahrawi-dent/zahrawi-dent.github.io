@@ -238,9 +238,7 @@
 /* src/styles/markdown.css */
 .markdown-content h1 {
   /* color: #4e937a; */
-  color: #049f9a;
-  /* color: #88C798; */
-  color: hsl(170, 60%, 85%);
+  color: #75B9BE;
   font-size: 2.25rem;
   font-weight: 700;
   margin-top: 2rem;
@@ -253,15 +251,13 @@
   font-weight: 600;
   margin-top: 1.75rem;
   margin-bottom: 0.75rem;
-  /* color: #54f3e7; */
-  /* color: hsl(150, 81%, 85%) */
-  color: hsl(190, 70%, 75%)
-    /* color: hsl(174, 90%, 75%) */
+  color: #B370B0;
+  /* color: #FFCF56; */
 }
 
 .markdown-content h3 {
-  /* color: #049f9a; */
-  color: hsl(150, 50%, 75%);
+  color: #FF1053;
+  /* color: hsl(150, 50%, 75%); */
   font-size: 1.5rem;
   font-weight: 600;
   margin-top: 1.5rem;

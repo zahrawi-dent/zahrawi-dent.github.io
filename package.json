@@ -23,7 +23,7 @@
     "@resvg/resvg-js": "^2.6.2",
     "@reunmedia/astro-og-images": "^0.2.0",
     "@solidjs/router": "^0.15.3",
-    "@tailwindcss/vite": "^4.1.4",
+    "@tailwindcss/vite": "^4.1.11",
     "@types/canvas-confetti": "^1.9.0",
     "@umami/api-client": "^0.78.0",
     "@yeskunall/astro-umami": "^0.0.5",
@@ -45,7 +45,7 @@
     "sharp": "^0.34.2",
     "solid-js": "^1.9.5",
     "tailwind-merge": "^3.2.0",
-    "tailwindcss": "^4.1.4",
+    "tailwindcss": "^4.1.11",
     "tw-animate-css": "^1.2.5",
     "tw-to-css": "^0.0.12",
     "typescript": "^5.8.3"

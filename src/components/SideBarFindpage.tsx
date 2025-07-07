@@ -71,7 +71,7 @@ interface Props {
 // --- Keyboard Key Hint Component ---
 const Kbd = (props: { children: any; class?: string }) => (
   <kbd
-    class={`inline-flex items-center justify-center rounded border border-gray-600 bg-slate-700 px-1.5 py-0.5 text-xs font-semibold text-gray-300 ${props.class ?? ""}`}
+    class={`inline-flex items-center justify-center rounded border border-gray-600 bg-rich-black-700 px-1.5 py-0.5 text-xs font-semibold text-gray-300 ${props.class ?? ""}`}
   >
     {props.children}
   </kbd>
@@ -367,7 +367,7 @@ export default function Sidebar(props: Props) {
   return (
     <>
       {/* Header (Mobile) */}
-      <header class="fixed top-0 right-0 left-0 z-50 flex items-center justify-between border-b border-gray-800 bg-slate-900 p-4 lg:hidden">
+      <header class="fixed top-0 right-0 left-0 z-50 flex items-center justify-between border-b border-gray-800 bg-rich-black-900 p-4 lg:hidden">
         <div class="flex items-center">
           <div class="mr-2 text-teal-300">
             <a href="/">
@@ -381,14 +381,14 @@ export default function Sidebar(props: Props) {
         <div class="flex items-center gap-2">
           <button
             onClick={toggleSearch}
-            class="rounded-full p-2 text-gray-300 hover:bg-slate-800"
+            class="rounded-full p-2 text-gray-300 hover:bg-rich-black-800"
             aria-label="Open Search"
           >
             <SearchIcon />
           </button>
           <button
             onClick={toggleMobileMenu}
-            class="rounded-full p-2 text-gray-300 hover:bg-slate-800"
+            class="rounded-full p-2 text-gray-300 hover:bg-rich-black-800"
             aria-label="Toggle Menu"
           >
             <Show when={isMobileMenuOpen()} fallback={<MenuIcon />}>
@@ -402,14 +402,14 @@ export default function Sidebar(props: Props) {
       <div class="flex flex-col pt-16 lg:flex-row lg:pt-0">
         <Show when={isSearchOpen()}>
           <div
-            class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/90 p-4 backdrop-blur-sm"
+            class="fixed inset-0 z-50 overflow-y-auto bg-rich-black-900/90 p-4 backdrop-blur-sm"
             onClick={(e) => {
               if (e.target === e.currentTarget) toggleSearch();
             }}
           >
             {" "}
             {/* Close on overlay click */}
-            <div class="mx-auto mt-4 max-w-2xl overflow-hidden rounded-lg bg-slate-800 shadow-xl md:mt-16">
+            <div class="mx-auto mt-4 max-w-2xl overflow-hidden rounded-lg bg-rich-black-800 shadow-xl md:mt-16">
               {" "}
               {/* Container for better styling */}
               <div class="relative flex items-center border-b border-gray-700">
@@ -480,11 +480,11 @@ export default function Sidebar(props: Props) {
                           <li
                             data-result-index={index()}
                             // Use outline for focus visibility which works better with rounded corners
-                            class={`transition-colors duration-100 ${index() === selectedIndex() ? "bg-slate-700/50" : ""
+                            class={`transition-colors duration-100 ${index() === selectedIndex() ? "bg-rich-black-700/50" : ""
                               }`}
                             onMouseEnter={() => setSelectedIndex(index())}
                           >
-                            <a href={item.url} class="block p-4 hover:bg-slate-700">
+                            <a href={item.url} class="block p-4 hover:bg-rich-black-700">
                               <div class="flex items-start gap-3 text-white">
                                 <div class="mt-1 shrink-0 text-gray-500">
                                   <FileIcon />
@@ -533,7 +533,7 @@ export default function Sidebar(props: Props) {
 
         {/* Sidebar Navigation */}
         <aside
-          class={`fixed inset-y-0 left-0 z-30 w-64 transform bg-slate-900 text-gray-300 transition-transform duration-300 ease-in-out lg:sticky lg:translate-x-0 lg:border-r lg:border-gray-800 ${isMobileMenuOpen() ? "translate-x-0" : "-translate-x-full"
+          class={`fixed inset-y-0 left-0 z-30 w-64 transform bg-rich-black-900 text-gray-300 transition-transform duration-300 ease-in-out lg:sticky lg:translate-x-0 lg:border-r lg:border-gray-800 ${isMobileMenuOpen() ? "translate-x-0" : "-translate-x-full"
             } ${isMobileMenuOpen() ? "mt-16 lg:mt-0" : "mt-16 lg:mt-0"} flex h-screen flex-col lg:h-auto lg:max-h-screen`}
         >
           {/* Desktop Header */}
@@ -548,7 +548,7 @@ export default function Sidebar(props: Props) {
               {/* Wrap button and hint */}
               <button
                 onClick={toggleSearch}
-                class="rounded-full p-2 text-gray-300 hover:bg-slate-800"
+                class="rounded-full p-2 text-gray-300 hover:bg-rich-black-800"
                 aria-label="Search"
               >
                 <SearchIcon />
@@ -571,8 +571,8 @@ export default function Sidebar(props: Props) {
                       <div
                         class={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors duration-150 ${(activeNavItem() === item.href || (item.href !== "/" && activeNavItem().startsWith(item.href))) &&
                           item.href !== "#"
-                          ? "bg-slate-800 text-white"
-                          : "hover:bg-slate-800 hover:text-white"
+                          ? "bg-rich-black-800 text-white"
+                          : "hover:bg-rich-black-800 hover:text-white"
                           }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -593,8 +593,8 @@ export default function Sidebar(props: Props) {
                         href={item.href}
                         class={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors duration-150 ${(activeNavItem() === item.href || (item.href !== "/" && activeNavItem().startsWith(item.href))) &&
                           item.href !== "#"
-                          ? "bg-slate-800 text-white"
-                          : "hover:bg-slate-800 hover:text-white"
+                          ? "bg-rich-black-800 text-white"
+                          : "hover:bg-rich-black-800 hover:text-white"
                           }`}
                         onClick={() => {
                           if (isMobileMenuOpen()) toggleMobileMenu();
@@ -615,8 +615,8 @@ export default function Sidebar(props: Props) {
                               <a
                                 href={child.href}
                                 class={`block rounded-lg px-3 py-1.5 text-sm transition-colors duration-150 ${activeNavItem() === child.href
-                                  ? "bg-slate-700 text-white"
-                                  : "text-gray-400 hover:bg-slate-700 hover:text-white"
+                                  ? "bg-rich-black-700 text-white"
+                                  : "text-gray-400 hover:bg-rich-black-700 hover:text-white"
                                   }`}
                                 onClick={() => {
                                   setActiveNavItem(child.href);

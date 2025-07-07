@@ -1,6 +1,18 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@theme {
+  --color-rich-black-900: oklch(0.1967 0.029 239.48);
+  --color-rich-black-800: oklch(0.2500 0.029 239.48);
+  --color-rich-black-700: oklch(0.3500 0.029 239.48);
+  --color-rich-black-600: oklch(0.4500 0.029 239.48);
+  --color-rich-black-500: oklch(0.6000 0.029 239.48);
+  --color-rich-black-400: oklch(0.7500 0.029 239.48);
+  --color-rich-black-300: oklch(0.8800 0.029 239.48);
+  --color-rich-black-200: oklch(0.9300 0.029 239.48);
+  --color-rich-black-100: oklch(0.9700 0.029 239.48);
+}
+
 html {
   scroll-behavior: smooth;
 }

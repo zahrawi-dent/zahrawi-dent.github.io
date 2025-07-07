@@ -47,7 +47,7 @@ const description =
 ---
 
 <footer
-  class="border-t border-slate-800 bg-slate-900"
+  class="bg-rich-black-900 border-rich-black-800 border-t"
   aria-labelledby="footer-heading"
 >
   <h2 id="footer-heading" class="sr-only">Footer</h2>
@@ -59,7 +59,7 @@ const description =
           <Icon name="zahrawi" class="h-8 w-8 text-teal-400" />
           <span class="text-2xl font-bold">Zahrawi</span>
         </a>
-        <p class="text-base text-slate-400">
+        <p class="text-rich-black-400 text-base">
           {description}
         </p>
         <div class="flex space-x-6">
@@ -67,7 +67,7 @@ const description =
             socialLinks.map((link) => (
               <a
                 href={link.url}
-                class="text-slate-400 transition hover:text-teal-400"
+                class="text-rich-black-400 transition hover:text-teal-400"
                 aria-label={link.label}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -97,23 +97,25 @@ const description =
 
     <!-- Bottom Bar -->
     <div
-      class="mt-12 border-t border-slate-800 pt-8 md:flex md:items-center md:justify-between"
+      class="border-rich-black-800 mt-12 border-t pt-8 md:flex md:items-center md:justify-between"
     >
       <div class="flex space-x-6 md:order-2">
         <a
           href="/privacy"
-          class="text-sm text-slate-400 transition hover:text-white">Privacy</a
+          class="text-rich-black-400 text-sm transition hover:text-white"
+          >Privacy</a
         >
         <a
           href="/terms"
-          class="text-sm text-slate-400 transition hover:text-white">Terms</a
+          class="text-rich-black-400 text-sm transition hover:text-white"
+          >Terms</a
         >
         <a
           href="/rss.xml"
-          class="text-sm text-slate-400 transition hover:text-white">RSS</a
+          class="text-rich-black-400 text-sm transition hover:text-white">RSS</a
         >
       </div>
-      <p class="mt-8 text-sm text-slate-400 md:order-1 md:mt-0">
+      <p class="text-rich-black-400 mt-8 text-sm md:order-1 md:mt-0">
         Made with &#x2764 in Egypt.
       </p>
     </div>

@@ -28,13 +28,13 @@ const { prevPost, nextPost } = Astro.props;
 ---
 
 <nav
-  class="mt-12 flex items-center justify-between border-t border-gray-800 pt-8"
+  class="border-rick-black-100 mt-12 flex items-center justify-between border-t pt-8"
 >
   {
     prevPost && (
       <a
         href={`/${prevPost.id}`}
-        class="group flex items-center text-gray-300 transition-colors hover:text-white"
+        class="group text-rich-black-300 hover:text-rich-black-100 flex items-center transition-colors"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ const { prevPost, nextPost } = Astro.props;
           />
         </svg>
         <div class="flex flex-col">
-          <span class="text-sm text-gray-400">Previous</span>
+          <span class="text-rich-black-400 text-sm">Previous</span>
           <span class="font-medium">{prevPost.data.title}</span>
         </div>
       </a>
@@ -62,10 +62,10 @@ const { prevPost, nextPost } = Astro.props;
     nextPost && (
       <a
         href={`/${nextPost.id}`}
-        class="group ml-auto flex items-center text-gray-300 transition-colors hover:text-white"
+        class="group text-rich-black-300 ml-auto flex items-center transition-colors hover:text-white"
       >
         <div class="flex flex-col text-right">
-          <span class="text-sm text-gray-400">Next</span>
+          <span class="text-rich-black-400 text-sm">Next</span>
           <span class="font-medium">{nextPost.data.title}</span>
         </div>
         <svg

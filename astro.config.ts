@@ -1,12 +1,5 @@
-// @ts-check
-
-import fs from "fs";
-
-
 import { defineConfig } from "astro/config";
 import pagefind from "astro-pagefind";
-
-import tailwindcss from "@tailwindcss/vite";
 
 import icon from "astro-icon";
 
@@ -37,6 +30,10 @@ import ogImages from "@reunmedia/astro-og-images";
 import { readFile } from "fs/promises";
 
 
+
+
+
+import tailwindcss from "@tailwindcss/vite";
 
 
 
@@ -85,4 +82,4 @@ export default defineConfig({
       }
     },
   },
-});
+}) satisfies AstroUserConfig;
