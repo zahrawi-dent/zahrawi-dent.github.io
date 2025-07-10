@@ -37,7 +37,6 @@ mcqs: [
   },
 ]
 ---
-# Rubber Dam Frame
 - The frame supports the edges of the rubber dam sheet, keeping it stretched
 - It can be placed beneath or above the sheet, it's a personal preference
 ## Types
