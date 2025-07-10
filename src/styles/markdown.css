@@ -256,8 +256,8 @@
 }
 
 .markdown-content h3 {
-  color: #FF1053;
-  /* color: hsl(150, 50%, 75%); */
+  /* color: #FF1053; */
+  color: hsl(150, 50%, 75%);
   font-size: 1.5rem;
   font-weight: 600;
   margin-top: 1.5rem;

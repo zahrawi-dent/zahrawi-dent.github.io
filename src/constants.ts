@@ -36,12 +36,18 @@ const categoryData: Record<string, Category> = {
     icon: "restorative",
     subcategoryOrder: [
       "rubber-dam-isolation",
+      "composite-restoration",
     ],
     subcategoryInfo: {
       "rubber-dam-isolation": {
         displayName: "Isolation Techniques",
         icon: "tooth-anatomy",
       },
+      "composite-restoration": {
+        displayName: "Composite Restoration",
+        icon: "tooth-anatomy",
+
+      }
     },
   },
 
