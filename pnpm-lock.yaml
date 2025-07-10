@@ -35,9 +35,6 @@ importers:
       '@pagefind/default-ui':
         specifier: ^1.3.0
         version: 1.3.0
-      '@philnash/astro-pagination':
-        specifier: ^0.5.0
-        version: 0.5.0(astro@5.11.0(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0))
       '@resvg/resvg-js':
         specifier: ^2.6.2
         version: 2.6.2
@@ -54,11 +51,11 @@ importers:
         specifier: ^1.9.0
         version: 1.9.0
       '@umami/api-client':
-        specifier: ^0.78.0
-        version: 0.78.0(next@13.5.11(@babel/core@7.28.0)(react-dom@18.3.1(react@19.1.0))(react@19.1.0))(react-dom@18.3.1(react@19.1.0))(react@19.1.0)
+        specifier: ^0.79.0
+        version: 0.79.0(next@13.5.11(@babel/core@7.28.0)(react-dom@18.3.1(react@19.1.0))(react@19.1.0))(react-dom@18.3.1(react@19.1.0))(react@19.1.0)
       '@yeskunall/astro-umami':
-        specifier: ^0.0.5
-        version: 0.0.5(astro@5.11.0(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0))
+        specifier: ^0.0.6
+        version: 0.0.6(astro@5.11.0(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0))
       astro:
         specifier: ^5.11.0
         version: 5.11.0(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0)
@@ -144,9 +141,6 @@ importers:
       '@vite-pwa/astro':
         specifier: ^1.1.0
         version: 1.1.0(astro@5.11.0(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0))(vite-plugin-pwa@1.0.0(vite@6.3.5(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.43.1)(yaml@2.8.0))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0))
-      i:
-        specifier: ^0.3.7
-        version: 0.3.7
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -1352,11 +1346,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@philnash/astro-pagination@0.5.0':
-    resolution: {integrity: sha512-fIT+XPl2DR6v2d1saciiYk9gO2N1lyUdSZE2OXo20Bxr48ANTe1CK2yG8L8J1bdp3YTJfVYbBxRk5Fs4aQTf1A==}
-    peerDependencies:
-      astro: ^2.3.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
-
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
@@ -1842,8 +1831,8 @@ packages:
   '@types/yauzl@2.10.3':
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
 
-  '@umami/api-client@0.78.0':
-    resolution: {integrity: sha512-Kuo/7qLDeL5XB+z4D8GW3bALg2DEXSQvFnIkUgUHj0WkR/njaWu8Licm4WPJERph5LNC4CXa8lxZcGkGtz68Uw==}
+  '@umami/api-client@0.79.0':
+    resolution: {integrity: sha512-9kGLNP+Ob0nT8lPz59xRBXkRHSzA03BbnY73Q+otpTZTCwh+7vLwqj06cwymSoxwQyHYJlA6YqkKdZY8qp6tEw==}
 
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
@@ -1887,8 +1876,8 @@ packages:
   '@webgpu/types@0.1.21':
     resolution: {integrity: sha512-pUrWq3V5PiSGFLeLxoGqReTZmiiXwY3jRkIG5sLLKjyqNxrwm/04b4nw7LSmGWJcKk59XOM/YRTUwOzo4MMlow==}
 
-  '@yeskunall/astro-umami@0.0.5':
-    resolution: {integrity: sha512-PRxSo6Gox5+GC/Mjb1Q4/l7zioI0J7uxw0N8WjejEyMBD6+pJiDBcetmA+JLY39fWPtupq0181jsAUYEPraSfw==}
+  '@yeskunall/astro-umami@0.0.6':
+    resolution: {integrity: sha512-fEp4jwi33CKRGJcAQSoCv61OGwBqYgmxkyVHFPdb4X7H2SOMVSH/u/6u3cfPrYMHVxw8j5NCz+LAqprxaAc1Xw==}
     peerDependencies:
       astro: ^3.0.0 || ^4.0.0 || ^5.0.0
 
@@ -2880,10 +2869,6 @@ packages:
   https-proxy-agent@7.0.6:
     resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
     engines: {node: '>= 14'}
-
-  i@0.3.7:
-    resolution: {integrity: sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q==}
-    engines: {node: '>=0.4'}
 
   iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
@@ -6495,10 +6480,6 @@ snapshots:
   '@pagefind/windows-x64@1.3.0':
     optional: true
 
-  '@philnash/astro-pagination@0.5.0(astro@5.11.0(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0))':
-    dependencies:
-      astro: 5.11.0(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0)
-
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
@@ -6937,7 +6918,7 @@ snapshots:
       '@types/node': 24.0.12
     optional: true
 
-  '@umami/api-client@0.78.0(next@13.5.11(@babel/core@7.28.0)(react-dom@18.3.1(react@19.1.0))(react@19.1.0))(react-dom@18.3.1(react@19.1.0))(react@19.1.0)':
+  '@umami/api-client@0.79.0(next@13.5.11(@babel/core@7.28.0)(react-dom@18.3.1(react@19.1.0))(react@19.1.0))(react-dom@18.3.1(react@19.1.0))(react@19.1.0)':
     dependencies:
       cross-fetch: 3.2.0
       debug: 4.4.1
@@ -7009,7 +6990,7 @@ snapshots:
 
   '@webgpu/types@0.1.21': {}
 
-  '@yeskunall/astro-umami@0.0.5(astro@5.11.0(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0))':
+  '@yeskunall/astro-umami@0.0.6(astro@5.11.0(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0))':
     dependencies:
       astro: 5.11.0(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(rollup@2.79.2)(terser@5.43.1)(typescript@5.8.3)(yaml@2.8.0)
 
@@ -8314,8 +8295,6 @@ snapshots:
       debug: 4.4.1
     transitivePeerDependencies:
       - supports-color
-
-  i@0.3.7: {}
 
   iconv-lite@0.6.3:
     dependencies:
