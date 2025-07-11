@@ -1,11 +1,8 @@
 import { createSignal, createEffect, For, Show, onMount, onCleanup } from "solid-js";
 import { isServer } from "solid-js/web";
-import BookmarksList from "../BookmarksList";
+import BookmarksList from "../bookmarks/BookmarksList";
 import SearchModal from "./SearchModal";
 
-// Lazy load components
-// const BookmarksList = lazy(() => import("../BookmarkList"));
-// const SearchModal = lazy(() => import("./SearchModal"));
 
 // --- Icon Components ---
 const ChevronDownIcon = () => (

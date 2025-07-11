@@ -1,6 +1,6 @@
 // src/components/BookmarkButton.jsx
 import { createEffect, createSignal, onMount } from "solid-js";
-import { bookmarkStore } from "../stores/bookmarkStore";
+import { bookmarkStore } from "../../stores/bookmarkStore";
 
 export default function BookmarkButton(props) {
   const { article } = props;
