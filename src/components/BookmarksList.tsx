@@ -7,7 +7,10 @@ import type { BookmarkArticle } from "@/types";
 let isInitialized = false;
 let storeInstance = null;
 
-export default function BookmarkList() {
+interface BookmarkListProps {
+  onBookmarkClick: (isOpend: boolean) => void
+}
+export default function BookmarkList(props: BookmarkListProps) {
   // Only initialize the store once
   if (!storeInstance) {
     storeInstance = bookmarkStore;
@@ -55,6 +58,8 @@ export default function BookmarkList() {
                 <div class="group relative">
                   <a
                     href={`/${article.id}`}
+                    // close the sidebar on click
+                    onClick={() => props.onBookmarkClick(false)}
                     class="block rounded-lg bg-gray-800 p-3 pr-10 transition-colors hover:bg-gray-700"
                   >
                     <h4 class="line-clamp-2 font-medium text-white">{article.data.title}</h4>

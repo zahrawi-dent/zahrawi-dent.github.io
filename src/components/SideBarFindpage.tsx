@@ -1,8 +1,10 @@
-import { createSignal, createEffect, For, Show, onMount, onCleanup } from "solid-js";
+import { createSignal, createEffect, For, Show, onMount, onCleanup, lazy, createResource } from "solid-js";
 import { isServer } from "solid-js/web";
-import BookmarksList from "./BookmarkList";
 
-// --- Icon Components (keep as they are) ---
+// Lazy load the BookmarksList component
+const BookmarksList = lazy(() => import("./BookmarkList"));
+
+// --- Icon Components (keep as they are since they're small and essential) ---
 const ChevronDownIcon = () => (
   <svg class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -32,15 +34,22 @@ const ZahrawiIcon = () => (
     />
   </svg>
 );
-const FileIcon = () => (
-  <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-    />
-  </svg>
+
+// Lazy load FileIcon only when search is opened
+const FileIcon = lazy(() =>
+  Promise.resolve({
+    default: () => (
+      <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+        />
+      </svg>
+    )
+  })
 );
+
 // --- End Icon Components ---
 
 interface NavItem {
@@ -51,30 +60,32 @@ interface NavItem {
   isOpen?: boolean;
 }
 
-// Interface for Pagefind result data (adjust based on your indexed metadata)
+// Interface for Pagefind result data
 interface PagefindResultData {
   url: string;
   meta: {
     title: string;
-    // Add other metadata fields you index (e.g., image, description)
-    // image?: string;
   };
-  excerpt: string; // Pagefind generates this with highlighted terms
-  // You might get other fields depending on your indexing config
-  // e.g., word_count, sub_results if using content chunking
+  excerpt: string;
 }
 
 interface Props {
   categories: string[];
 }
 
-// --- Keyboard Key Hint Component ---
-const Kbd = (props: { children: any; class?: string }) => (
-  <kbd
-    class={`inline-flex items-center justify-center rounded border border-gray-600 bg-rich-black-700 px-1.5 py-0.5 text-xs font-semibold text-gray-300 ${props.class ?? ""}`}
-  >
-    {props.children}
-  </kbd>
+// --- Lazy loaded components ---
+
+// Keyboard Key Hint Component - loaded only when search is open
+const Kbd = lazy(() =>
+  Promise.resolve({
+    default: (props: { children: any; class?: string }) => (
+      <kbd
+        class={`inline-flex items-center justify-center rounded border border-gray-600 bg-rich-black-700 px-1.5 py-0.5 text-xs font-semibold text-gray-300 ${props.class ?? ""}`}
+      >
+        {props.children}
+      </kbd>
+    )
+  })
 );
 
 // --- Utility Functions ---
@@ -90,22 +101,41 @@ function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
   };
 }
 
-
 function createNavItems(categories: { title: string; href: string }[]): NavItem[] {
-  return categories.map((cat) => {
-    return ({
-      title: cat.title,
-      href: cat.href,
-    })
-  }
-  );
-
+  return categories.map((cat) => ({
+    title: cat.title,
+    href: cat.href,
+  }));
 }
 
 // --- Constants ---
 const PAGEFIND_SCRIPT_PATH = "/pagefind/pagefind.js";
 const MIN_SEARCH_LENGTH = 2;
 const SEARCH_DEBOUNCE_MS = 300;
+
+// --- Lazy Loading Functions ---
+
+// Lazy load Pagefind API
+const loadPagefindApi = async () => {
+  if (isServer) return null;
+
+  try {
+    console.log("Loading Pagefind API...");
+    // @ts-ignore - Ignore dynamic import path checking
+    const pagefindModule = await import(/* @vite-ignore */ PAGEFIND_SCRIPT_PATH);
+    const pf = pagefindModule.default || pagefindModule;
+
+    if (pf && typeof pf.search === "function") {
+      console.log("Pagefind API loaded successfully.");
+      return pf;
+    } else {
+      throw new Error("Pagefind module loaded, but API not found or invalid.");
+    }
+  } catch (e) {
+    console.error("Error loading Pagefind:", e);
+    throw new Error("Failed to load search functionality.");
+  }
+};
 
 export default function Sidebar(props: Props) {
   const [isSearchOpen, setIsSearchOpen] = createSignal(false);
@@ -114,19 +144,23 @@ export default function Sidebar(props: Props) {
   const [selectedIndex, setSelectedIndex] = createSignal(-1);
   const [activeNavItem, setActiveNavItem] = createSignal<string>("/");
   const [openedCategory, setOpenedCategory] = createSignal<string | null>(null);
-
-  // --- Pagefind State ---
-  const [pagefindApi, setPagefindApi] = createSignal<any>(null); // Holds the loaded Pagefind API object
   const [searchResults, setSearchResults] = createSignal<PagefindResultData[]>([]);
   const [isSearching, setIsSearching] = createSignal(false);
-  const [pagefindLoadError, setPagefindLoadError] = createSignal<string | null>(null);
-  // --- End Pagefind State ---
+
+  // Use createResource for lazy loading Pagefind API
+  const [pagefindApi, { mutate: setPagefindApi }] = createResource(
+    () => isSearchOpen() ? true : false, // Only load when search is opened
+    loadPagefindApi,
+    {
+      initialValue: null,
+    }
+  );
 
   const initialNavItems = (): NavItem[] => [
     { title: "Home Page", href: "/" },
     {
       title: "Categories",
-      href: "#", // Non-navigating parent
+      href: "#",
       isOpen: false,
       children: createNavItems(props.categories),
     },
@@ -144,26 +178,23 @@ export default function Sidebar(props: Props) {
     }
   });
 
-  // Effect to handle focusing input and loading Pagefind when search opens
+  // Effect to handle focusing input when search opens
   createEffect(() => {
     if (isSearchOpen()) {
       searchInput?.focus();
-      ensurePagefindLoaded(); // Attempt to load Pagefind if not already loaded
-      // Reset index when opening
       setSelectedIndex(searchResults().length > 0 ? 0 : -1);
     } else {
       // Clear results and query when search is closed
       setSearchQuery("");
       setSearchResults([]);
       setSelectedIndex(-1);
-      setIsSearching(false); // Ensure loading state is reset
+      setIsSearching(false);
     }
   });
 
   // Effect to scroll selected result into view
   createEffect(() => {
     if (!isServer && isSearchOpen()) {
-      // Only scroll when search is open
       const idx = selectedIndex();
       if (idx >= 0) {
         const element = document.querySelector(`[data-result-index="${idx}"]`);
@@ -178,56 +209,23 @@ export default function Sidebar(props: Props) {
     if (query.length >= MIN_SEARCH_LENGTH) {
       debouncedSearch(query);
     } else {
-      // Clear results if query becomes too short
       setSearchResults([]);
       setSelectedIndex(-1);
-      setIsSearching(false); // Stop any ongoing search indication
+      setIsSearching(false);
     }
   });
 
-  // --- Pagefind Integration ---
-
-  // Function to load the Pagefind script if it hasn't been loaded yet
-  const ensurePagefindLoaded = async () => {
-    if (isServer || pagefindApi() || pagefindLoadError()) return; // Already loaded, errored, or on server
-
-    console.log("Attempting to load Pagefind...");
-    try {
-      // @ts-ignore - Ignore dynamic import path checking
-      const pagefindModule = await import(/* @vite-ignore */ PAGEFIND_SCRIPT_PATH);
-      // Pagefind typically exposes its API directly as the default export or the module itself
-      const pf = pagefindModule.default || pagefindModule;
-
-      if (pf && typeof pf.search === "function") {
-        setPagefindApi(() => pf); // Store the API object in state
-        console.log("Pagefind loaded successfully.");
-        setPagefindLoadError(null); // Clear any previous error
-      } else {
-        // This case might happen if the import resolves but doesn't contain the expected API
-        console.error("Pagefind module loaded, but API not found or invalid.");
-        setPagefindLoadError("Pagefind loaded incorrectly. Search unavailable.");
-        setPagefindApi(null); // Ensure API state is null
-      }
-    } catch (e) {
-      console.error("Error loading Pagefind:", e);
-      setPagefindLoadError("Failed to load search functionality.");
-      setPagefindApi(null); // Ensure API state is null
-    }
-  };
+  // --- Search Integration ---
 
   // Debounced search function using Pagefind
   const debouncedSearch = debounce(async (query: string) => {
     const pf = pagefindApi();
 
-    // Ensure Pagefind is loaded and query is valid before searching
     if (!pf) {
-      console.warn("Pagefind not loaded yet, search skipped.");
-      // Optionally, try loading again here, though the effect on open should handle it
-      // await ensurePagefindLoaded();
-      // pf = pagefindApi(); // Re-check after loading attempt
-      // if (!pf) return;
-      return; // Skip search if still not loaded
+      console.warn("Pagefind API not loaded yet, search skipped.");
+      return;
     }
+
     if (query.length < MIN_SEARCH_LENGTH) {
       setSearchResults([]);
       setSelectedIndex(-1);
@@ -236,33 +234,28 @@ export default function Sidebar(props: Props) {
     }
 
     setIsSearching(true);
-    setSelectedIndex(-1); // Reset selection during search
+    setSelectedIndex(-1);
 
     console.log(`Searching Pagefind for: "${query}"`);
     try {
-      // Perform the search
       const search = await pf.search(query);
 
       if (search.results.length === 0) {
         console.log("No results found.");
         setSearchResults([]);
       } else {
-        // Pagefind returns stubs, fetch full data for each result
         const resultsData = await Promise.all(search.results.map((result: any) => result.data()));
         console.log(`Found ${resultsData.length} results.`);
         setSearchResults(resultsData as PagefindResultData[]);
-        setSelectedIndex(0); // Select the first result by default
+        setSelectedIndex(0);
       }
     } catch (e) {
       console.error("Pagefind search error:", e);
-      setSearchResults([]); // Clear results on error
-      // Consider showing an error message to the user
+      setSearchResults([]);
     } finally {
       setIsSearching(false);
     }
-  }, SEARCH_DEBOUNCE_MS); // Debounce interval
-
-  // --- End Pagefind Integration ---
+  }, SEARCH_DEBOUNCE_MS);
 
   // --- Event Handlers ---
 
@@ -275,7 +268,6 @@ export default function Sidebar(props: Props) {
   onCleanup(() => {
     if (!isServer) {
       document.removeEventListener("keydown", handleKeyDown);
-      // Clear body overflow style if component unmounts while mobile menu is open
       document.body.style.overflow = "";
     }
   });
@@ -296,7 +288,7 @@ export default function Sidebar(props: Props) {
     if (e.key === "Escape") {
       if (isSearchOpen()) {
         e.preventDefault();
-        setIsSearchOpen(false); // Triggers effect to clear search state
+        setIsSearchOpen(false);
       } else if (isMobileMenuOpen()) {
         e.preventDefault();
         toggleMobileMenu();
@@ -308,7 +300,7 @@ export default function Sidebar(props: Props) {
     if (!isSearchOpen()) return;
 
     const results = searchResults();
-    if (results.length === 0) return; // No results to navigate
+    if (results.length === 0) return;
 
     switch (e.key) {
       case "ArrowDown":
@@ -329,8 +321,7 @@ export default function Sidebar(props: Props) {
           const selectedResult = results[currentSelection];
           if (selectedResult?.url && !isServer) {
             console.log("Navigating to:", selectedResult.url);
-            window.location.href = selectedResult.url; // Navigate to the result URL
-            // Optionally close search after navigation
+            window.location.href = selectedResult.url;
             setIsSearchOpen(false);
           }
         }
@@ -345,14 +336,12 @@ export default function Sidebar(props: Props) {
 
   const toggleSearch = () => {
     setIsSearchOpen((prev) => !prev);
-    // Effect handles clearing/loading state
   };
 
   const toggleMobileMenu = () => {
     const nextState = !isMobileMenuOpen();
     setIsMobileMenuOpen(nextState);
     if (!isServer) {
-      // Prevent body scroll when mobile menu is open
       document.body.style.overflow = nextState ? "hidden" : "";
     }
   };
@@ -392,7 +381,7 @@ export default function Sidebar(props: Props) {
         </div>
       </header>
 
-      {/* Search Overlay - Powered by Pagefind */}
+      {/* Search Overlay - Lazily loaded when opened */}
       <div class="flex flex-col pt-16 lg:flex-row lg:pt-0">
         <Show when={isSearchOpen()}>
           <div
@@ -401,20 +390,14 @@ export default function Sidebar(props: Props) {
               if (e.target === e.currentTarget) toggleSearch();
             }}
           >
-            {" "}
-            {/* Close on overlay click */}
             <div class="mx-auto mt-4 max-w-2xl overflow-hidden rounded-lg bg-rich-black-800 shadow-xl md:mt-16">
-              {" "}
-              {/* Container for better styling */}
               <div class="relative flex items-center border-b border-gray-700">
                 <div class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-gray-400">
-                  {" "}
-                  {/* Adjusted padding */}
                   <SearchIcon />
                 </div>
                 <input
                   type="search"
-                  class="w-full appearance-none border-none bg-transparent py-3 pr-24 pl-12 text-white placeholder-gray-400 focus:ring-0 focus:outline-none" // Simplified input style
+                  class="w-full appearance-none border-none bg-transparent py-3 pr-24 pl-12 text-white placeholder-gray-400 focus:ring-0 focus:outline-none"
                   placeholder="Search content..."
                   value={searchQuery()}
                   onInput={(e) => setSearchQuery(e.currentTarget.value)}
@@ -422,11 +405,9 @@ export default function Sidebar(props: Props) {
                   autocomplete="off"
                   aria-label="Search input"
                 />
-                {/* Loading Spinner (optional, simple text for now) */}
                 <Show when={isSearching()}>
                   <div class="absolute inset-y-0 right-16 animate-pulse p-2 text-xs text-gray-400">...</div>
                 </Show>
-                {/* Cancel Button */}
                 <button
                   onClick={toggleSearch}
                   class="absolute right-4 text-sm font-medium text-indigo-400 hover:text-indigo-300"
@@ -434,33 +415,38 @@ export default function Sidebar(props: Props) {
                   Cancel
                 </button>
               </div>
-              {/* Keyboard Hints - MODIFIED: Add hidden lg:flex */}
-              <div
-                class="hidden flex-wrap items-center gap-x-3 gap-y-1 px-4 pt-3 pb-2 text-xs text-gray-400 lg:flex"
-                aria-hidden="true"
-              >
+
+              {/* Keyboard Hints - Lazily loaded */}
+              <div class="hidden flex-wrap items-center gap-x-3 gap-y-1 px-4 pt-3 pb-2 text-xs text-gray-400 lg:flex" aria-hidden="true">
                 <span>Navigate:</span>
                 <span class="flex items-center gap-1">
-                  {" "}
-                  <Kbd>↑</Kbd> <Kbd>↓</Kbd>{" "}
+                  <Kbd>↑</Kbd> <Kbd>↓</Kbd>
                 </span>
                 <span>Select:</span> <Kbd>↵</Kbd>
                 <span>Close:</span> <Kbd>Esc</Kbd>
               </div>
+
               {/* Results Area */}
               <div class="max-h-[60vh] overflow-y-auto md:max-h-[70vh]">
-                {" "}
-                {/* Constrain height */}
                 {/* Error loading Pagefind */}
-                <Show when={pagefindLoadError()}>
-                  <div class="p-4 text-center text-red-400">{pagefindLoadError()}</div>
+                <Show when={pagefindApi.error}>
+                  <div class="p-4 text-center text-red-400">
+                    {pagefindApi.error?.message || "Failed to load search functionality"}
+                  </div>
                 </Show>
+
+                {/* Loading Pagefind API */}
+                <Show when={pagefindApi.loading}>
+                  <div class="p-6 text-center text-gray-400">Loading search...</div>
+                </Show>
+
                 {/* Loading Search Results */}
-                <Show when={isSearching() && !pagefindLoadError()}>
+                <Show when={isSearching() && !pagefindApi.error && !pagefindApi.loading}>
                   <div class="p-6 text-center text-gray-400">Searching...</div>
                 </Show>
+
                 {/* Search Results Display */}
-                <Show when={!isSearching() && !pagefindLoadError() && searchQuery().trim().length >= MIN_SEARCH_LENGTH}>
+                <Show when={!isSearching() && !pagefindApi.error && !pagefindApi.loading && searchQuery().trim().length >= MIN_SEARCH_LENGTH}>
                   <Show
                     when={searchResults().length > 0}
                     fallback={<div class="p-6 text-center text-gray-400">No results found for "{searchQuery()}".</div>}
@@ -473,7 +459,6 @@ export default function Sidebar(props: Props) {
                         {(item, index) => (
                           <li
                             data-result-index={index()}
-                            // Use outline for focus visibility which works better with rounded corners
                             class={`transition-colors duration-100 ${index() === selectedIndex() ? "bg-rich-black-700/50" : ""
                               }`}
                             onMouseEnter={() => setSelectedIndex(index())}
@@ -484,16 +469,11 @@ export default function Sidebar(props: Props) {
                                   <FileIcon />
                                 </div>
                                 <div class="flex-1 overflow-hidden">
-                                  {" "}
-                                  {/* Allow text to wrap */}
                                   <span class="mb-1 block truncate font-medium">
                                     {item.meta.title || "Untitled Page"}
                                   </span>
-                                  {/* Render Pagefind excerpt with highlights */}
                                   <div
                                     class="search-excerpt line-clamp-2 text-sm text-gray-400"
-                                    // WARNING: Only use innerHTML if you trust the source indexed by Pagefind.
-                                    // Pagefind itself generates safe HTML (<mark> tags), but ensure your source content is safe.
                                     innerHTML={item.excerpt}
                                   />
                                 </div>
@@ -505,19 +485,20 @@ export default function Sidebar(props: Props) {
                     </ul>
                   </Show>
                 </Show>
+
                 {/* Prompt to type more */}
-                <Show
-                  when={
-                    !isSearching() &&
-                    !pagefindLoadError() &&
-                    searchQuery().trim().length > 0 &&
-                    searchQuery().trim().length < MIN_SEARCH_LENGTH
-                  }
-                >
+                <Show when={
+                  !isSearching() &&
+                  !pagefindApi.error &&
+                  !pagefindApi.loading &&
+                  searchQuery().trim().length > 0 &&
+                  searchQuery().trim().length < MIN_SEARCH_LENGTH
+                }>
                   <div class="p-6 text-center text-gray-400">Please enter at least {MIN_SEARCH_LENGTH} characters.</div>
                 </Show>
+
                 {/* Initial state / empty query */}
-                <Show when={!pagefindLoadError() && searchQuery().trim().length === 0}>
+                <Show when={!pagefindApi.error && !pagefindApi.loading && searchQuery().trim().length === 0}>
                   <div class="p-6 text-center text-gray-500">Start typing to search your content.</div>
                 </Show>
               </div>
@@ -539,7 +520,6 @@ export default function Sidebar(props: Props) {
               Zahrawi
             </a>
             <div class="ml-auto flex items-center gap-2">
-              {/* Wrap button and hint */}
               <button
                 onClick={toggleSearch}
                 class="rounded-full p-2 text-gray-300 hover:bg-rich-black-800"
@@ -547,26 +527,23 @@ export default function Sidebar(props: Props) {
               >
                 <SearchIcon />
               </button>
-              {/* Hint for desktop search shortcut */}
               <Kbd aria-hidden="true">/</Kbd>
             </div>
           </div>
 
           {/* Scrollable Nav Area */}
-
           <nav class="flex-grow overflow-y-auto p-4">
-            {/* ... rest of the navigation UL/For logic ... */}
             <ul class="space-y-2">
               <For each={navItems()}>
                 {(item) => (
                   <li>
-                    {item.children ?
-
+                    {item.children ? (
                       <div
-                        class={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors duration-150 ${(activeNavItem() === item.href || (item.href !== "/" && activeNavItem().startsWith(item.href))) &&
-                          item.href !== "#"
-                          ? "bg-rich-black-800 text-white"
-                          : "hover:bg-rich-black-800 hover:text-white"
+                        class={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors duration-150 ${(activeNavItem() === item.href ||
+                            (item.href !== "/" && activeNavItem().startsWith(item.href))) &&
+                            item.href !== "#"
+                            ? "bg-rich-black-800 text-white"
+                            : "hover:bg-rich-black-800 hover:text-white"
                           }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -577,18 +554,20 @@ export default function Sidebar(props: Props) {
                       >
                         <span class="font-medium">{item.title}</span>
                         <span
-                          class={`transform transition-transform duration-200 ${openedCategory() === item.title ? "rotate-180" : ""}`}
+                          class={`transform transition-transform duration-200 ${openedCategory() === item.title ? "rotate-180" : ""
+                            }`}
                         >
                           <ChevronDownIcon />
                         </span>
                       </div>
-                      :
+                    ) : (
                       <a
                         href={item.href}
-                        class={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors duration-150 ${(activeNavItem() === item.href || (item.href !== "/" && activeNavItem().startsWith(item.href))) &&
-                          item.href !== "#"
-                          ? "bg-rich-black-800 text-white"
-                          : "hover:bg-rich-black-800 hover:text-white"
+                        class={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors duration-150 ${(activeNavItem() === item.href ||
+                            (item.href !== "/" && activeNavItem().startsWith(item.href))) &&
+                            item.href !== "#"
+                            ? "bg-rich-black-800 text-white"
+                            : "hover:bg-rich-black-800 hover:text-white"
                           }`}
                         onClick={() => {
                           if (isMobileMenuOpen()) toggleMobileMenu();
@@ -596,7 +575,7 @@ export default function Sidebar(props: Props) {
                       >
                         <span class="font-medium">{item.title}</span>
                       </a>
-                    }
+                    )}
 
                     <Show when={item.children && openedCategory() === item.title}>
                       <ul
@@ -609,8 +588,8 @@ export default function Sidebar(props: Props) {
                               <a
                                 href={child.href}
                                 class={`block rounded-lg px-3 py-1.5 text-sm transition-colors duration-150 ${activeNavItem() === child.href
-                                  ? "bg-rich-black-700 text-white"
-                                  : "text-gray-400 hover:bg-rich-black-700 hover:text-white"
+                                    ? "bg-rich-black-700 text-white"
+                                    : "text-gray-400 hover:bg-rich-black-700 hover:text-white"
                                   }`}
                                 onClick={() => {
                                   setActiveNavItem(child.href);
@@ -629,12 +608,11 @@ export default function Sidebar(props: Props) {
               </For>
             </ul>
 
-            {/* Bookmarks Section */}
+            {/* Bookmarks Section - Lazily loaded */}
             <div class="mt-auto border-t border-gray-800">
               <BookmarksList />
             </div>
           </nav>
-          {/* Bookmarks (Fixed at bottom) */}
         </aside>
 
         {/* Mobile Menu Overlay */}

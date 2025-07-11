@@ -10,7 +10,8 @@ import Footer from "src/components/footer/Footer.astro";
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 
-import SideBarFindpage from "@/components/SideBarFindpage.tsx";
+// import SideBarFindpage from "@/components/SideBarFindpage.tsx";
+import SideBar from "@/components/sidebar/SideBar.tsx";
 import LoadingIndicator from "../components/LoadingIndicator.astro";
 
 import type { CollectionEntry } from "astro:content";
@@ -77,7 +78,8 @@ categories.sort();
   <body class="bg-rich-black-900 flex min-h-screen flex-col text-white">
     <LoadingIndicator />
     <div class="flex flex-grow flex-col lg:flex-row">
-      <SideBarFindpage client:load categories={categories} transition:persist />
+      <!-- <SideBarFindpage client:load categories={categories} transition:persist /> -->
+      <SideBar client:load categories={categories} transition:persist />
 
       <main class="px-4 py-6 pt-16 lg:flex-1 lg:px-8" transition:animate="fade">
         <slot />
