@@ -1,6 +1,6 @@
 // BookmarksList.jsx
 import { Show, For, createSignal, onMount } from "solid-js";
-import { bookmarkStore } from "../../stores/bookmarkStore";
+import { bookmarkStore } from "./bookmarkStore";
 import type { BookmarkArticle } from "@/types";
 
 // Create a singleton instance for BookmarksList
