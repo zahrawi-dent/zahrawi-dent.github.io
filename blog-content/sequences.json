@@ -1,13 +1,6 @@
 {
-  "root-canal": [
-    "root-canal-basics",
-    "root-canal-procedure",
-    "root-canal-aftercare"
-  ],
-  "pulp-therapy": [
-    "pulp-therapy-introduction",
-    "vital-pulp-therapy",
-    "pulpotomy-vs-pulpectomy"
+  "composite-restoration": [
+    "Indications and Contraindications for Direct Composites"
   ],
   "rubber-dam-isolation": [
     "Advantages of Rubber Dam Isolation",

@@ -59,8 +59,7 @@ export default function QuizButton(props: QuizButtonProps) {
   });
 
   return (
-    <div class="my-8 py-6 border-t border-gray-700">
-      {/* ... (rest of the component is unchanged) ... */}
+    <div class="my-8 border-y border-rich-black-600 py-12">
       <div class="flex flex-col items-center justify-center">
         {/* Button to open the modal */}
         <button
@@ -84,9 +83,6 @@ export default function QuizButton(props: QuizButtonProps) {
             )}
           </span>
         </button>
-        <p class="mt-3 text-sm text-gray-400">
-          Take a quick quiz about "{props.postTitle}"
-        </p>
 
         {/* Portal wrapping Modal */}
         <Portal mount={document.body}>

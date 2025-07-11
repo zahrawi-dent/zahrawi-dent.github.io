@@ -90,17 +90,11 @@ function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
   };
 }
 
-// const createNavItems = (titles: string[]): NavItem[] =>
-//   titles.map((title) => ({
-//     title: title,
-//     href: `/${title.toLowerCase().replace(/\s+/g, "-")}`, // Assuming category pages exist
-//   }));
 
 function createNavItems(categories: { title: string; href: string }[]): NavItem[] {
   return categories.map((cat) => {
     return ({
       title: cat.title,
-      // href: `/${title.toLowerCase().replace(/\s+/g, "-")}`, // Assuming category pages exist
       href: cat.href,
     })
   }

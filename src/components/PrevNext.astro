@@ -27,9 +27,7 @@ interface Props {
 const { prevPost, nextPost } = Astro.props;
 ---
 
-<nav
-  class="border-rick-black-100 mt-12 flex items-center justify-between border-t pt-8"
->
+<nav class="flex items-center justify-between py-8">
   {
     prevPost && (
       <a
