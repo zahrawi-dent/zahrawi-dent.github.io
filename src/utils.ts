@@ -1,5 +1,3 @@
-import type { ArticleType } from "./types";
-
 function formatDate(date: Date): string {
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
