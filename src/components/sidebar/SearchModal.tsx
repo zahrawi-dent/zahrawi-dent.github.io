@@ -1,19 +1,15 @@
-import { createSignal, createEffect, For, Show, onMount, onCleanup, lazy, createResource } from "solid-js";
+import { createSignal, createEffect, For, Show, onMount, onCleanup, createResource } from "solid-js";
 import { isServer } from "solid-js/web";
 
 // Lazy load FileIcon only when search is opened
-const FileIcon = lazy(() =>
-  Promise.resolve({
-    default: () => (
-      <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-        />
-      </svg>
-    )
-  })
+const FileIcon = () => (
+  <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+    />
+  </svg>
 );
 
 const SearchIcon = () => (
@@ -22,18 +18,15 @@ const SearchIcon = () => (
   </svg>
 );
 
-// Keyboard Key Hint Component - loaded only when search is open
-const Kbd = lazy(() =>
-  Promise.resolve({
-    default: (props: { children: any; class?: string }) => (
-      <kbd
-        class={`inline-flex items-center justify-center rounded border border-gray-600 bg-rich-black-700 px-1.5 py-0.5 text-xs font-semibold text-gray-300 ${props.class ?? ""}`}
-      >
-        {props.children}
-      </kbd>
-    )
-  })
-);
+const Kbd = (props: { children: any; class?: string }) => (
+  <kbd
+    class={`inline-flex items-center justify-center rounded border border-gray-600 bg-rich-black-700 px-1.5 py-0.5 text-xs font-semibold text-gray-300 ${props.class ?? ""}`}
+  >
+    {props.children}
+  </kbd>
+)
+
+
 
 // Interface for Pagefind result data
 interface PagefindResultData {

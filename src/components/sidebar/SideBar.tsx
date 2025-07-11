@@ -1,4 +1,4 @@
-import { createSignal, createEffect, For, Show, onMount, onCleanup, lazy } from "solid-js";
+import { createSignal, createEffect, For, Show, onMount, onCleanup } from "solid-js";
 import { isServer } from "solid-js/web";
 import BookmarksList from "../BookmarksList";
 import SearchModal from "./SearchModal";
