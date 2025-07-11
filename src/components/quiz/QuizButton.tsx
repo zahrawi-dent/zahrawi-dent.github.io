@@ -1,7 +1,7 @@
 import { Portal } from 'solid-js/web';
 import { createSignal, Show, onCleanup, createEffect } from 'solid-js'; // Import createEffect
 import { Dynamic } from 'solid-js/web';
-import Modal from '../components/QuizModal';
+import Modal from './QuizModal';
 
 interface QuizButtonProps {
   postId: string;
