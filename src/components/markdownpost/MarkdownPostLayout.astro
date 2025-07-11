@@ -1,17 +1,17 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import BaseLayout from "./BaseLayout.astro";
-import BreadCrumbs from "../components/BreadCrumbs.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BreadCrumbs from "../../components/BreadCrumbs.astro";
 import "../styles/markdown.css";
-import PrevNext from "@/components/PrevNext.astro";
-import TableOfContents from "../components/Toc.tsx";
-import { getReadingTime } from "../utils";
+import PrevNext from "./PrevNext.astro";
+import TableOfContents from "./Toc.tsx";
+import { getReadingTime } from "../../utils";
 import { getCollection } from "astro:content";
-import CommentsSection from "@/components/CommentsSection";
-import EditSuggestion from "@/components/EditSuggestion.astro";
-import ArticleQuizButton from "../components/quiz/ArticleQuizButton.astro"; // Import our quiz button component
-import { categoryData } from "@/constants";
-import { getAdjacentArticles } from "@/utils/articleSequencer";
+import CommentsSection from "./CommentsSection";
+import EditSuggestion from "./EditSuggestion.astro";
+import ArticleQuizButton from "../quiz/ArticleQuizButton.astro"; // Import our quiz button component
+import { categoryData } from "../../constants";
+import { getAdjacentArticles } from "../../utils/articleSequencer";
 
 interface Props {
   post: CollectionEntry<"blog">;
