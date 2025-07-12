@@ -217,11 +217,8 @@ export default function Sidebar(props: Props) {
                 {(item) => (
                   <li>
                     {item.children ? (
-                      <div
-                        role="button"
-                        class={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors duration-150 ${(activeNavItem() === item.href ||
-                          (item.href !== "/" && activeNavItem().startsWith(item.href))) &&
-                          item.href !== "#"
+                      <button
+                        class={`flex items-center justify-between w-full rounded-lg px-4 py-3 transition-colors duration-150 ${activeNavItem() === item.href && item.href !== "#"
                           ? "bg-rich-black-800 text-white"
                           : "hover:bg-rich-black-800 hover:text-white"
                           }`}
@@ -239,7 +236,7 @@ export default function Sidebar(props: Props) {
                         >
                           <ChevronDownIcon />
                         </span>
-                      </div>
+                      </button>
                     ) : (
                       <a
                         href={item.href}
