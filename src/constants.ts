@@ -37,6 +37,7 @@ const categoryData: Record<string, Category> = {
     subcategoryOrder: [
       "rubber-dam-isolation",
       "composite-restoration",
+      "posterior-composite",
     ],
     subcategoryInfo: {
       "rubber-dam-isolation": {
@@ -47,7 +48,11 @@ const categoryData: Record<string, Category> = {
         displayName: "Composite Restoration",
         icon: "tooth-anatomy",
 
-      }
+      },
+      "posterior-composite": {
+        displayName: "Posterior Composite",
+        icon: "tooth-anatomy",
+      },
     },
   },
 
