@@ -101,7 +101,7 @@ mcqs: [
 - Form: The overall shape and contour of the tooth
 - Anatomy: The detailed cusps, grooves, and ridges.
 - Function: the ability to withstand occlusal forces and align with the patient's bite
-### Requirements for Accurate Modeling:
+### Requirements for Accurate Modeling
 - To model effectively, a clinician must possess:
 - **A Solid Understanding of Occlusal Anatomy:**
 	- Comprehensive knowledge of the location and function of cusps, fossae, primary and secondary grooves, and triangular ridges.
